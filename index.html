@@ -9,7 +9,7 @@
 <style>
   @font-face {
     font-family: "Minecraft";
-    src: url("assets/minecraft.ttf") format("truetype");
+    src: url("assets/Minecraft.ttf") format("truetype");
     font-display: swap;
   }
 
@@ -100,6 +100,8 @@
     padding: 14px 28px;
     font-family: inherit;
     font-size: 22px;
+    line-height: 1.25;
+    text-align: center;
     text-decoration: none;
     color: var(--bone);
     background: #5d6b58;
@@ -129,6 +131,23 @@
     box-shadow:
       inset 4px 4px 0 var(--green-dark),
       inset -4px -4px 0 var(--green-light);
+  }
+
+  .platform .sub {
+    display: block;
+    font-size: 16px;
+  }
+
+  .btn.disabled,
+  .btn.disabled:hover,
+  .btn.disabled:active {
+    background: #232c22;
+    color: #66765f;
+    text-shadow: none;
+    cursor: not-allowed;
+    box-shadow:
+      inset 4px 4px 0 #2f3a2d,
+      inset -4px -4px 0 #182017;
   }
 
   /* ---------- Screenshot frames ---------- */
@@ -197,11 +216,6 @@
     text-shadow: 2px 2px 0 #1a3a12;
   }
 
-  /* ---------- Download ---------- */
-  .download { text-align: center; }
-  .download .actions { justify-content: center; }
-  .download .lead { margin-inline: auto; }
-
   footer {
     padding: 32px 0 48px;
     color: var(--dim);
@@ -253,9 +267,9 @@
     </h1>
     <p>Crit Launcher puts every version, your skins, and all your mods and packs in one window.</p>
     <div class="actions">
-      <!-- TODO: point this at your real download link -->
-      <a class="btn green" href="#download">Download</a>
-      <a class="btn" href="#features">See features</a>
+      <a class="btn green platform" href="critsetup.exe" download>Windows<span class="sub">Download</span></a>
+      <span class="btn disabled platform" aria-disabled="true">Linux<span class="sub">Coming soon</span></span>
+      <span class="btn disabled platform" aria-disabled="true">Mac<span class="sub">Coming soon</span></span>
     </div>
   </section>
 
@@ -264,7 +278,7 @@
       <h2>Every version, all your instances</h2>
       <p class="lead">All Minecraft versions are supported. Create vanilla, Fabric or Forge instances and launch any of them with one click.</p>
       <div class="frame">
-        <img src=".assets/image1.png" alt="Crit Launcher's instances screen, showing a list of Minecraft instances">
+        <img src="assets/image1.png" alt="Crit Launcher's instances screen, showing a list of Minecraft instances">
       </div>
     </div>
   </section>
@@ -276,7 +290,7 @@
         <p class="lead">Install and manage mods, modpacks and resource packs without leaving the launcher.</p>
       </div>
       <div class="frame">
-        <img src=".assets/image2.png" alt="Crit Launcher's built-in mod manager" loading="lazy">
+        <img src="assets/image2.png" alt="Crit Launcher's built-in mod manager" loading="lazy">
       </div>
     </div>
   </section>
@@ -284,7 +298,7 @@
   <section class="section">
     <div class="wrap split flip">
       <div class="frame">
-        <img src=".assets/image3.png" alt="Crit Launcher's built-in skin customization" loading="lazy">
+        <img src="assets/image3.png" alt="Crit Launcher's built-in skin customization" loading="lazy">
       </div>
       <div>
         <h2>Customize your skin</h2>
@@ -313,17 +327,6 @@
           <h3>Mod and resource pack management</h3>
           <p>Install, update and remove them per instance.</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section download" id="download">
-    <div class="wrap">
-      <h2>Get Crit Launcher</h2>
-      <p class="lead">Download it, make an instance, and press Play.</p>
-      <div class="actions">
-        <!-- TODO: point this at your real download link -->
-        <a class="btn green" href="#">Download</a>
       </div>
     </div>
   </section>
