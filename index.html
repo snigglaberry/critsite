@@ -9,7 +9,7 @@
 <style>
   @font-face {
     font-family: "Minecraft";
-    src: url("assets/Minecraft.ttf") format("truetype");
+    src: url("assets/minecraft.ttf") format("truetype");
     font-display: swap;
   }
 
@@ -59,17 +59,7 @@
     font-weight: normal;
     max-width: 10em;
     text-shadow: 6px 6px 0 var(--edge), 6px 6px 0 var(--black);
-    position: relative;
-    display: inline-block;
     animation: drop .5s steps(6) both;
-  }
-  .hero h1 .crit {
-    position: absolute;
-    right: -0.6em;
-    top: -0.3em;
-    width: 0.6em;
-    height: 0.6em;
-    animation: pop .6s steps(8) .45s both;
   }
   .hero p {
     max-width: 30em;
@@ -83,15 +73,18 @@
     gap: 16px;
     margin-top: 36px;
   }
+  .installs {
+    margin-top: 24px;
+    color: var(--dim);
+  }
+  .installs strong {
+    color: var(--green-light);
+    font-weight: normal;
+  }
 
   @keyframes drop {
     from { transform: translateY(-24px); opacity: 0; }
     to   { transform: none; opacity: 1; }
-  }
-  @keyframes pop {
-    0%   { transform: scale(0) rotate(-45deg); }
-    70%  { transform: scale(1.4) rotate(10deg); }
-    100% { transform: scale(1) rotate(0); }
   }
 
   /* ---------- Buttons (Minecraft bevel) ---------- */
@@ -111,12 +104,6 @@
       inset -4px -4px 0 #38423a;
     text-shadow: 2px 2px 0 #262c27;
     cursor: pointer;
-  }
-  .btn:hover { background: #6b7a65; }
-  .btn:active {
-    box-shadow:
-      inset 4px 4px 0 #38423a,
-      inset -4px -4px 0 #8d9b87;
   }
   .btn.green {
     background: var(--green);
@@ -238,7 +225,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .hero h1, .hero h1 .crit { animation: none; }
+    .hero h1 { animation: none; }
   }
 </style>
 </head>
@@ -248,29 +235,14 @@
 <main>
 
   <section class="hero wrap">
-    <h1>
-      The best Minecraft launcher
-      <svg class="crit" viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true">
-        <g fill="#5dbb3a">
-          <rect x="4" y="0" width="1" height="9"/>
-          <rect x="0" y="4" width="9" height="1"/>
-          <rect x="3" y="3" width="3" height="3"/>
-        </g>
-        <g fill="#e8f0dc">
-          <rect x="3" y="3" width="1" height="1"/>
-          <rect x="5" y="3" width="1" height="1"/>
-          <rect x="3" y="5" width="1" height="1"/>
-          <rect x="5" y="5" width="1" height="1"/>
-          <rect x="4" y="4" width="1" height="1"/>
-        </g>
-      </svg>
-    </h1>
+    <h1>The best Minecraft launcher</h1>
     <p>Crit Launcher puts every version, your skins, and all your mods and packs in one window.</p>
     <div class="actions">
-      <a class="btn green platform" href="critsetup.exe" download>Windows<span class="sub">Download</span></a>
+      <a class="btn green platform" href="https://github.com/snigglaberry/crit-launcher/releases/latest/download/setup.exe">Windows<span class="sub">Download <span id="version"></span></span></a>
       <span class="btn disabled platform" aria-disabled="true">Linux<span class="sub">Coming soon</span></span>
       <span class="btn disabled platform" aria-disabled="true">Mac<span class="sub">Coming soon</span></span>
     </div>
+    <p class="installs" id="installs" hidden><strong id="installs-count"></strong> <span id="installs-label">installs</span></p>
   </section>
 
   <section class="section instances">
@@ -336,6 +308,42 @@
 <footer class="wrap">
   Crit Launcher is not affiliated with Mojang or Microsoft.
 </footer>
+
+<script>
+  (function () {
+    var API = "https://api.github.com/repos/snigglaberry/crit-launcher/releases?per_page=100";
+
+    fetch(API, { headers: { "Accept": "application/vnd.github+json" } })
+      .then(function (res) {
+        if (!res.ok) throw new Error("GitHub API " + res.status);
+        return res.json();
+      })
+      .then(function (releases) {
+        var published = releases.filter(function (r) { return !r.draft; });
+        if (!published.length) return;
+
+        // Latest version = newest non-prerelease, like GitHub's "latest" link
+        var latest = published.find(function (r) { return !r.prerelease; }) || published[0];
+        document.getElementById("version").textContent = latest.tag_name;
+
+        // Total installs = downloads of every .exe installer across all releases
+        var total = 0;
+        published.forEach(function (r) {
+          (r.assets || []).forEach(function (a) {
+            if (/\.exe$/i.test(a.name)) total += a.download_count;
+          });
+        });
+
+        document.getElementById("installs-count").textContent = total.toLocaleString();
+        document.getElementById("installs-label").textContent = total === 1 ? "install" : "installs";
+        document.getElementById("installs").hidden = false;
+      })
+      .catch(function (err) {
+        // If the API is unreachable or rate limited, the page just hides the numbers
+        console.warn("Could not load release info:", err);
+      });
+  })();
+</script>
 
 </body>
 </html>
