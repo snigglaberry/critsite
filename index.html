@@ -55,10 +55,54 @@
     margin-inline: auto;
   }
 
-  /* ---------- Hero ---------- */
+  /* Header */
+
+  .site-header {
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    z-index: 100;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--bone);
+    text-decoration: none;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    transform: translateZ(0);
+    will-change: transform;
+    transition: transform 0.35s cubic-bezier(.2, .8, .2, 1);
+  }
+
+  .brand-icon svg {
+    width: 36px;
+    height: 36px;
+    display: block;
+    image-rendering: pixelated;
+  }
+
+  .brand:hover .brand-icon {
+    transform: translateZ(0) rotate(90deg);
+  }
+
+  .brand:hover {
+    color: var(--green-light);
+  }
+
+  /* Hero */
 
   .hero {
-    padding: 104px 0 120px;
+    padding: 150px 0 120px;
   }
 
   .hero h1 {
@@ -66,8 +110,10 @@
     line-height: 1.05;
     font-weight: normal;
     max-width: 10em;
-    text-shadow: 6px 6px 0 var(--edge), 6px 6px 0 var(--black);
-    animation: drop .5s steps(6) both;
+    text-shadow:
+      6px 6px 0 var(--edge),
+      6px 6px 0 var(--black);
+    animation: drop 0.5s ease both;
   }
 
   .hero p {
@@ -108,12 +154,12 @@
     }
 
     to {
-      transform: none;
+      transform: translateY(0);
       opacity: 1;
     }
   }
 
-  /* ---------- Buttons ---------- */
+  /* Buttons */
 
   .btn {
     display: inline-block;
@@ -196,7 +242,7 @@
     background: #e13a3a;
   }
 
-  /* ---------- Screenshot frames ---------- */
+  /* Frames */
 
   .frame {
     background: var(--black);
@@ -212,7 +258,7 @@
     height: auto;
   }
 
-  /* ---------- Sections ---------- */
+  /* Sections */
 
   .section {
     padding: 96px 0;
@@ -250,7 +296,7 @@
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   }
 
-  /* ---------- Feature slots ---------- */
+  /* Features */
 
   .features {
     display: grid;
@@ -280,7 +326,7 @@
     text-shadow: 2px 2px 0 #1a3a12;
   }
 
-  /* ---------- Bottom Download Section ---------- */
+  /* Download */
 
   .download {
     text-align: center;
@@ -290,7 +336,7 @@
     margin-inline: auto;
   }
 
-  /* ---------- Modals ---------- */
+  /* Modal */
 
   .modal {
     position: fixed;
@@ -315,7 +361,7 @@
       0 0 0 4px var(--edge),
       12px 12px 0 rgba(0, 0, 0, .5);
     padding: 32px;
-    animation: modal-in .18s steps(4) both;
+    animation: modal-in 0.18s ease both;
   }
 
   @keyframes modal-in {
@@ -361,7 +407,7 @@
     background: #6b7a65;
   }
 
-  /* ---------- Download Options ---------- */
+  /* OS */
 
   .os-list {
     display: grid;
@@ -421,7 +467,7 @@
     pointer-events: none;
   }
 
-  /* ---------- Social Buttons ---------- */
+  /* Socials */
 
   .social-list {
     display: grid;
@@ -467,7 +513,6 @@
       #e1306c,
       #fd1d1d
     );
-
     box-shadow:
       inset 4px 4px 0 rgba(255,255,255,.28),
       inset -4px -4px 0 rgba(80,0,50,.45);
@@ -475,7 +520,6 @@
 
   .social.tiktok {
     background: #080808;
-
     box-shadow:
       inset 4px 4px 0 #252525,
       inset -4px -4px 0 #000;
@@ -485,28 +529,23 @@
     background: #111;
   }
 
-  /* ---------- Pixel Art Left Arrow ---------- */
+  /* Smooth pixel arrow */
 
   .social-arrow {
     width: 20px;
     height: 20px;
     position: relative;
     flex-shrink: 0;
-    image-rendering: pixelated;
   }
 
   .social-arrow::before {
     content: "";
     position: absolute;
-
     width: 12px;
     height: 4px;
-
     background: #fff;
-
     right: 0;
     top: 8px;
-
     box-shadow:
       -4px -4px 0 #fff,
       -8px -8px 0 #fff,
@@ -521,7 +560,7 @@
     line-height: 1.5;
   }
 
-  /* ---------- Footer ---------- */
+  /* Footer */
 
   footer {
     padding: 32px 0 48px;
@@ -530,7 +569,7 @@
     text-align: center;
   }
 
-  /* ---------- Responsive ---------- */
+  /* Responsive */
 
   @media (max-width: 860px) {
     .split,
@@ -548,13 +587,32 @@
     }
 
     .hero {
-      padding: 72px 0;
+      padding: 130px 0 72px;
     }
   }
 
   @media (max-width: 480px) {
     body {
       font-size: 18px;
+    }
+
+    .site-header {
+      top: 20px;
+      left: 20px;
+    }
+
+    .brand {
+      font-size: 20px;
+    }
+
+    .brand-icon {
+      width: 30px;
+      height: 30px;
+    }
+
+    .brand-icon svg {
+      width: 30px;
+      height: 30px;
     }
 
     .hero p {
@@ -593,11 +651,46 @@
     .modal-box {
       animation: none;
     }
+
+    .brand-icon {
+      transition: none;
+    }
   }
 </style>
 </head>
 
 <body>
+
+<header class="site-header">
+  <a href="#" class="brand">
+
+    <span class="brand-icon">
+      <svg
+        viewBox="0 0 9 9"
+        xmlns="http://www.w3.org/2000/svg"
+        shape-rendering="crispEdges"
+        aria-hidden="true"
+      >
+        <g fill="#5dbb3a">
+          <rect x="4" y="0" width="1" height="9"/>
+          <rect x="0" y="4" width="9" height="1"/>
+          <rect x="3" y="3" width="3" height="3"/>
+        </g>
+
+        <g fill="#e8f0dc">
+          <rect x="3" y="3" width="1" height="1"/>
+          <rect x="5" y="3" width="1" height="1"/>
+          <rect x="3" y="5" width="1" height="1"/>
+          <rect x="5" y="5" width="1" height="1"/>
+          <rect x="4" y="4" width="1" height="1"/>
+        </g>
+      </svg>
+    </span>
+
+    <span>Crit Launcher</span>
+
+  </a>
+</header>
 
 <main>
 
@@ -612,7 +705,9 @@
     <div class="hero-info">
       <span class="download-counter">
         Downloads:
-        <span class="download-counter-number" id="downloadCount">Loading...</span>
+        <span class="download-counter-number" id="downloadCount">
+          Loading...
+        </span>
       </span>
     </div>
 
@@ -648,7 +743,6 @@
 
   </section>
 
-
   <section class="section instances">
 
     <div class="wrap">
@@ -670,64 +764,53 @@
 
   </section>
 
-
   <section class="section alt">
 
     <div class="wrap split">
 
       <div>
-
         <h2>Mods, modpacks and resource packs</h2>
 
         <p class="lead">
           Install and manage mods, modpacks and resource packs without leaving the launcher.
         </p>
-
       </div>
 
       <div class="frame">
-
         <img
           src="assets/image2.png"
           alt="Crit Launcher's built-in mod manager"
           loading="lazy"
         >
-
       </div>
 
     </div>
 
   </section>
-
 
   <section class="section">
 
     <div class="wrap split flip">
 
       <div class="frame">
-
         <img
           src="assets/image3.png"
           alt="Crit Launcher's built-in skin customization"
           loading="lazy"
         >
-
       </div>
 
       <div>
-
         <h2>Customize your skin</h2>
 
         <p class="lead">
           Change how your player looks right inside the launcher, then jump straight into the game.
         </p>
-
       </div>
 
     </div>
 
   </section>
-
 
   <section class="section alt" id="features">
 
@@ -763,7 +846,6 @@
 
   </section>
 
-
   <section class="section download">
 
     <div class="wrap">
@@ -779,7 +861,6 @@
   </section>
 
 </main>
-
 
 <footer class="wrap">
   Crit Launcher is not affiliated with Mojang or Microsoft.
@@ -831,27 +912,13 @@
       </a>
 
       <div class="os disabled">
-
-        <span class="os-name">
-          macOS
-        </span>
-
-        <span class="os-status">
-          Coming soon
-        </span>
-
+        <span class="os-name">macOS</span>
+        <span class="os-status">Coming soon</span>
       </div>
 
       <div class="os disabled">
-
-        <span class="os-name">
-          Linux
-        </span>
-
-        <span class="os-status">
-          Coming soon
-        </span>
-
+        <span class="os-name">Linux</span>
+        <span class="os-status">Coming soon</span>
       </div>
 
     </div>
@@ -902,10 +969,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span class="social-name">
-          YouTube
-        </span>
-
+        <span class="social-name">YouTube</span>
         <span class="social-arrow"></span>
       </a>
 
@@ -915,10 +979,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span class="social-name">
-          Instagram
-        </span>
-
+        <span class="social-name">Instagram</span>
         <span class="social-arrow"></span>
       </a>
 
@@ -928,10 +989,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span class="social-name">
-          TikTok
-        </span>
-
+        <span class="social-name">TikTok</span>
         <span class="social-arrow"></span>
       </a>
 
@@ -1034,10 +1092,7 @@
           }
 
           for (const asset of release.assets) {
-
-            totalDownloads +=
-              asset.download_count || 0;
-
+            totalDownloads += asset.download_count || 0;
           }
 
         }
