@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Crit Launcher</title>
-<meta name="description" content="Crit Launcher is the best Minecraft launcher: skin customization, every version, and built-in modpack, mod and resource pack management.">
+<meta name="description" content="Crit Launcher is the best Minecraft launcher: skin customization, every version, local server hosting, and built-in modpack, mod and resource pack management.">
 
 <style>
   @font-face {
@@ -296,6 +296,12 @@
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   }
 
+  /* Import */
+
+  .import-actions {
+    margin-top: 32px;
+  }
+
   /* Features */
 
   .features {
@@ -467,6 +473,27 @@
     pointer-events: none;
   }
 
+  /* Launcher list */
+
+  .launcher-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .launcher {
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+    padding: 14px 18px;
+    border: 4px solid var(--black);
+    background: #3d4939;
+    color: var(--bone);
+    font-size: 22px;
+    box-shadow:
+      inset 4px 4px 0 #697664,
+      inset -4px -4px 0 #252c24;
+  }
+
   /* Socials */
 
   .social-list {
@@ -634,7 +661,8 @@
     }
 
     .os,
-    .social {
+    .social,
+    .launcher {
       font-size: 19px;
     }
   }
@@ -743,6 +771,26 @@
 
   </section>
 
+  <section class="section alt">
+
+    <div class="wrap">
+
+      <h2>Import from other launchers</h2>
+
+      <p class="lead">
+        Switching? Bring your instances over from the launchers you already use.
+      </p>
+
+      <div class="import-actions">
+        <button class="btn" onclick="openImport()">
+          Supported launchers
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
   <section class="section instances">
 
     <div class="wrap">
@@ -812,6 +860,30 @@
 
   </section>
 
+  <section class="section">
+
+    <div class="wrap split">
+
+      <div>
+        <h2>Host servers locally</h2>
+
+        <p class="lead">
+          Start and run your own Minecraft server straight from the launcher, no extra setup needed.
+        </p>
+      </div>
+
+      <div class="frame">
+        <img
+          src="assets/image4.png"
+          alt="Crit Launcher's built-in local server hosting"
+          loading="lazy"
+        >
+      </div>
+
+    </div>
+
+  </section>
+
   <section class="section alt" id="features">
 
     <div class="wrap">
@@ -838,6 +910,16 @@
         <div class="slot">
           <h3>Mod and resource pack management</h3>
           <p>Install, update and remove them per instance.</p>
+        </div>
+
+        <div class="slot">
+          <h3>Local server hosting</h3>
+          <p>Host your own servers from inside the launcher.</p>
+        </div>
+
+        <div class="slot">
+          <h3>Import from other launchers</h3>
+          <p>Move your instances over from Prism Launcher, SKLauncher, FastClient and PolyMC.</p>
         </div>
 
       </div>
@@ -1000,6 +1082,47 @@
 </div>
 
 
+<!-- Import Popup -->
+
+<div
+  class="modal"
+  id="importModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="importTitle"
+  onclick="importBackgroundClose(event)"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2 id="importTitle">
+        Supported launchers
+      </h2>
+
+      <button
+        class="close"
+        onclick="closeImport()"
+        aria-label="Close"
+      >
+        X
+      </button>
+
+    </div>
+
+    <div class="launcher-list">
+      <div class="launcher">Prism Launcher</div>
+      <div class="launcher">SKLauncher</div>
+      <div class="launcher">FastClient</div>
+      <div class="launcher">PolyMC</div>
+    </div>
+
+  </div>
+
+</div>
+
+
 <script>
 
   const downloadModal =
@@ -1008,9 +1131,13 @@
   const socialModal =
     document.getElementById("socialModal");
 
+  const importModal =
+    document.getElementById("importModal");
+
 
   function openDownload() {
     socialModal.classList.remove("open");
+    importModal.classList.remove("open");
     downloadModal.classList.add("open");
     document.body.style.overflow = "hidden";
   }
@@ -1031,6 +1158,7 @@
 
   function openSocials() {
     downloadModal.classList.remove("open");
+    importModal.classList.remove("open");
     socialModal.classList.add("open");
     document.body.style.overflow = "hidden";
   }
@@ -1049,11 +1177,33 @@
   }
 
 
+  function openImport() {
+    downloadModal.classList.remove("open");
+    socialModal.classList.remove("open");
+    importModal.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+
+  function closeImport() {
+    importModal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+
+  function importBackgroundClose(event) {
+    if (event.target === importModal) {
+      closeImport();
+    }
+  }
+
+
   document.addEventListener("keydown", function(event) {
 
     if (event.key === "Escape") {
       closeDownload();
       closeSocials();
+      closeImport();
     }
 
   });
