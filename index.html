@@ -298,8 +298,24 @@
 
   /* Import */
 
-  .import-actions {
-    margin-top: 32px;
+  .section.compact {
+    padding: 28px 0;
+  }
+
+  .import-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .import-row h2 {
+    font-size: 28px;
+  }
+
+  .import-row .btn {
+    padding: 8px 20px;
+    font-size: 18px;
   }
 
   /* Features */
@@ -483,15 +499,49 @@
   .launcher {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     min-height: 64px;
     padding: 14px 18px;
     border: 4px solid var(--black);
-    background: #3d4939;
-    color: var(--bone);
+    color: #fff;
     font-size: 22px;
+    text-decoration: none;
+  }
+
+  .launcher:hover {
+    filter: brightness(1.1);
+  }
+
+  .launcher.prism {
+    background: #d8dbd6;
+    color: #1c1f1b;
     box-shadow:
-      inset 4px 4px 0 #697664,
-      inset -4px -4px 0 #252c24;
+      inset 4px 4px 0 #f5f6f4,
+      inset -4px -4px 0 #9a9e98;
+  }
+
+  .launcher.sk {
+    background: #b58cf0;
+    color: #20103a;
+    box-shadow:
+      inset 4px 4px 0 #d3b8ff,
+      inset -4px -4px 0 #7e55b8;
+  }
+
+  .launcher.fast {
+    background: #f28c28;
+    color: #2a1400;
+    box-shadow:
+      inset 4px 4px 0 #ffb866,
+      inset -4px -4px 0 #a85a0c;
+  }
+
+  .launcher.poly {
+    background: #7a4a26;
+    color: #fff;
+    box-shadow:
+      inset 4px 4px 0 #a46a3c,
+      inset -4px -4px 0 #4a2a12;
   }
 
   /* Socials */
@@ -578,6 +628,17 @@
       -8px -8px 0 #fff,
       -4px 4px 0 #fff,
       -8px 8px 0 #fff;
+  }
+
+  .launcher.prism .social-arrow::before,
+  .launcher.sk .social-arrow::before,
+  .launcher.fast .social-arrow::before {
+    background: #1c1f1b;
+    box-shadow:
+      -4px -4px 0 #1c1f1b,
+      -8px -8px 0 #1c1f1b,
+      -4px 4px 0 #1c1f1b,
+      -8px 8px 0 #1c1f1b;
   }
 
   .modal-note {
@@ -771,21 +832,15 @@
 
   </section>
 
-  <section class="section alt">
+  <section class="section compact alt">
 
-    <div class="wrap">
+    <div class="wrap import-row">
 
       <h2>Import from other launchers</h2>
 
-      <p class="lead">
-        Switching? Bring your instances over from the launchers you already use.
-      </p>
-
-      <div class="import-actions">
-        <button class="btn" onclick="openImport()">
-          Supported launchers
-        </button>
-      </div>
+      <button class="btn" onclick="openImport()">
+        View
+      </button>
 
     </div>
 
@@ -817,10 +872,10 @@
     <div class="wrap split">
 
       <div>
-        <h2>Mods, shaders, modpacks and resource packs</h2>
+        <h2>Mods, modpacks and resource packs</h2>
 
         <p class="lead">
-          Install and manage mods, shaders, modpacks and resource packs without leaving the launcher.
+          Install and manage mods, modpacks and resource packs without leaving the launcher.
         </p>
       </div>
 
@@ -1112,10 +1167,22 @@
     </div>
 
     <div class="launcher-list">
-      <div class="launcher">Prism Launcher</div>
-      <div class="launcher">SKLauncher</div>
-      <div class="launcher">FastClient</div>
-      <div class="launcher">PolyMC</div>
+      <a class="launcher prism" href="https://prismlauncher.org/" target="_blank" rel="noopener noreferrer">
+        <span>Prism Launcher</span>
+        <span class="social-arrow"></span>
+      </a>
+      <a class="launcher sk" href="https://skmedix.pl" target="_blank" rel="noopener noreferrer">
+        <span>SKLauncher</span>
+        <span class="social-arrow"></span>
+      </a>
+      <a class="launcher fast" href="https://fastclient.net/" target="_blank" rel="noopener noreferrer">
+        <span>FastClient</span>
+        <span class="social-arrow"></span>
+      </a>
+      <a class="launcher poly" href="https://polymc.org/" target="_blank" rel="noopener noreferrer">
+        <span>PolyMC</span>
+        <span class="social-arrow"></span>
+      </a>
     </div>
 
   </div>
