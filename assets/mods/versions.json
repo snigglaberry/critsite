@@ -1,0 +1,6 @@
+{
+  "fabric": {
+    "26.2": "crit-client-26.2.jar",
+    "1.21.11": "crit-client-1.21.11.jar"
+  }
+}
