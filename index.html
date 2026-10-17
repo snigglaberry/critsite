@@ -105,6 +105,7 @@ h2 { font: 700 clamp(26px, 3.4vw, 38px)/1.1 var(--head); letter-spacing: -.025em
 /* features */
 .all { padding: 44px 0 36px; margin-top: 16px; border-top: 1px solid var(--line); }
 .list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 28px; margin-top: 26px; }
+.list.four { grid-template-columns: repeat(4, 1fr); }
 .tile { width: 46px; height: 46px; display: grid; place-items: center; margin-bottom: 12px; border-radius: 12px; background: var(--raised); border: 1px solid var(--line); color: var(--green); font-size: 22px; }
 .list h3 { font: 700 20px/1.25 var(--head); }
 .list p { margin-top: 6px; color: var(--dim); font-size: 16px; }
@@ -115,14 +116,6 @@ h2 { font: 700 clamp(26px, 3.4vw, 38px)/1.1 var(--head); letter-spacing: -.025em
 .import .tile { width: 40px; height: 40px; margin: 0; flex: none; font-size: 20px; }
 .import strong { display: block; font: 700 17px/1.25 var(--head); }
 .import span.sub { display: block; color: var(--dim); font-size: 15px; line-height: 1.35; }
-
-/* why us */
-.why { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: start; padding: 44px 0 36px; border-top: 1px solid var(--line); }
-.why .rows > div { padding: 18px 0; }
-.why .rows > div:first-child { padding-top: 0; }
-.why .rows > div + div { border-top: 1px solid var(--line); }
-.why h3 { font: 700 20px/1.25 var(--head); }
-.why .rows p { margin-top: 4px; color: var(--dim); font-size: 16px; }
 
 footer { padding: 28px 0 32px; color: var(--dim); font-size: 14px; text-align: center; }
 
@@ -153,14 +146,13 @@ a.opt.main:hover .r { color: var(--on-green); }
 
 @media (max-width: 860px) {
   .client { grid-template-columns: 1fr; gap: 22px; padding: 22px; }
-  .why { grid-template-columns: 1fr; gap: 22px; padding-top: 32px; }
-  .list { grid-template-columns: 1fr 1fr; }
+  .list, .list.four { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 520px) {
   body { font-size: 17px; }
   .hero { padding-top: 24px; }
   .hero p { font-size: 18px; }
-  .list { grid-template-columns: 1fr; }
+  .list, .list.four { grid-template-columns: 1fr; }
   .btn { padding: 11px 16px; font-size: 15px; }
   .count { margin-left: 2px; }
 }
@@ -306,26 +298,15 @@ a.opt.main:hover .r { color: var(--on-green); }
 
 
 
-  <section class="all" id="features">
-    <h2>Everything built in</h2>
-    <div class="list">
-      <div><div class="tile"><svg class="ic"><use href="#i-user"/></svg></div><h3>Skin customization</h3><p>Edit your skin without leaving the launcher.</p></div>
-      <div><div class="tile"><svg class="ic"><use href="#i-layers"/></svg></div><h3>All versions supported</h3><p>Play any Minecraft version you want.</p></div>
-      <div><div class="tile"><svg class="ic"><use href="#i-package"/></svg></div><h3>Modpack management</h3><p>Add and organize modpacks in one place.</p></div>
-      <div><div class="tile"><svg class="ic"><use href="#i-chip"/></svg></div><h3>Mod and resource pack management</h3><p>Install, update and remove them per instance.</p></div>
-      <div><div class="tile"><svg class="ic"><use href="#i-server"/></svg></div><h3>Local server hosting</h3><p>Host your own servers from inside the launcher.</p></div>
-      <div><div class="tile"><svg class="ic"><use href="#i-import"/></svg></div><h3>Import from other launchers</h3><p>Move your instances over from Prism Launcher, SKLauncher, FastClient and PolyMC.</p></div>
-    </div>
-  </section>
 
 
-  <section class="why" id="why">
+  <section class="all" id="why">
     <h2>Why Crit Launcher</h2>
-    <div class="rows">
-      <div><h3>Everything in one window</h3><p>Versions, skins, mods, modpacks, resource packs and servers live in one launcher, so you stop juggling separate tools.</p></div>
-      <div><h3>Easy to switch</h3><p>Bring your instances over from Prism Launcher, SKLauncher, FastClient or PolyMC and keep playing.</p></div>
-      <div><h3>A client that comes with it</h3><p>Crit Client adds overlays, account swapping, skin swapping and addon management right in the game.</p></div>
-      <div><h3>cracked support</h3><p>use a offline account or a premium one</p></div>
+    <div class="list four">
+      <div><div class="tile"><svg class="ic"><use href="#i-layers"/></svg></div><h3>Everything in one window</h3><p>Versions, skins, mods, modpacks, resource packs and servers in one launcher.</p></div>
+      <div><div class="tile"><svg class="ic"><use href="#i-import"/></svg></div><h3>Easy to switch</h3><p>Bring your instances over from Prism Launcher, SKLauncher, FastClient or PolyMC.</p></div>
+      <div><div class="tile"><svg class="ic"><use href="#i-zap"/></svg></div><h3>A client that comes with it</h3><p>Crit Client adds overlays, account swapping, skin swapping and addon management.</p></div>
+      <div><div class="tile"><svg class="ic"><use href="#i-shield"/></svg></div><h3>cracked support</h3><p>Use an "local account", or sign in with a official Microsoft account</p></div>
     </div>
   </section>
 
