@@ -116,6 +116,14 @@ h2 { font: 700 clamp(26px, 3.4vw, 38px)/1.1 var(--head); letter-spacing: -.025em
 .import strong { display: block; font: 700 17px/1.25 var(--head); }
 .import span.sub { display: block; color: var(--dim); font-size: 15px; line-height: 1.35; }
 
+/* why us */
+.why { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: start; padding: 44px 0 36px; border-top: 1px solid var(--line); }
+.why .rows > div { padding: 18px 0; }
+.why .rows > div:first-child { padding-top: 0; }
+.why .rows > div + div { border-top: 1px solid var(--line); }
+.why h3 { font: 700 20px/1.25 var(--head); }
+.why .rows p { margin-top: 4px; color: var(--dim); font-size: 16px; }
+
 footer { padding: 28px 0 32px; color: var(--dim); font-size: 14px; text-align: center; }
 
 /* dialogs */
@@ -145,6 +153,7 @@ a.opt.main:hover .r { color: var(--on-green); }
 
 @media (max-width: 860px) {
   .client { grid-template-columns: 1fr; gap: 22px; padding: 22px; }
+  .why { grid-template-columns: 1fr; gap: 22px; padding-top: 32px; }
   .list { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 520px) {
@@ -306,6 +315,17 @@ a.opt.main:hover .r { color: var(--on-green); }
       <div><div class="tile"><svg class="ic"><use href="#i-chip"/></svg></div><h3>Mod and resource pack management</h3><p>Install, update and remove them per instance.</p></div>
       <div><div class="tile"><svg class="ic"><use href="#i-server"/></svg></div><h3>Local server hosting</h3><p>Host your own servers from inside the launcher.</p></div>
       <div><div class="tile"><svg class="ic"><use href="#i-import"/></svg></div><h3>Import from other launchers</h3><p>Move your instances over from Prism Launcher, SKLauncher, FastClient and PolyMC.</p></div>
+    </div>
+  </section>
+
+
+  <section class="why" id="why">
+    <h2>Why Crit Launcher</h2>
+    <div class="rows">
+      <div><h3>Everything in one window</h3><p>Versions, skins, mods, modpacks, resource packs and servers live in one launcher, so you stop juggling separate tools.</p></div>
+      <div><h3>Easy to switch</h3><p>Bring your instances over from Prism Launcher, SKLauncher, FastClient or PolyMC and keep playing.</p></div>
+      <div><h3>A client that comes with it</h3><p>Crit Client adds overlays, account swapping, skin swapping and addon management right in the game.</p></div>
+      <div><h3>cracked support</h3><p>use a offline account or a premium one</p></div>
     </div>
   </section>
 
