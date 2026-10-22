@@ -56,8 +56,9 @@ img { display: block; width: 100%; height: auto; }
 .btn.ghost:hover { background: var(--raised); border-color: var(--dim); }
 
 /* hero */
-.hero { position: relative; padding: 34px 0 30px; }
+.hero { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 34px; align-items: center; padding: 34px 0 30px; }
 .hero::after { content: ""; position: absolute; z-index: -1; top: 22px; right: 8%; width: 260px; height: 260px; border-radius: 50%; background: var(--lime-soft); filter: blur(35px); pointer-events: none; }
+.hero-copy { min-width: 0; }
 .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 18px; color: var(--green-hi); font: 600 13px var(--body); letter-spacing: .12em; text-transform: uppercase; }
 .eyebrow::before { content: ""; width: 25px; height: 1px; background: var(--green); }
 .hero h1 { max-width: 780px; font: 700 clamp(48px, 8vw, 88px)/.96 var(--head); letter-spacing: -.055em; text-wrap: balance; animation: rise .7s cubic-bezier(.2,.8,.2,1) both; }
@@ -72,8 +73,10 @@ img { display: block; width: 100%; height: auto; }
 .pill:hover .main, .pill:focus-visible .main { visibility: hidden; }
 .pill:hover .alt, .pill:focus-visible .alt { visibility: visible; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 28px; animation: rise .7s .16s cubic-bezier(.2,.8,.2,1) both; }
-.count { display: flex; align-items: center; gap: 8px; margin-left: 10px; color: var(--dim); font-size: 15px; }
-.count b { color: var(--ink); font-weight: 600; }
+.count { display: grid; justify-items: center; align-content: center; align-self: start; gap: 3px; min-width: 160px; margin-top: 54px; color: var(--dim); text-align: center; transform: translateX(-18px); }
+.count .ic { width: 76px; height: 76px; margin-bottom: 8px; color: var(--green-hi); stroke-width: 1.5; filter: drop-shadow(0 8px 14px rgba(93,187,58,.2)); }
+.count-number { color: var(--ink); font: 700 clamp(40px, 5vw, 56px)/1 var(--head); }
+.count-label { color: var(--dim); font-size: 13px; letter-spacing: .12em; text-transform: lowercase; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 
 /* screenshot frame */
@@ -151,6 +154,21 @@ dialog[open] { animation: pop .2s cubic-bezier(.2,.8,.2,1); }
 .opt .l { display: flex; align-items: center; gap: 12px; }
 .opt .l .ic { font-size: 20px; color: var(--green); }
 .opt .r { display: flex; align-items: center; gap: 6px; color: var(--dim); font-size: 15px; font-weight: 500; }
+.edition { align-items: flex-start; }
+.edition .l { align-items: flex-start; }
+.edition .l > .ic { margin-top: 3px; }
+.edition .copy { display: grid; gap: 3px; }
+.edition .copy strong { font: 700 18px/1.2 var(--head); }
+.edition .copy small { color: var(--dim); font: 400 14px/1.35 var(--body); }
+.file-type { display: inline-flex; align-items: center; margin-left: 8px; padding: 2px 6px; border: 1px solid currentColor; border-radius: 999px; color: var(--dim); font: 600 11px/1.1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .02em; vertical-align: middle; }
+.edition .tag { display: inline-flex; align-items: center; gap: 4px; color: var(--green-hi); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.edition .tag .star { font-size: 14px; }
+.edition.main .copy small, .edition.main .tag, .edition.main .r { color: var(--on-green); }
+.edition.main .l .ic { color: var(--on-green); }
+.edition.main:hover .copy small, .edition.main:hover .tag, .edition.main:hover .r { color: var(--on-green); }
+.version-list { max-height: 320px; overflow: auto; }
+.version-list .opt { font-size: 16px; }
+.loading { padding: 14px 2px; color: var(--dim); font-size: 14px; }
 a.opt:hover { border-color: var(--green); }
 a.opt:hover .r { color: var(--green); }
 .opt.main { background: var(--green); border-color: var(--green); color: var(--on-green); }
@@ -171,6 +189,9 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
   .topbar { padding-top: 14px; }
   .nav a { display: none; }
   .hero { padding-top: 30px; }
+  .hero { grid-template-columns: 1fr; gap: 20px; }
+  .count { grid-row: 2; justify-self: start; min-width: 0; margin-top: 0; justify-items: start; text-align: left; transform: none; }
+  .count .ic { width: 48px; height: 48px; margin-bottom: 4px; }
   .hero h1 { font-size: clamp(44px, 14vw, 68px); }
   .hero p { font-size: 18px; }
   .list, .list.four { grid-template-columns: 1fr; }
@@ -234,20 +255,27 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
   </header>
 
   <section class="hero">
+    <div class="hero-copy">
     <h1>The best Minecraft launcher</h1>
     <p>Every version, your skins, and all your mods and packs in one window.</p>
 
     <div class="actions">
       <button class="btn primary" onclick="openD('download')"><svg class="ic"><use href="#i-download"/></svg>Download</button>
+      <button class="btn ghost" onclick="openD('client')"><svg class="ic"><use href="#i-chip"/></svg>Download Client</button>
       <button class="btn ghost" onclick="openD('socials')"><svg class="ic"><use href="#i-share"/></svg>View socials</button>
       <a class="btn ghost" href="https://discord.gg/SyxeBQvvwY" target="_blank" rel="noopener noreferrer"><svg class="ic"><use href="#i-discord"/></svg>Discord</a>
       <a class="btn ghost" href="https://github.com/snigglaberry/crit-launcher" target="_blank" rel="noopener noreferrer"><svg class="ic"><use href="#i-github"/></svg>GitHub</a>
-      <div class="count"><svg class="ic"><use href="#i-download"/></svg><span>Downloads: <b id="downloadCount">Loading...</b></span></div>
     </div>
 
     <div class="pills">
       <div class="pill" tabindex="0"><svg class="ic"><use href="#i-check"/></svg><span class="sw"><span class="main">Offline local accounts supported</span><span class="alt" aria-hidden="true">cracked 🤫</span></span></div>
       <div class="pill"><svg class="ic"><use href="#i-shield"/></svg><span>Official Microsoft authorization</span></div>
+    </div>
+    </div>
+    <div class="count" aria-label="Total downloads">
+      <svg class="ic"><use href="#i-download"/></svg>
+      <span class="count-number" id="downloadCount">Loading...</span>
+      <span class="count-label">downloads</span>
     </div>
   </section>
 
@@ -349,14 +377,46 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
 <dialog id="download" aria-labelledby="t1">
   <div class="dh"><h2 id="t1">Choose your OS</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <div class="opts">
-    <button class="opt main" type="button" onclick="openD('windows')">
+    <button class="opt main" type="button" onclick="openD('editions')">
       <span class="l"><svg class="ic"><use href="#i-windows"/></svg>Windows</span>
       <span class="r">Choose<svg class="ic"><use href="#i-arrow"/></svg></span>
     </button>
     <div class="opt off"><span class="l"><svg class="ic"><use href="#i-laptop"/></svg>macOS</span><span class="r">Coming soon</span></div>
     <div class="opt off"><span class="l"><svg class="ic"><use href="#i-terminal"/></svg>Linux</span><span class="r">Coming soon</span></div>
+    <button class="opt" type="button" onclick="openD('client')">
+      <span class="l"><svg class="ic"><use href="#i-chip"/></svg>Crit Client <span class="file-type">.jar</span></span>
+      <span class="r">Download<svg class="ic"><use href="#i-download"/></svg></span>
+    </button>
   </div>
   <p class="note">Windows is currently the only available version of Crit Launcher.</p>
+</dialog>
+
+<!-- Edition download options -->
+<dialog id="editions" aria-labelledby="t5">
+  <div class="dh"><h2 id="t5">Choose your edition</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="opts">
+    <button class="opt edition main" type="button" onclick="openD('windows')">
+      <span class="l"><svg class="ic"><use href="#i-layers"/></svg><span class="copy"><span class="tag"><span class="star">★</span> Base edition</span><strong>Crit Launcher <span class="file-type">.exe</span></strong></span></span>
+      <span class="r">Choose<svg class="ic"><use href="#i-arrow"/></svg></span>
+    </button>
+    <button class="opt edition" type="button" onclick="openD('client')">
+      <span class="l"><svg class="ic"><use href="#i-chip"/></svg><span class="copy"><strong>Crit Client <span class="file-type">.jar</span></strong></span></span>
+      <span class="r">Versions<svg class="ic"><use href="#i-arrow"/></svg></span>
+    </button>
+    <button class="opt edition" type="button" onclick="openD('lite')">
+      <span class="l"><svg class="ic"><use href="#i-zap"/></svg><span class="copy"><strong>Crit Lite <span class="file-type">.exe</span></strong></span></span>
+      <span class="r">Latest<svg class="ic"><use href="#i-download"/></svg></span>
+    </button>
+  </div>
+</dialog>
+
+<!-- Crit Lite download options -->
+<dialog id="lite" aria-labelledby="t7">
+  <div class="dh"><h2 id="t7">Crit Lite download</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div id="liteOptions" class="opts">
+    <p class="loading">Loading the latest Crit Lite files...</p>
+  </div>
+  <p class="note">Choose setup.exe or crit-lite.exe (standalone) from the latest Crit Lite release.</p>
 </dialog>
 
 <!-- Windows download options -->
@@ -377,6 +437,13 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
     </a>
   </div>
   <p class="note">Choose the installer for guided setup, or standalone if you want to run <code>crit.exe</code> directly.</p>
+</dialog>
+
+<!-- Crit Client versions -->
+<dialog id="client" aria-labelledby="t6">
+  <div class="dh"><h2 id="t6">Crit Client versions</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div id="clientVersions" class="opts version-list"><p class="loading">Loading available versions...</p></div>
+  <p class="note">Versions and file names are read from <code>assets/mods/versions.json</code>.</p>
 </dialog>
 
 <!-- Socials -->
@@ -406,8 +473,101 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
   function openD(id) {
     dialogs.forEach(d => d.close());
     document.getElementById(id).showModal();
+    if (id === "client") loadClientVersions();
+    if (id === "lite") loadCritLiteAssets();
   }
   function closeD(btn) { btn.closest("dialog").close(); }
+
+  async function loadCritLiteAssets() {
+    const box = document.getElementById("liteOptions");
+    if (box.dataset.loaded) return;
+    const repo = "snigglaberry/crit-lite";
+    try {
+      const res = await fetch(`https://api.github.com/repos/${repo}/releases/latest`);
+      if (!res.ok) throw new Error("Could not load the latest Crit Lite release");
+      const release = await res.json();
+      const assets = release.assets || [];
+      const standalone = assets.find(a => ["crit-lite.exe", "standalone.exe"].includes(a.name.toLowerCase()));
+      const setup = assets.find(a => a.name.toLowerCase() === "setup.exe");
+      const link = (label, asset) => asset
+        ? `<a class="opt" href="${asset.browser_download_url}"><span class="l"><svg class="ic"><use href="#i-windows"/></svg>${label}</span><span class="r">${asset.name}<svg class="ic"><use href="#i-download"/></svg></span></a>`
+        : `<div class="opt off"><span class="l"><svg class="ic"><use href="#i-windows"/></svg>${label}</span></div>`;
+      box.innerHTML = link("Standalone", standalone) + link("Setup", setup);
+      box.dataset.loaded = "true";
+    } catch (err) {
+      box.innerHTML = `<a class="opt" href="https://github.com/${repo}/releases/latest" target="_blank" rel="noopener noreferrer"><span class="l"><svg class="ic"><use href="#i-package"/></svg>View latest release</span><span class="r"><svg class="ic"><use href="#i-arrow"/></svg></span></a>`;
+      console.error("Could not load Crit Lite assets:", err);
+    }
+  }
+
+  function versionEntries(data, loader = "") {
+    if (!data || typeof data !== "object") return [];
+    if (Array.isArray(data)) {
+      return data.flatMap((value, index) => versionEntries(value, loader || String(index)));
+    }
+
+    const source = data.versions || data.releases || data.files || data;
+    if (source !== data) return versionEntries(source, loader);
+
+    return Object.entries(source).flatMap(([key, value]) => {
+      if (typeof value === "string") return [{ loader, version: key, file: value }];
+
+      if (Array.isArray(value)) {
+        return value.flatMap(item => {
+          if (typeof item === "string") return [{ loader: loader || key, version: key, file: item }];
+          return versionEntries(item, loader || key);
+        });
+      }
+
+      if (value && typeof value === "object") {
+        const file = value.file || value.filename || value.path || value.url || value.download;
+        if (file) {
+          return [{
+            loader,
+            version: value.version || value.name || key,
+            file: String(file)
+          }];
+        }
+        return versionEntries(value, loader || key);
+      }
+
+      return [];
+    });
+  }
+
+  async function loadClientVersions() {
+    const box = document.getElementById("clientVersions");
+    if (box.dataset.loaded) return;
+    try {
+      let versionData;
+      if (location.protocol === "file:") {
+        // Browsers block fetch() for local file pages, so keep the checked-in
+        // versions available when the site is opened directly from disk.
+        versionData = {
+          fabric: {
+            "26.2": "crit-client-26.2.jar",
+            "1.21.11": "crit-client-1.21.11.jar"
+          }
+        };
+      } else {
+        const res = await fetch("assets/mods/versions.json", { cache: "no-cache" });
+        if (!res.ok) throw new Error("versions.json was not found");
+        versionData = await res.json();
+      }
+      const entries = versionEntries(versionData);
+      if (!entries.length) throw new Error("No client versions were found");
+      const escape = value => String(value).replace(/[&<>\"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+      box.innerHTML = entries.map(({ loader, version, file }) => {
+        const href = /^https?:\/\//i.test(file) ? file : `assets/mods/${String(file).replace(/^[/\\]+/, "")}`;
+        const label = loader ? `${loader} · ${version}` : version;
+        return `<a class="opt" href="${escape(href)}"><span class="l"><svg class="ic"><use href="#i-chip"/></svg>${escape(label)}</span><span class="r">${escape(file)}<svg class="ic"><use href="#i-download"/></svg></span></a>`;
+      }).join("");
+      box.dataset.loaded = "true";
+    } catch (err) {
+      box.innerHTML = `<p class="loading">Could not load client versions. <a href="assets/mods/versions.json">Open versions.json</a> to check the file path.</p>`;
+      console.error("Could not load Crit Client versions:", err);
+    }
+  }
 
   // Clicking the dark backdrop closes the dialog. The target check stops
   // keyboard-triggered clicks (which report 0,0) from closing it by accident.
