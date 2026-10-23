@@ -19,7 +19,7 @@ while ($true) {
 
     switch ($choice) {
         "1" {
-            $repo = "snigglaberry/critlauncher"
+            $repo = "snigglaberry/crit-launcher"
             $assetName = "crit.exe"
         }
         "2" {
