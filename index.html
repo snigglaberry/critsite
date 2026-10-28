@@ -180,6 +180,18 @@ a.opt.main:hover .r { color: var(--on-green); }
 .note { margin-top: 16px; color: var(--dim); font-size: 14px; }
 code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: var(--green-hi); font: 500 .9em ui-monospace, SFMono-Regular, Consolas, monospace; }
 
+/* feedback */
+.fb-fab { position: fixed; right: 20px; bottom: 20px; z-index: 5; box-shadow: 0 10px 30px -10px rgba(0,0,0,.7); }
+.stars { display: flex; gap: 6px; margin-bottom: 14px; }
+.star { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--line); background: var(--raised); color: var(--dim); font-size: 22px; line-height: 1; cursor: pointer; transition: color .15s, border-color .15s; }
+.star:hover, .star.on { color: var(--green-hi); border-color: var(--green); }
+.fb-text { width: 100%; min-height: 120px; resize: vertical; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--raised); color: var(--ink); font: 400 16px/1.45 var(--body); }
+.fb-text:focus-visible { outline-offset: 0; }
+.fb-actions { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.fb-status { color: var(--dim); font-size: 14px; }
+.fb-status.err { color: #ff8a80; }
+.fb-status.ok { color: var(--green-hi); }
+
 @media (max-width: 860px) {
   .client { grid-template-columns: 1fr; gap: 22px; padding: 22px; }
   .list, .list.four { grid-template-columns: 1fr 1fr; }
@@ -200,6 +212,7 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
   .client { padding: 20px; border-radius: 18px; }
   footer { display: block; text-align: center; }
   footer a { display: inline-block; margin-top: 8px; }
+  .fb-fab { right: 14px; bottom: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -373,6 +386,28 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
 
 </div>
 
+<!-- Feedback button -->
+<button class="btn primary fb-fab" type="button" onclick="openD('feedback')">
+  <svg class="ic"><use href="#i-share"/></svg>Feedback
+</button>
+
+<!-- Feedback -->
+<dialog id="feedback" aria-labelledby="t8">
+  <div class="dh"><h2 id="t8">Send feedback</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="stars" id="stars" role="radiogroup" aria-label="Rating">
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="1 star" data-v="1">★</button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="2 stars" data-v="2">★</button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="3 stars" data-v="3">★</button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="4 stars" data-v="4">★</button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="5 stars" data-v="5">★</button>
+  </div>
+  <textarea class="fb-text" id="fbMsg" maxlength="1000" placeholder="What's on your mind?" aria-label="Your feedback"></textarea>
+  <div class="fb-actions">
+    <button class="btn primary" type="button" id="fbSend" onclick="sendFeedback()">Send</button>
+    <span class="fb-status" id="fbStatus" role="status"></span>
+  </div>
+</dialog>
+
 <!-- Download -->
 <dialog id="download" aria-labelledby="t1">
   <div class="dh"><h2 id="t1">Choose your OS</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
@@ -477,6 +512,49 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
     if (id === "lite") loadCritLiteAssets();
   }
   function closeD(btn) { btn.closest("dialog").close(); }
+
+  // Feedback: 1-5 star rating + message, POSTed as JSON
+  let fbRating = 0;
+  document.getElementById("stars").addEventListener("click", e => {
+    const b = e.target.closest(".star");
+    if (!b) return;
+    fbRating = +b.dataset.v;
+    document.querySelectorAll("#stars .star").forEach(s => {
+      s.classList.toggle("on", +s.dataset.v <= fbRating);
+      s.setAttribute("aria-checked", +s.dataset.v === fbRating ? "true" : "false");
+    });
+  });
+
+  async function sendFeedback() {
+    const msg = document.getElementById("fbMsg");
+    const status = document.getElementById("fbStatus");
+    const btn = document.getElementById("fbSend");
+    const set = (t, c = "") => { status.textContent = t; status.className = "fb-status " + c; };
+
+    if (!fbRating) return set("Pick a rating first.", "err");
+    if (!msg.value.trim()) return set("Write a message first.", "err");
+
+    btn.disabled = true;
+    set("Sending...");
+    try {
+      const res = await fetch("https://feedbackendpoint.skibidiscripts.workers.dev/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rating: fbRating, message: msg.value.trim() })
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      set("Thanks for the feedback!", "ok");
+      msg.value = "";
+      fbRating = 0;
+      document.querySelectorAll("#stars .star").forEach(s => { s.classList.remove("on"); s.setAttribute("aria-checked", "false"); });
+      setTimeout(() => { document.getElementById("feedback").close(); set(""); }, 1400);
+    } catch (err) {
+      console.error("Feedback failed:", err);
+      set("Couldn't send. Try again.", "err");
+    } finally {
+      btn.disabled = false;
+    }
+  }
 
   async function loadCritLiteAssets() {
     const box = document.getElementById("liteOptions");
