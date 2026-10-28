@@ -192,6 +192,8 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
 .stars:has(.star:hover) .star.on:not(:hover):not(:has(~ .star:hover)) { color: var(--dim); }
 .stars:has(.star:hover) .star.on:not(:hover):not(:has(~ .star:hover)) .ic { fill: transparent; filter: none; }
 .fb-text { width: 100%; min-height: 120px; resize: vertical; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--raised); color: var(--ink); font: 400 16px/1.45 var(--body); }
+.fb-count { margin-top: 6px; text-align: right; color: var(--dim); font-size: 13px; font-variant-numeric: tabular-nums; }
+.fb-count.max { color: #ff8a80; }
 .fb-text:focus-visible { outline-offset: 0; }
 .fb-actions { display: flex; align-items: flex-start; gap: 12px; margin-top: 14px; }
 .fb-status { flex: 1; color: var(--dim); font-size: 14px; line-height: 1.35; }
@@ -409,6 +411,7 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
     <button class="star" type="button" role="radio" aria-checked="false" aria-label="5 stars" data-v="5"><svg class="ic"><use href="#i-star"/></svg></button>
   </div>
   <textarea class="fb-text" id="fbMsg" maxlength="300" placeholder="What's on your mind?" aria-label="Your feedback"></textarea>
+  <div class="fb-count" id="fbCount" aria-hidden="true">0 / 300</div>
   <div class="fb-actions">
     <button class="btn primary" type="button" id="fbSend" onclick="sendFeedback()">Send</button>
     <span class="fb-status" id="fbStatus" role="status"></span>
@@ -532,7 +535,10 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
     });
   });
 
-  document.getElementById("fbMsg").addEventListener("input", () => {
+  document.getElementById("fbMsg").addEventListener("input", e => {
+    const c = document.getElementById("fbCount"), n = e.target.value.length;
+    c.textContent = n + " / 300";
+    c.classList.toggle("max", n >= 300);
     const st = document.getElementById("fbStatus");
     if (st.classList.contains("err")) { st.textContent = ""; st.className = "fb-status"; }
   });
@@ -563,6 +569,8 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
       }
       set("Thanks for the feedback!", "ok");
       msg.value = "";
+      document.getElementById("fbCount").textContent = "0 / 300";
+      document.getElementById("fbCount").classList.remove("max");
       fbRating = 0;
       document.querySelectorAll("#stars .star").forEach(s => { s.classList.remove("on"); s.setAttribute("aria-checked", "false"); });
       setTimeout(() => { document.getElementById("feedback").close(); set(""); }, 1400);
