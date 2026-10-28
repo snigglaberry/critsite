@@ -162,7 +162,7 @@ dialog[open] { animation: pop .2s cubic-bezier(.2,.8,.2,1); }
 .edition .copy small { color: var(--dim); font: 400 14px/1.35 var(--body); }
 .file-type { display: inline-flex; align-items: center; margin-left: 8px; padding: 2px 6px; border: 1px solid currentColor; border-radius: 999px; color: var(--dim); font: 600 11px/1.1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .02em; vertical-align: middle; }
 .edition .tag { display: inline-flex; align-items: center; gap: 4px; color: var(--green-hi); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-.edition .tag .star { font-size: 14px; }
+.edition .tag .tag-star { font-size: 14px; }
 .edition.main .copy small, .edition.main .tag, .edition.main .r { color: var(--on-green); }
 .edition.main .l .ic { color: var(--on-green); }
 .edition.main:hover .copy small, .edition.main:hover .tag, .edition.main:hover .r { color: var(--on-green); }
@@ -182,9 +182,15 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
 
 /* feedback */
 .fb-fab { position: fixed; right: 20px; bottom: 20px; z-index: 5; box-shadow: 0 10px 30px -10px rgba(0,0,0,.7); }
-.stars { display: flex; gap: 6px; margin-bottom: 14px; }
-.star { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--line); background: var(--raised); color: var(--dim); font-size: 22px; line-height: 1; cursor: pointer; transition: color .15s, border-color .15s; }
-.star:hover, .star.on { color: var(--green-hi); border-color: var(--green); }
+.stars { display: flex; gap: 4px; margin-bottom: 14px; }
+.star { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; background: none; color: var(--dim); cursor: pointer; transition: color .15s, transform .15s; }
+.star .ic { width: 36px; height: 36px; stroke-width: 1.75; fill: transparent; transition: fill .15s, filter .15s; }
+.star:hover { transform: scale(1.12); }
+.star:active { transform: scale(.92); }
+.star.on, .star:hover, .star:has(~ .star:hover) { color: var(--green-hi); }
+.star.on .ic, .star:hover .ic, .star:has(~ .star:hover) .ic { fill: currentColor; filter: drop-shadow(0 2px 8px rgba(93,187,58,.45)); }
+.stars:has(.star:hover) .star.on:not(:hover):not(:has(~ .star:hover)) { color: var(--dim); }
+.stars:has(.star:hover) .star.on:not(:hover):not(:has(~ .star:hover)) .ic { fill: transparent; filter: none; }
 .fb-text { width: 100%; min-height: 120px; resize: vertical; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--raised); color: var(--ink); font: 400 16px/1.45 var(--body); }
 .fb-text:focus-visible { outline-offset: 0; }
 .fb-actions { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
@@ -226,6 +232,7 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
 
 <!-- icon sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
@@ -395,11 +402,11 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
 <dialog id="feedback" aria-labelledby="t8">
   <div class="dh"><h2 id="t8">Send feedback</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <div class="stars" id="stars" role="radiogroup" aria-label="Rating">
-    <button class="star" type="button" role="radio" aria-checked="false" aria-label="1 star" data-v="1">★</button>
-    <button class="star" type="button" role="radio" aria-checked="false" aria-label="2 stars" data-v="2">★</button>
-    <button class="star" type="button" role="radio" aria-checked="false" aria-label="3 stars" data-v="3">★</button>
-    <button class="star" type="button" role="radio" aria-checked="false" aria-label="4 stars" data-v="4">★</button>
-    <button class="star" type="button" role="radio" aria-checked="false" aria-label="5 stars" data-v="5">★</button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="1 star" data-v="1"><svg class="ic"><use href="#i-star"/></svg></button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="2 stars" data-v="2"><svg class="ic"><use href="#i-star"/></svg></button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="3 stars" data-v="3"><svg class="ic"><use href="#i-star"/></svg></button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="4 stars" data-v="4"><svg class="ic"><use href="#i-star"/></svg></button>
+    <button class="star" type="button" role="radio" aria-checked="false" aria-label="5 stars" data-v="5"><svg class="ic"><use href="#i-star"/></svg></button>
   </div>
   <textarea class="fb-text" id="fbMsg" maxlength="1000" placeholder="What's on your mind?" aria-label="Your feedback"></textarea>
   <div class="fb-actions">
@@ -431,7 +438,7 @@ code { padding: 2px 6px; border-radius: 6px; background: var(--raised); color: v
   <div class="dh"><h2 id="t5">Choose your edition</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <div class="opts">
     <button class="opt edition main" type="button" onclick="openD('windows')">
-      <span class="l"><svg class="ic"><use href="#i-layers"/></svg><span class="copy"><span class="tag"><span class="star">★</span> Base edition</span><strong>Crit Launcher <span class="file-type">.exe</span></strong></span></span>
+      <span class="l"><svg class="ic"><use href="#i-layers"/></svg><span class="copy"><span class="tag"><span class="tag-star">★</span> Base edition</span><strong>Crit Launcher <span class="file-type">.exe</span></strong></span></span>
       <span class="r">Choose<svg class="ic"><use href="#i-arrow"/></svg></span>
     </button>
     <button class="opt edition" type="button" onclick="openD('client')">
