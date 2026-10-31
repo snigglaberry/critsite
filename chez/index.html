@@ -24,8 +24,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* RANDOM BACKGROUND ICONS */
-
 .background {
     position: fixed;
     inset: 0;
@@ -33,16 +31,20 @@ body {
     overflow: hidden;
 }
 
-.background span {
+.background span,
+.background img {
     position: absolute;
-    color: #777;
-    font-size: var(--size);
-    opacity: var(--opacity);
     left: var(--x);
     top: var(--y);
+    font-size: var(--size);
+    opacity: var(--opacity);
 }
 
-/* PROFILE */
+.background img {
+    width: var(--size);
+    height: var(--size);
+    object-fit: contain;
+}
 
 .profile {
     position: relative;
@@ -50,7 +52,7 @@ body {
     text-align: center;
 }
 
-/* 3D CUBE */
+/* CUBE */
 
 .cube-container {
     width: 90px;
@@ -125,8 +127,6 @@ h1 {
     line-height: 1.8;
 }
 
-/* LINKS */
-
 .links {
     display: flex;
     justify-content: center;
@@ -175,28 +175,62 @@ h1 {
 <body>
 
 <div class="background" aria-hidden="true">
-    <span style="--x:5%;--y:8%;--size:28px;--opacity:.35">✦</span>
-    <span style="--x:17%;--y:23%;--size:35px;--opacity:.2">◇</span>
-    <span style="--x:29%;--y:9%;--size:22px;--opacity:.3">⌘</span>
-    <span style="--x:43%;--y:17%;--size:32px;--opacity:.2">✧</span>
-    <span style="--x:57%;--y:7%;--size:26px;--opacity:.3">◈</span>
-    <span style="--x:72%;--y:21%;--size:38px;--opacity:.2">+</span>
-    <span style="--x:89%;--y:12%;--size:30px;--opacity:.3">✦</span>
 
-    <span style="--x:8%;--y:43%;--size:34px;--opacity:.2">⊹</span>
-    <span style="--x:22%;--y:57%;--size:25px;--opacity:.3">✧</span>
-    <span style="--x:37%;--y:42%;--size:38px;--opacity:.2">◈</span>
-    <span style="--x:63%;--y:48%;--size:28px;--opacity:.3">◇</span>
-    <span style="--x:78%;--y:57%;--size:34px;--opacity:.2">⌘</span>
-    <span style="--x:94%;--y:43%;--size:25px;--opacity:.3">✦</span>
+    <!-- CATS -->
+    <span style="--x:3%;--y:5%;--size:34px;--opacity:.65">🐈</span>
+    <span style="--x:18%;--y:28%;--size:27px;--opacity:.55">🐱</span>
+    <span style="--x:83%;--y:12%;--size:38px;--opacity:.55">🐈‍⬛</span>
+    <span style="--x:92%;--y:68%;--size:30px;--opacity:.6">🐾</span>
+    <span style="--x:35%;--y:85%;--size:35px;--opacity:.55">🐱</span>
+    <span style="--x:70%;--y:90%;--size:28px;--opacity:.6">🐈</span>
+    <span style="--x:48%;--y:8%;--size:25px;--opacity:.5">🐾</span>
 
-    <span style="--x:4%;--y:77%;--size:30px;--opacity:.3">+</span>
-    <span style="--x:18%;--y:88%;--size:36px;--opacity:.2">◈</span>
-    <span style="--x:33%;--y:76%;--size:24px;--opacity:.3">✦</span>
-    <span style="--x:48%;--y:91%;--size:32px;--opacity:.2">◇</span>
-    <span style="--x:66%;--y:81%;--size:26px;--opacity:.3">✧</span>
-    <span style="--x:82%;--y:89%;--size:38px;--opacity:.2">⊹</span>
-    <span style="--x:96%;--y:77%;--size:28px;--opacity:.3">⌘</span>
+    <!-- GHOSTS -->
+    <span style="--x:12%;--y:72%;--size:35px;--opacity:.65">👻</span>
+    <span style="--x:28%;--y:12%;--size:30px;--opacity:.55">👻</span>
+    <span style="--x:65%;--y:25%;--size:35px;--opacity:.55">👻</span>
+    <span style="--x:89%;--y:85%;--size:32px;--opacity:.6">👻</span>
+    <span style="--x:52%;--y:72%;--size:28px;--opacity:.5">👾</span>
+
+    <!-- STARS AND SPARKLES -->
+    <span style="--x:7%;--y:38%;--size:30px;--opacity:.5">✦</span>
+    <span style="--x:23%;--y:55%;--size:24px;--opacity:.6">✧</span>
+    <span style="--x:43%;--y:30%;--size:35px;--opacity:.5">✦</span>
+    <span style="--x:76%;--y:42%;--size:28px;--opacity:.55">✧</span>
+    <span style="--x:95%;--y:25%;--size:32px;--opacity:.6">✷</span>
+    <span style="--x:58%;--y:92%;--size:25px;--opacity:.5">✦</span>
+    <span style="--x:31%;--y:92%;--size:30px;--opacity:.55">✧</span>
+    <span style="--x:15%;--y:90%;--size:23px;--opacity:.5">✴</span>
+
+    <!-- HEARTS AND BOWS -->
+    <span style="--x:39%;--y:6%;--size:27px;--opacity:.5">♡</span>
+    <span style="--x:73%;--y:75%;--size:30px;--opacity:.6">♥</span>
+    <span style="--x:4%;--y:57%;--size:28px;--opacity:.55">🎀</span>
+    <span style="--x:86%;--y:48%;--size:30px;--opacity:.55">♡</span>
+    <span style="--x:57%;--y:52%;--size:25px;--opacity:.5">୨୧</span>
+    <span style="--x:24%;--y:78%;--size:25px;--opacity:.55">♡</span>
+
+    <!-- MISC -->
+    <span style="--x:45%;--y:58%;--size:30px;--opacity:.55">🍄</span>
+    <span style="--x:8%;--y:85%;--size:27px;--opacity:.5">🌙</span>
+    <span style="--x:94%;--y:8%;--size:28px;--opacity:.5">☁️</span>
+    <span style="--x:67%;--y:8%;--size:26px;--opacity:.5">🦋</span>
+    <span style="--x:17%;--y:43%;--size:27px;--opacity:.5">💫</span>
+    <span style="--x:80%;--y:58%;--size:30px;--opacity:.55">🪐</span>
+    <span style="--x:34%;--y:40%;--size:25px;--opacity:.5">☻</span>
+    <span style="--x:61%;--y:38%;--size:28px;--opacity:.55">🧸</span>
+    <span style="--x:50%;--y:18%;--size:25px;--opacity:.5">💿</span>
+    <span style="--x:3%;--y:20%;--size:28px;--opacity:.5">🌸</span>
+    <span style="--x:92%;--y:94%;--size:25px;--opacity:.5">🪽</span>
+    <span style="--x:41%;--y:75%;--size:26px;--opacity:.5">🌀</span>
+    <span style="--x:76%;--y:17%;--size:25px;--opacity:.5">⭐</span>
+    <span style="--x:28%;--y:65%;--size:27px;--opacity:.5">🕸️</span>
+
+    <!-- YOUR EXTRA ICON -->
+    <img src="icon.png"
+         alt=""
+         style="--x:55%;--y:12%;--size:32px;--opacity:.65">
+
 </div>
 
 <main class="profile">
