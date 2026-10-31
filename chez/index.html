@@ -1,27 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#151515">
 <title>chez</title>
 
 <style>
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
 body {
-    min-height: 100vh;
+    background: #111;
+    color: #f3f3f3;
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: #151515;
-    color: white;
-    font-family: Arial, sans-serif;
 }
 
 .background {
@@ -31,143 +34,165 @@ body {
     overflow: hidden;
 }
 
-.background span,
-.background img {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    font-size: var(--size);
-    opacity: var(--opacity);
-}
-
-.background img {
-    width: var(--size);
-    height: var(--size);
-    object-fit: contain;
+.background canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: .78;
 }
 
 .profile {
     position: relative;
     z-index: 2;
     text-align: center;
+    width: min(90vw, 360px);
 }
 
-/* CUBE */
-
-.cube-container {
-    width: 90px;
-    height: 90px;
-    margin: 0 auto 45px;
-    perspective: 600px;
+.cube-wrap {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 27px;
+    perspective: 650px;
 }
 
 .cube {
+    position: relative;
     width: 90px;
     height: 90px;
-    position: relative;
+    margin: 5px;
     transform-style: preserve-3d;
-    animation: spin 12s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotateX(-22deg) rotateY(0deg); }
-    to { transform: rotateX(-22deg) rotateY(360deg); }
+    animation: spin 13s linear infinite;
 }
 
 .face {
     position: absolute;
-    inset: -0.5px;
     width: 91px;
     height: 91px;
+    left: -.5px;
+    top: -.5px;
     background: #fee25d;
+    border: 1px solid rgba(0,0,0,.09);
+    overflow: hidden;
 }
 
 .front {
     transform: translateZ(45.5px);
-    background-image: url("https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true");
-    background-size: cover;
-    background-position: center;
+    background: #fee25d;
+}
+
+.front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .back {
     transform: rotateY(180deg) translateZ(45.5px);
-    background: #fee25d;
+    background: #eacb4c;
 }
 
 .right {
     transform: rotateY(90deg) translateZ(45.5px);
-    background: #d9bd4e;
+    background: #f6d650;
 }
 
 .left {
     transform: rotateY(-90deg) translateZ(45.5px);
-    background: #e5cc55;
+    background: #dfbf42;
 }
 
 .top {
     transform: rotateX(90deg) translateZ(45.5px);
-    background: #fee25d;
+    background: #fff078;
 }
 
 .bottom {
     transform: rotateX(-90deg) translateZ(45.5px);
-    background: #bba23f;
+    background: #c9a936;
 }
 
-/* TEXT */
+@keyframes spin {
+    from {
+        transform: rotateX(-18deg) rotateY(0);
+    }
+    to {
+        transform: rotateX(-18deg) rotateY(360deg);
+    }
+}
 
 h1 {
-    font-size: 30px;
-    margin-bottom: 12px;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: -.7px;
+    margin: 0 0 12px;
 }
 
 .bio {
-    color: #999;
     font-size: 14px;
-    line-height: 1.8;
+    line-height: 1.85;
+    color: #aaa;
+    margin: 0;
 }
 
 .links {
     display: flex;
     justify-content: center;
-    gap: 24px;
-    margin-top: 25px;
+    gap: 22px;
+    margin-top: 22px;
 }
 
 .links a {
-    color: #999;
-    text-decoration: none;
     font-size: 13px;
-    transition: color .2s;
+    color: #eee;
+    text-decoration: none;
+    transition: color .18s;
 }
 
 .links a:hover {
     color: #fee25d;
 }
 
-.discord {
+.links a span {
+    border-bottom: 1px solid #555;
+    padding-bottom: 3px;
+}
+
+.links a:hover span {
+    border-color: #fee25d;
+}
+
+.tooltip {
     position: relative;
 }
 
-.discord::after {
-    content: "im.chez";
+.tooltip::after {
+    content: attr(data-tip);
     position: absolute;
-    bottom: 24px;
     left: 50%;
-    transform: translateX(-50%);
+    bottom: calc(100% + 11px);
+    transform: translate(-50%, 4px);
+    padding: 6px 9px;
     background: #252525;
-    color: white;
-    padding: 5px 9px;
-    border-radius: 4px;
+    color: #ddd;
+    border: 1px solid #383838;
+    border-radius: 5px;
     font-size: 11px;
+    white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: opacity .2s;
-    white-space: nowrap;
+    transition: .18s;
 }
 
-.discord:hover::after {
+.tooltip:hover::after {
     opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cube {
+        animation: none;
+    }
 }
 </style>
 </head>
@@ -175,69 +200,17 @@ h1 {
 <body>
 
 <div class="background" aria-hidden="true">
-
-    <!-- CATS -->
-    <span style="--x:3%;--y:5%;--size:34px;--opacity:.65">🐈</span>
-    <span style="--x:18%;--y:28%;--size:27px;--opacity:.55">🐱</span>
-    <span style="--x:83%;--y:12%;--size:38px;--opacity:.55">🐈‍⬛</span>
-    <span style="--x:92%;--y:68%;--size:30px;--opacity:.6">🐾</span>
-    <span style="--x:35%;--y:85%;--size:35px;--opacity:.55">🐱</span>
-    <span style="--x:70%;--y:90%;--size:28px;--opacity:.6">🐈</span>
-    <span style="--x:48%;--y:8%;--size:25px;--opacity:.5">🐾</span>
-
-    <!-- GHOSTS -->
-    <span style="--x:12%;--y:72%;--size:35px;--opacity:.65">👻</span>
-    <span style="--x:28%;--y:12%;--size:30px;--opacity:.55">👻</span>
-    <span style="--x:65%;--y:25%;--size:35px;--opacity:.55">👻</span>
-    <span style="--x:89%;--y:85%;--size:32px;--opacity:.6">👻</span>
-    <span style="--x:52%;--y:72%;--size:28px;--opacity:.5">👾</span>
-
-    <!-- STARS AND SPARKLES -->
-    <span style="--x:7%;--y:38%;--size:30px;--opacity:.5">✦</span>
-    <span style="--x:23%;--y:55%;--size:24px;--opacity:.6">✧</span>
-    <span style="--x:43%;--y:30%;--size:35px;--opacity:.5">✦</span>
-    <span style="--x:76%;--y:42%;--size:28px;--opacity:.55">✧</span>
-    <span style="--x:95%;--y:25%;--size:32px;--opacity:.6">✷</span>
-    <span style="--x:58%;--y:92%;--size:25px;--opacity:.5">✦</span>
-    <span style="--x:31%;--y:92%;--size:30px;--opacity:.55">✧</span>
-    <span style="--x:15%;--y:90%;--size:23px;--opacity:.5">✴</span>
-
-    <!-- HEARTS AND BOWS -->
-    <span style="--x:39%;--y:6%;--size:27px;--opacity:.5">♡</span>
-    <span style="--x:73%;--y:75%;--size:30px;--opacity:.6">♥</span>
-    <span style="--x:4%;--y:57%;--size:28px;--opacity:.55">🎀</span>
-    <span style="--x:86%;--y:48%;--size:30px;--opacity:.55">♡</span>
-    <span style="--x:57%;--y:52%;--size:25px;--opacity:.5">୨୧</span>
-    <span style="--x:24%;--y:78%;--size:25px;--opacity:.55">♡</span>
-
-    <!-- MISC -->
-    <span style="--x:45%;--y:58%;--size:30px;--opacity:.55">🍄</span>
-    <span style="--x:8%;--y:85%;--size:27px;--opacity:.5">🌙</span>
-    <span style="--x:94%;--y:8%;--size:28px;--opacity:.5">☁️</span>
-    <span style="--x:67%;--y:8%;--size:26px;--opacity:.5">🦋</span>
-    <span style="--x:17%;--y:43%;--size:27px;--opacity:.5">💫</span>
-    <span style="--x:80%;--y:58%;--size:30px;--opacity:.55">🪐</span>
-    <span style="--x:34%;--y:40%;--size:25px;--opacity:.5">☻</span>
-    <span style="--x:61%;--y:38%;--size:28px;--opacity:.55">🧸</span>
-    <span style="--x:50%;--y:18%;--size:25px;--opacity:.5">💿</span>
-    <span style="--x:3%;--y:20%;--size:28px;--opacity:.5">🌸</span>
-    <span style="--x:92%;--y:94%;--size:25px;--opacity:.5">🪽</span>
-    <span style="--x:41%;--y:75%;--size:26px;--opacity:.5">🌀</span>
-    <span style="--x:76%;--y:17%;--size:25px;--opacity:.5">⭐</span>
-    <span style="--x:28%;--y:65%;--size:27px;--opacity:.5">🕸️</span>
-
-    <!-- YOUR EXTRA ICON -->
-    <img src="icon.png"
-         alt=""
-         style="--x:55%;--y:12%;--size:32px;--opacity:.65">
-
+    <canvas id="shader"></canvas>
 </div>
 
 <main class="profile">
 
-    <div class="cube-container">
-        <div class="cube">
-            <div class="face front"></div>
+    <div class="cube-wrap">
+        <div class="cube" aria-label="Spinning profile cube">
+            <div class="face front">
+                <img src="profile.png" alt="Profile picture">
+            </div>
+
             <div class="face back"></div>
             <div class="face right"></div>
             <div class="face left"></div>
@@ -254,12 +227,148 @@ h1 {
         owner of crit
     </p>
 
-    <nav class="links">
-        <a href="https://discord.com" class="discord" target="_blank" rel="noopener noreferrer">discord</a>
-        <a href="https://namemc.com/profile/chezd" target="_blank" rel="noopener noreferrer">minecraft</a>
+    <nav class="links" aria-label="Social links">
+        <a
+            class="tooltip"
+            href="https://discord.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-tip="im.chez"
+        >
+            <span>discord</span>
+        </a>
+
+        <a
+            href="https://namemc.com/profile/chezd"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <span>minecraft</span>
+        </a>
     </nav>
 
 </main>
+
+<script>
+(() => {
+    const canvas = document.getElementById('shader');
+    const ctx = canvas.getContext('2d', { alpha: false });
+
+    let w = 0;
+    let h = 0;
+    let frame;
+    let pixels;
+
+    const scale = 4;
+
+    const hash = (x, y) => {
+        const v = Math.sin(
+            x * 127.1 + y * 311.7 + 41.73
+        ) * 43758.5453;
+
+        return v - Math.floor(v);
+    };
+
+    const smooth = v => v * v * (3 - 2 * v);
+
+    function noise(x, y) {
+        const ix = Math.floor(x);
+        const iy = Math.floor(y);
+
+        const fx = smooth(x - ix);
+        const fy = smooth(y - iy);
+
+        const a = hash(ix, iy);
+        const b = hash(ix + 1, iy);
+        const c = hash(ix, iy + 1);
+        const d = hash(ix + 1, iy + 1);
+
+        return (
+            (a + (b - a) * fx) * (1 - fy) +
+            (c + (d - c) * fx) * fy
+        );
+    }
+
+    function resize() {
+        w = Math.max(1, Math.ceil(innerWidth / scale));
+        h = Math.max(1, Math.ceil(innerHeight / scale));
+
+        canvas.width = w;
+        canvas.height = h;
+
+        frame = ctx.createImageData(w, h);
+        pixels = frame.data;
+    }
+
+    function draw(ms) {
+        const t = ms * 0.00022;
+
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+
+                const u = x / w;
+                const v = y / h;
+
+                // Animated domain warping creates flowing shapes.
+                const warp1 = noise(
+                    u * 3.2 + t * 0.8,
+                    v * 3.2 - t * 0.55
+                );
+
+                const warp2 = noise(
+                    u * 3.2 - t * 0.6 + 8,
+                    v * 3.2 + t * 0.75
+                );
+
+                const px = u * 4.1 + (warp1 - .5) * 2.4;
+                const py = v * 4.1 + (warp2 - .5) * 2.4;
+
+                const clouds = noise(
+                    px + t * 0.65,
+                    py - t * 0.45
+                );
+
+                const detail = noise(
+                    px * 2.1 - t * 0.35,
+                    py * 2.1 + t * 0.4
+                );
+
+                const flow = Math.sin(
+                    (
+                        px * 1.25 +
+                        py * .9 +
+                        clouds * 2.2
+                    ) * Math.PI + t * 1.8
+                );
+
+                const field =
+                    clouds * .58 +
+                    detail * .2 +
+                    (flow * .5 + .5) * .22;
+
+                const shade =
+                    12 + Math.pow(Math.max(0, field), 1.8) * 31;
+
+                const i = (y * w + x) * 4;
+
+                pixels[i] = shade;
+                pixels[i + 1] = shade;
+                pixels[i + 2] = shade;
+                pixels[i + 3] = 255;
+            }
+        }
+
+        ctx.putImageData(frame, 0, 0);
+
+        requestAnimationFrame(draw);
+    }
+
+    addEventListener('resize', resize, { passive: true });
+
+    resize();
+    requestAnimationFrame(draw);
+})();
+</script>
 
 </body>
 </html>
