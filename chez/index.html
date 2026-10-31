@@ -2,111 +2,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chez</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>chez</title>
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #090909;
-            color: #fff;
-            font-family: Arial, sans-serif;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .profile {
-            text-align: center;
-        }
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #090909;
+    color: white;
+    font-family: Arial, sans-serif;
+}
 
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 18px;
-        }
+.profile {
+    text-align: center;
+}
 
-        h1 {
-            font-size: 30px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
+.cube-container {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 55px;
+    perspective: 600px;
+}
 
-        .bio {
-            color: #999;
-            font-size: 14px;
-            line-height: 1.7;
-        }
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(-22deg) rotateY(35deg);
+}
 
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            margin-top: 24px;
-        }
+.face {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    background: #ffdc24;
+}
 
-        .links a {
-            color: #888;
-            text-decoration: none;
-            font-size: 13px;
-            transition: color 0.2s;
-        }
+.front {
+    transform: translateZ(65px);
+    background-image: url("https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true");
+    background-size: cover;
+    background-position: center;
+}
 
-        .links a:hover {
-            color: #fff;
-        }
+.right {
+    transform: rotateY(90deg) translateZ(65px);
+    background: #c69d00;
+}
 
-        .discord {
-            position: relative;
-        }
+.top {
+    transform: rotateX(90deg) translateZ(65px);
+    background: #ffe34b;
+}
 
-        .discord::after {
-            content: "im.chez";
-            position: absolute;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #202020;
-            color: white;
-            padding: 5px 9px;
-            border-radius: 5px;
-            font-size: 11px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s;
-        }
+h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
 
-        .discord:hover::after {
-            opacity: 1;
-        }
-    </style>
+.bio {
+    color: #888;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 25px;
+}
+
+.links a {
+    color: #888;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color .2s;
+}
+
+.links a:hover {
+    color: white;
+}
+
+.discord {
+    position: relative;
+}
+
+.discord::after {
+    content: "im.chez";
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: white;
+    padding: 5px 9px;
+    border-radius: 4px;
+    font-size: 11px;
+    opacity: 0;
+    transition: opacity .2s;
+    pointer-events: none;
+}
+
+.discord:hover::after {
+    opacity: 1;
+}
+</style>
 </head>
+
 <body>
+<main class="profile">
 
-    <main class="profile">
-        <img src="https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true" alt="67" class="avatar">
+    <div class="cube-container">
+        <div class="cube">
+            <div class="face front"></div>
+            <div class="face right"></div>
+            <div class="face top"></div>
+        </div>
+    </div>
 
-        <h1>chez</h1>
+    <h1>chez</h1>
 
-        <p class="bio">
-            hi im chez i make stuff<br>
-            ex roblox developer<br>
-            owner of crit
-        </p>
+    <p class="bio">
+        hi im chez i make stuff<br>
+        ex roblox developer<br>
+        owner of crit
+    </p>
 
-        <nav class="links">
-            <a href="https://discord.com" class="discord" target="_blank">discord</a>
-            <a href="https://namemc.com/profile/chezd" target="_blank">minecraft</a>
-        </nav>
-    </main>
+    <nav class="links">
+        <a href="https://discord.com" class="discord">discord</a>
+        <a href="https://namemc.com/profile/chezd" target="_blank">minecraft</a>
+    </nav>
 
+</main>
 </body>
 </html>
