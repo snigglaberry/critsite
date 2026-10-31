@@ -19,60 +19,27 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: #111;
+    background: #151515;
     color: white;
     font-family: Arial, sans-serif;
-    position: relative;
 }
 
-/* BACKGROUND */
+/* RANDOM BACKGROUND ICONS */
 
 .background {
     position: fixed;
-    inset: -30px;
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    gap: 35px;
-    padding: 35px;
-    filter: blur(3px);
-    opacity: 0.13;
-    transform: rotate(-12deg) scale(1.1);
+    inset: 0;
     pointer-events: none;
+    overflow: hidden;
 }
 
 .background span {
-    font-size: 34px;
-    color: #fee25d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.background span:nth-child(even) {
-    color: #fff;
-    font-size: 25px;
-}
-
-.background span:nth-child(3n) {
-    color: #aaa;
-}
-
-/* SOFT BACKGROUND BLUR */
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(
-        circle at center,
-        transparent 0%,
-        rgba(17,17,17,0.3) 45%,
-        #111 100%
-    );
-    pointer-events: none;
-    z-index: 1;
+    position: absolute;
+    color: #777;
+    font-size: var(--size);
+    opacity: var(--opacity);
+    left: var(--x);
+    top: var(--y);
 }
 
 /* PROFILE */
@@ -83,7 +50,7 @@ body::before {
     text-align: center;
 }
 
-/* CUBE */
+/* 3D CUBE */
 
 .cube-container {
     width: 90px;
@@ -101,21 +68,16 @@ body::before {
 }
 
 @keyframes spin {
-    from {
-        transform: rotateX(-22deg) rotateY(0deg);
-    }
-    to {
-        transform: rotateX(-22deg) rotateY(360deg);
-    }
+    from { transform: rotateX(-22deg) rotateY(0deg); }
+    to { transform: rotateX(-22deg) rotateY(360deg); }
 }
 
 .face {
     position: absolute;
+    inset: -0.5px;
     width: 91px;
     height: 91px;
-    inset: -0.5px;
     background: #fee25d;
-    backface-visibility: visible;
 }
 
 .front {
@@ -154,7 +116,6 @@ body::before {
 
 h1 {
     font-size: 30px;
-    font-weight: 700;
     margin-bottom: 12px;
 }
 
@@ -177,14 +138,12 @@ h1 {
     color: #999;
     text-decoration: none;
     font-size: 13px;
-    transition: color 0.2s;
+    transition: color .2s;
 }
 
 .links a:hover {
     color: #fee25d;
 }
-
-/* DISCORD TOOLTIP */
 
 .discord {
     position: relative;
@@ -203,18 +162,12 @@ h1 {
     font-size: 11px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s;
+    transition: opacity .2s;
     white-space: nowrap;
 }
 
 .discord:hover::after {
     opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .cube {
-        animation: none;
-    }
 }
 </style>
 </head>
@@ -222,18 +175,28 @@ h1 {
 <body>
 
 <div class="background" aria-hidden="true">
-    <span>✦</span><span>+</span><span>◈</span><span>⌘</span>
-    <span>✧</span><span>◇</span><span>+</span><span>✦</span>
-    <span>⌘</span><span>✦</span><span>◈</span><span>+</span>
-    <span>◇</span><span>✧</span><span>⌘</span><span>✦</span>
-    <span>+</span><span>◈</span><span>✧</span><span>◇</span>
-    <span>✦</span><span>⌘</span><span>+</span><span>◈</span>
-    <span>✧</span><span>◇</span><span>✦</span><span>+</span>
-    <span>◈</span><span>⌘</span><span>✧</span><span>✦</span>
-    <span>◇</span><span>+</span><span>◈</span><span>✧</span>
-    <span>✦</span><span>⌘</span><span>◇</span><span>+</span>
-    <span>◈</span><span>✧</span><span>✦</span><span>⌘</span>
-    <span>+</span><span>◇</span><span>✧</span><span>◈</span>
+    <span style="--x:5%;--y:8%;--size:28px;--opacity:.35">✦</span>
+    <span style="--x:17%;--y:23%;--size:35px;--opacity:.2">◇</span>
+    <span style="--x:29%;--y:9%;--size:22px;--opacity:.3">⌘</span>
+    <span style="--x:43%;--y:17%;--size:32px;--opacity:.2">✧</span>
+    <span style="--x:57%;--y:7%;--size:26px;--opacity:.3">◈</span>
+    <span style="--x:72%;--y:21%;--size:38px;--opacity:.2">+</span>
+    <span style="--x:89%;--y:12%;--size:30px;--opacity:.3">✦</span>
+
+    <span style="--x:8%;--y:43%;--size:34px;--opacity:.2">⊹</span>
+    <span style="--x:22%;--y:57%;--size:25px;--opacity:.3">✧</span>
+    <span style="--x:37%;--y:42%;--size:38px;--opacity:.2">◈</span>
+    <span style="--x:63%;--y:48%;--size:28px;--opacity:.3">◇</span>
+    <span style="--x:78%;--y:57%;--size:34px;--opacity:.2">⌘</span>
+    <span style="--x:94%;--y:43%;--size:25px;--opacity:.3">✦</span>
+
+    <span style="--x:4%;--y:77%;--size:30px;--opacity:.3">+</span>
+    <span style="--x:18%;--y:88%;--size:36px;--opacity:.2">◈</span>
+    <span style="--x:33%;--y:76%;--size:24px;--opacity:.3">✦</span>
+    <span style="--x:48%;--y:91%;--size:32px;--opacity:.2">◇</span>
+    <span style="--x:66%;--y:81%;--size:26px;--opacity:.3">✧</span>
+    <span style="--x:82%;--y:89%;--size:38px;--opacity:.2">⊹</span>
+    <span style="--x:96%;--y:77%;--size:28px;--opacity:.3">⌘</span>
 </div>
 
 <main class="profile">
