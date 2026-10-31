@@ -18,95 +18,148 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #090909;
+    overflow: hidden;
+    background: #111;
     color: white;
     font-family: Arial, sans-serif;
+    position: relative;
 }
 
+/* BACKGROUND */
+
+.background {
+    position: fixed;
+    inset: -30px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 35px;
+    padding: 35px;
+    filter: blur(3px);
+    opacity: 0.13;
+    transform: rotate(-12deg) scale(1.1);
+    pointer-events: none;
+}
+
+.background span {
+    font-size: 34px;
+    color: #fee25d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.background span:nth-child(even) {
+    color: #fff;
+    font-size: 25px;
+}
+
+.background span:nth-child(3n) {
+    color: #aaa;
+}
+
+/* SOFT BACKGROUND BLUR */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+        circle at center,
+        transparent 0%,
+        rgba(17,17,17,0.3) 45%,
+        #111 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* PROFILE */
+
 .profile {
+    position: relative;
+    z-index: 2;
     text-align: center;
 }
 
-/* 3D CUBE */
+/* CUBE */
 
 .cube-container {
-    width: 130px;
-    height: 130px;
-    margin: 0 auto 55px;
-    perspective: 700px;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 45px;
+    perspective: 600px;
 }
 
 .cube {
-    width: 130px;
-    height: 130px;
+    width: 90px;
+    height: 90px;
     position: relative;
     transform-style: preserve-3d;
-    transform: rotateX(-22deg) rotateY(35deg);
+    animation: spin 12s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotateX(-22deg) rotateY(0deg);
+    }
+    to {
+        transform: rotateX(-22deg) rotateY(360deg);
+    }
 }
 
 .face {
     position: absolute;
+    width: 91px;
+    height: 91px;
     inset: -0.5px;
-    width: 131px;
-    height: 131px;
     background: #fee25d;
     backface-visibility: visible;
 }
 
-/* FRONT - PROFILE */
-
 .front {
-    transform: translateZ(65.5px);
+    transform: translateZ(45.5px);
     background-image: url("https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true");
     background-size: cover;
     background-position: center;
 }
 
-/* BACK */
-
 .back {
-    transform: rotateY(180deg) translateZ(65.5px);
+    transform: rotateY(180deg) translateZ(45.5px);
     background: #fee25d;
 }
 
-/* RIGHT */
-
 .right {
-    transform: rotateY(90deg) translateZ(65.5px);
+    transform: rotateY(90deg) translateZ(45.5px);
     background: #d9bd4e;
 }
 
-/* LEFT */
-
 .left {
-    transform: rotateY(-90deg) translateZ(65.5px);
+    transform: rotateY(-90deg) translateZ(45.5px);
     background: #e5cc55;
 }
 
-/* TOP */
-
 .top {
-    transform: rotateX(90deg) translateZ(65.5px);
+    transform: rotateX(90deg) translateZ(45.5px);
     background: #fee25d;
 }
 
-/* BOTTOM */
-
 .bottom {
-    transform: rotateX(-90deg) translateZ(65.5px);
+    transform: rotateX(-90deg) translateZ(45.5px);
     background: #bba23f;
 }
 
 /* TEXT */
 
 h1 {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 700;
     margin-bottom: 12px;
 }
 
 .bio {
-    color: #888;
+    color: #999;
     font-size: 14px;
     line-height: 1.8;
 }
@@ -121,14 +174,14 @@ h1 {
 }
 
 .links a {
-    color: #888;
+    color: #999;
     text-decoration: none;
     font-size: 13px;
     transition: color 0.2s;
 }
 
 .links a:hover {
-    color: white;
+    color: #fee25d;
 }
 
 /* DISCORD TOOLTIP */
@@ -143,7 +196,7 @@ h1 {
     bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
-    background: #222;
+    background: #252525;
     color: white;
     padding: 5px 9px;
     border-radius: 4px;
@@ -158,17 +211,30 @@ h1 {
     opacity: 1;
 }
 
-/* MOBILE */
-
-@media (max-width: 400px) {
-    .cube-container {
-        margin-bottom: 45px;
+@media (prefers-reduced-motion: reduce) {
+    .cube {
+        animation: none;
     }
 }
 </style>
 </head>
 
 <body>
+
+<div class="background" aria-hidden="true">
+    <span>✦</span><span>+</span><span>◈</span><span>⌘</span>
+    <span>✧</span><span>◇</span><span>+</span><span>✦</span>
+    <span>⌘</span><span>✦</span><span>◈</span><span>+</span>
+    <span>◇</span><span>✧</span><span>⌘</span><span>✦</span>
+    <span>+</span><span>◈</span><span>✧</span><span>◇</span>
+    <span>✦</span><span>⌘</span><span>+</span><span>◈</span>
+    <span>✧</span><span>◇</span><span>✦</span><span>+</span>
+    <span>◈</span><span>⌘</span><span>✧</span><span>✦</span>
+    <span>◇</span><span>+</span><span>◈</span><span>✧</span>
+    <span>✦</span><span>⌘</span><span>◇</span><span>+</span>
+    <span>◈</span><span>✧</span><span>✦</span><span>⌘</span>
+    <span>+</span><span>◇</span><span>✧</span><span>◈</span>
+</div>
 
 <main class="profile">
 
