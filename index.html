@@ -628,28 +628,53 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
   async function loadDownloadCount() {
     const el = document.getElementById("downloadCount");
     const KEY = "crit-download-count";
-    let cached = null;
-    try { cached = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    const LINUX_KEY = "crit-linux-download-count";
+    let cached = null; let linuxCached = null;
+    try {
+      cached = JSON.parse(localStorage.getItem(KEY));
+      linuxCached = JSON.parse(localStorage.getItem(LINUX_KEY));
+    } catch (e) {}
 
-    if (cached && Date.now() - cached.t < 600000) {
-      el.textContent = cached.n.toLocaleString();
+    if (cached && Date.now() - cached.t < 600000 && linuxCached && Date.now() - linuxCached.t < 600000) {
+      el.textContent = (cached.n + linuxCached.n).toLocaleString();
       return;
     }
 
     try {
-      let page = 1, total = 0;
+      let page = 1;
+      let total = 0;
+      let linuxTotal = 0;
       while (true) {
         const res = await fetch(`https://api.github.com/repos/snigglaberry/crit-launcher/releases?per_page=100&page=${page}`);
         if (!res.ok) throw new Error("GitHub API request failed");
         const releases = await res.json();
-        for (const r of releases) for (const a of (r.assets || [])) total += a.download_count || 0;
+
+        for (const release of releases) {
+          for (const asset of release.assets || []) {
+            const count = asset.download_count || 0;
+            const isLinuxAsset = /crit-linux/i.test(asset.name) || /\.AppImage$/i.test(asset.name);
+            if (isLinuxAsset) {
+              linuxTotal += count;
+            } else {
+              total += count;
+            }
+          }
+        }
+
         if (releases.length < 100) break;
-        page++;
+        page += 1;
       }
-      el.textContent = total.toLocaleString();
-      try { localStorage.setItem(KEY, JSON.stringify({ n: total, t: Date.now() })); } catch (e) {}
+
+      const finalTotal = total + linuxTotal;
+      el.textContent = finalTotal.toLocaleString();
+      try {
+        localStorage.setItem(KEY, JSON.stringify({ n: finalTotal, t: Date.now() }));
+        localStorage.setItem(LINUX_KEY, JSON.stringify({ n: linuxTotal, t: Date.now() }));
+      } catch (e) {}
     } catch (err) {
-      el.textContent = cached ? cached.n.toLocaleString() : "—";
+      const fallbackTotal = cached ? cached.n : 0;
+      const fallbackLinux = linuxCached ? linuxCached.n : 0;
+      el.textContent = (fallbackTotal + fallbackLinux).toLocaleString();
       console.error("Could not load GitHub download count:", err);
     }
   }
