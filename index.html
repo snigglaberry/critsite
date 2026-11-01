@@ -44,17 +44,24 @@ img{display:block;width:100%;height:auto;image-rendering:auto}
 .btn.primary{background:var(--green);box-shadow:inset -4px -4px 0 var(--green-lo),inset 4px 4px 0 var(--green-hi)}
 .btn.primary:hover{background:#469a2e}
 .btn:disabled{opacity:.6;cursor:wait}
+.btn.big{padding:14px 28px;font-size:21px;justify-content:flex-start}
+.btn.big .ic{width:30px;height:30px}
+.btn .two{display:grid;gap:2px;text-align:left;line-height:1.15}
+.btn .two small{font:500 13px var(--px);color:var(--gold);text-shadow:1px 1px 0 rgba(0,0,0,.5);letter-spacing:.01em}
+.btn.off{opacity:.6;cursor:not-allowed;pointer-events:none;background:#4a4b4c;box-shadow:none}
 
 /* hero */
 .hero{position:relative;background:linear-gradient(#6cb2ff 0,#a8d4ff 62%,#d6ebff 100%);border-bottom:2px solid var(--edge)}
-.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:34px;align-items:center;padding:64px 0 74px}
-.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 90px,transparent 90px 220px) 40px 46px/100% 26px no-repeat,repeating-linear-gradient(90deg,rgba(255,255,255,.15) 0 12px,transparent 12px 32px) 0 0/100% 100% no-repeat}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:34px;align-items:center;padding:30px 0 34px}
+.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 90px,transparent 90px 220px) 40px 22px/100% 22px no-repeat,repeating-linear-gradient(90deg,rgba(255,255,255,.15) 0 12px,transparent 12px 32px) 0 0/100% 100% no-repeat}
 .grass{height:28px;background:repeating-linear-gradient(90deg,#5d9b34 0 16px,#4f8a2b 16px 32px);border-top:4px solid #7bc24a;border-bottom:4px solid #3d6e20}
 .dirt{height:34px;background:conic-gradient(#7a5a3a 25%,var(--dirt) 0 50%,#7a5a3a 0 75%,#6f5134 0) 0 0/32px 32px;border-bottom:2px solid var(--edge)}
-.hero h1{position:relative;max-width:760px;font:700 clamp(42px,7vw,84px)/1 var(--px);color:#fff;text-shadow:4px 4px 0 #1e3d12,0 0 0 #000;letter-spacing:.01em;text-wrap:balance}
-.hero p{position:relative;margin-top:16px;max-width:30em;font-size:19px;font-weight:600;color:#10230a;text-shadow:0 1px 0 rgba(255,255,255,.5)}
-.actions{position:relative;display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.pills{position:relative;display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero h1{position:relative;max-width:760px;font:700 clamp(36px,5.6vw,66px)/1 var(--px);color:#fff;text-shadow:4px 4px 0 #1e3d12,0 0 0 #000;letter-spacing:.01em;text-wrap:balance}
+.hero p{position:relative;margin-top:12px;max-width:30em;font-size:18px;font-weight:600;color:#10230a;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.dlstack{position:relative;display:grid;gap:10px;width:max-content;max-width:100%;margin-top:20px}
+.dlstack .btn{width:100%}
+.actions{position:relative;display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.pills{position:relative;display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:var(--stone);border:2px solid var(--edge);color:var(--ink);font-size:15px;font-weight:600;cursor:default;box-shadow:inset -3px -3px 0 #232425,inset 3px 3px 0 #4a4b4c}
 .pill[tabindex]:hover,.pill[tabindex]:focus-visible{background:var(--stone2)}
 .pill .ic{color:var(--green-hi);width:18px;height:18px}
@@ -62,9 +69,9 @@ img{display:block;width:100%;height:auto;image-rendering:auto}
 .alt{visibility:hidden;color:var(--gold)}
 .pill:hover .main,.pill:focus-visible .main{visibility:hidden}
 .pill:hover .alt,.pill:focus-visible .alt{visibility:visible}
-.count{position:relative;display:grid;justify-items:center;gap:4px;min-width:200px;padding:26px 24px;background:var(--stone);border:2px solid var(--edge);box-shadow:inset -5px -5px 0 #232425,inset 5px 5px 0 #4a4b4c;text-align:center;cursor:pointer}
+.count{position:relative;display:grid;justify-items:center;gap:4px;min-width:200px;padding:22px 24px;background:var(--stone);border:2px solid var(--edge);box-shadow:inset -5px -5px 0 #232425,inset 5px 5px 0 #4a4b4c;text-align:center;cursor:pointer}
 .count:hover{background:#3b3b3c}
-.count .ic{width:60px;height:60px;color:var(--green-hi)}
+.count .ic{width:56px;height:56px;color:var(--green-hi)}
 .count-number{font:700 clamp(36px,4.5vw,52px)/1 var(--px);color:var(--gold);text-shadow:3px 3px 0 #3d3611}
 .count-label{color:var(--dim);font:500 16px var(--px)}
 
@@ -148,6 +155,7 @@ dialog[open]{animation:pop .15s ease-out}
 .copy{display:grid;gap:3px}
 .copy strong{font:700 18px/1.2 var(--px)}
 .tag{color:var(--gold);font:500 13px var(--px)}
+.rec{display:inline-block;margin-left:8px;padding:2px 8px;border:2px solid var(--edge);background:var(--gold);color:#2b2606;font:700 12px var(--px);text-shadow:none;vertical-align:middle;box-shadow:inset -2px -2px 0 #c9b43c}
 .file-type{display:inline-block;margin-left:6px;padding:1px 6px;border:2px solid currentColor;color:#d6d6d6;font:600 11px ui-monospace,Consolas,monospace;text-shadow:none;vertical-align:middle}
 .version-list{max-height:320px;overflow:auto}
 .version-list .opt{font-size:15px}
@@ -184,7 +192,9 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
   .links a:not(:last-child){display:none}
   .list{grid-template-columns:1fr}
   .btn{padding:10px 14px;font-size:15px}
-  .hero .wrap{padding:44px 0 52px}
+  .btn.big{padding:12px 18px;font-size:18px}
+  .dlstack{width:100%}
+  .hero .wrap{padding:26px 0 30px}
   footer .wrap{display:block;text-align:center}footer a{display:inline-block;margin-top:8px}
   .fb-fab{right:12px;bottom:12px}
 }
@@ -240,8 +250,11 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
     <div>
       <h1>The best Minecraft launcher</h1>
       <p>customization, integration and utility all in one launcher. ⚠️NOT AFFILIATED WITH CRITHIT LAUNCHER⚠️</p>
+      <div class="dlstack">
+        <a class="btn primary big" id="dlMain" href="https://github.com/snigglaberry/crit-launcher/releases/latest/download/setup.exe"><svg class="ic"><use href="#i-download"/></svg><span class="two"><span id="dlLabel">Download</span><small id="dlSub"></small></span></a>
+        <button class="btn" type="button" onclick="openD('download')"><svg class="ic"><use href="#i-layers"/></svg>Other platforms</button>
+      </div>
       <div class="actions">
-        <button class="btn primary" onclick="openD('download')"><svg class="ic"><use href="#i-download"/></svg>Download</button>
         <button class="btn" onclick="openD('client')"><svg class="ic"><use href="#i-chip"/></svg>Download Client</button>
         <button class="btn" onclick="openD('socials')"><svg class="ic"><use href="#i-share"/></svg>View socials</button>
         <a class="btn" href="https://discord.gg/SyxeBQvvwY" target="_blank" rel="noopener noreferrer">Discord</a>
@@ -370,7 +383,6 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
     <button class="opt main" type="button" onclick="openD('editions')"><span class="l"><svg class="ic"><use href="#i-windows"/></svg>Windows</span><span class="r">Choose<svg class="ic"><use href="#i-arrow"/></svg></span></button>
     <a class="opt" href="https://github.com/snigglaberry/crit-launcher/releases/latest/download/crit-linux.AppImage"><span class="l"><svg class="ic"><use href="#i-terminal"/></svg>Linux</span><span class="r">Download<svg class="ic"><use href="#i-download"/></svg></span></a>
     <div class="opt off"><span class="l"><svg class="ic"><use href="#i-laptop"/></svg>macOS</span><span class="r">Coming soon</span></div>
-    <button class="opt" type="button" onclick="openD('client')"><span class="l"><svg class="ic"><use href="#i-chip"/></svg>Crit Client <span class="file-type">.jar</span></span><span class="r">Download<svg class="ic"><use href="#i-download"/></svg></span></button>
   </div>
   <p class="note">Windows and Linux are currently available for Crit Launcher.</p>
 </dialog>
@@ -393,7 +405,7 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
 <dialog id="windows" aria-labelledby="t4">
   <div class="dh"><h2 id="t4">Windows download</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <div class="opts">
-    <a class="opt main" href="https://github.com/snigglaberry/crit-launcher/releases/latest/download/setup.exe"><span class="l"><svg class="ic"><use href="#i-windows"/></svg>Installer</span><span class="r">setup.exe<svg class="ic"><use href="#i-download"/></svg></span></a>
+    <a class="opt main" href="https://github.com/snigglaberry/crit-launcher/releases/latest/download/setup.exe"><span class="l"><svg class="ic"><use href="#i-windows"/></svg><span>Installer<span class="rec">Recommended</span></span></span><span class="r">setup.exe<svg class="ic"><use href="#i-download"/></svg></span></a>
     <a class="opt" href="https://github.com/snigglaberry/crit-launcher/releases/latest/download/crit.exe"><span class="l"><svg class="ic"><use href="#i-terminal"/></svg>Standalone</span><span class="r">crit.exe<svg class="ic"><use href="#i-download"/></svg></span></a>
     <a class="opt" href="https://github.com/snigglaberry/crit-launcher/releases" target="_blank" rel="noopener noreferrer"><span class="l"><svg class="ic"><use href="#i-package"/></svg>View all releases</span><span class="r"><svg class="ic"><use href="#i-arrow"/></svg></span></a>
   </div>
@@ -440,6 +452,47 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
     if (id === "lite") loadCritLiteAssets();
   }
   function closeD(btn) { btn.closest("dialog").close(); }
+
+  // OS detection: sets the main hero download button
+  (function () {
+    const REL = "https://github.com/snigglaberry/crit-launcher/releases/latest/download/";
+    const ua = navigator.userAgent || "";
+    const plat = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+    let os = "unknown";
+    if (/android|iphone|ipad|ipod/i.test(ua) || (/^Mac/i.test(plat) && navigator.maxTouchPoints > 1)) os = "mobile";
+    else if (/Windows/i.test(ua) || /^Win/i.test(plat)) os = "windows";
+    else if (/Mac/i.test(plat) || /Macintosh|Mac OS X/i.test(ua)) os = "mac";
+    else if (/linux|x11|cros/i.test(plat + " " + ua)) os = "linux";
+
+    const cfg = {
+      windows: { label: "Download for Windows", sub: "★ Recommended installer · setup.exe", icon: "i-windows", href: REL + "setup.exe" },
+      linux:   { label: "Download for Linux", sub: "AppImage · crit-linux.AppImage", icon: "i-terminal", href: REL + "crit-linux.AppImage" },
+      mac:     { label: "macOS coming soon", sub: "Use Other platforms for what's available", icon: "i-laptop", off: true },
+      mobile:  { label: "Made for desktop", sub: "Open this page on a Windows or Linux PC", icon: "i-monitor", off: true },
+      unknown: { label: "Download", sub: "Pick your platform below", icon: "i-download", dialog: true }
+    }[os];
+
+    const btn = document.getElementById("dlMain");
+    btn.querySelector("use").setAttribute("href", "#" + cfg.icon);
+    document.getElementById("dlLabel").textContent = cfg.label;
+    document.getElementById("dlSub").textContent = cfg.sub;
+
+    if (cfg.off) {
+      btn.removeAttribute("href");
+      btn.classList.remove("primary");
+      btn.classList.add("off");
+      btn.setAttribute("aria-disabled", "true");
+      btn.tabIndex = -1;
+    } else if (cfg.dialog) {
+      btn.removeAttribute("href");
+      btn.setAttribute("role", "button");
+      btn.tabIndex = 0;
+      btn.addEventListener("click", () => openD("download"));
+      btn.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openD("download"); } });
+    } else {
+      btn.href = cfg.href;
+    }
+  })();
 
   document.getElementById("downloadCountButton").addEventListener("click", async () => {
     await openDownloadBreakdown();
