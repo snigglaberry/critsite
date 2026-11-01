@@ -62,7 +62,8 @@ img{display:block;width:100%;height:auto;image-rendering:auto}
 .alt{visibility:hidden;color:var(--gold)}
 .pill:hover .main,.pill:focus-visible .main{visibility:hidden}
 .pill:hover .alt,.pill:focus-visible .alt{visibility:visible}
-.count{position:relative;display:grid;justify-items:center;gap:4px;min-width:200px;padding:26px 24px;background:var(--stone);border:2px solid var(--edge);box-shadow:inset -5px -5px 0 #232425,inset 5px 5px 0 #4a4b4c;text-align:center}
+.count{position:relative;display:grid;justify-items:center;gap:4px;min-width:200px;padding:26px 24px;background:var(--stone);border:2px solid var(--edge);box-shadow:inset -5px -5px 0 #232425,inset 5px 5px 0 #4a4b4c;text-align:center;cursor:pointer}
+.count:hover{background:#3b3b3c}
 .count .ic{width:60px;height:60px;color:var(--green-hi)}
 .count-number{font:700 clamp(36px,4.5vw,52px)/1 var(--px);color:var(--gold);text-shadow:3px 3px 0 #3d3611}
 .count-label{color:var(--dim);font:500 16px var(--px)}
@@ -193,7 +194,7 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <symbol id="i-star" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M5 1h2v2H5zM1 3h10v1H1zM2 4h8v1H2zM3 5h6v2H3zM2 7h3v1H2zM7 7h3v1H7zM2 8h2v1H2zM8 8h2v1H8zM5 3h2v1H5zM3 4h6v1H3zM4 5h4v1H4zM4 6h4v1H4zM2 8h2v1H2zM8 8h2v1H8zM5 3h2v1H5zM3 4h6v1H3zM4 5h4v1H4zM4 6h1v1H4z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 12 12"><path fill-rule="evenodd" d="M5 1h2v2H5zM1 3h10v1H1zM2 4h8v1H2zM3 5h6v2H3zM2 7h3v1H2zM7 7h3v1H7zM2 8h2v1H2zM8 8h2v1H8zM5 3h2v1H5zM3 4h6v1H3zM4 5h4v1H4zM4 6h1v1H4z"/></symbol>
   <symbol id="i-download" viewBox="0 0 12 12"><path d="M5 1h2v4h2v1H8v1H7v1H5V7H4V6H3V5h2zM1 9h1v2h8V9h1v3H1z"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 12 12"><path d="M6 1h5v1H6zM10 2h1v5h-1zM8 2h2v1H8zM7 3h2v1H7zM6 4h2v1H6zM5 5h2v1H5zM4 6h2v1H4zM3 7h2v1H3zM2 8h2v1H2z"/></symbol>
   <symbol id="i-x" viewBox="0 0 12 12"><path d="M1 1h2v1H1zM9 1h2v1H9zM2 2h2v1H2zM8 2h2v1H8zM3 3h2v1H3zM7 3h2v1H7zM4 4h2v1H4zM6 4h2v1H6zM5 5h2v2H5zM4 7h2v1H4zM6 7h2v1H6zM3 8h2v1H3zM7 8h2v1H7zM2 9h2v1H2zM8 9h2v1H8zM1 10h2v1H1zM9 10h2v1H9z"/></symbol>
@@ -251,7 +252,7 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
         <div class="pill"><svg class="ic"><use href="#i-shield"/></svg><span>Official Microsoft authorization</span></div>
       </div>
     </div>
-    <div class="count" aria-label="Total downloads">
+    <div class="count" id="downloadCountButton" aria-label="Total downloads" role="button" tabindex="0">
       <svg class="ic"><use href="#i-download"/></svg>
       <span class="count-number" id="downloadCount">Loading...</span>
       <span class="count-label">downloads</span>
@@ -424,6 +425,11 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
   </div>
 </dialog>
 
+<dialog id="assetBreakdown" aria-labelledby="assetBreakdownTitle">
+  <div class="dh"><h2 id="assetBreakdownTitle">Download breakdown</h2><button class="x" onclick="closeD(this)" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div id="assetBreakdownList" class="opts version-list"><p class="loading">Loading download counts...</p></div>
+</dialog>
+
 <script>
   const dialogs = document.querySelectorAll("dialog");
 
@@ -434,6 +440,74 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
     if (id === "lite") loadCritLiteAssets();
   }
   function closeD(btn) { btn.closest("dialog").close(); }
+
+  document.getElementById("downloadCountButton").addEventListener("click", async () => {
+    await openDownloadBreakdown();
+  });
+
+  document.getElementById("downloadCountButton").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openDownloadBreakdown();
+    }
+  });
+
+  async function openDownloadBreakdown() {
+    const modal = document.getElementById("assetBreakdown");
+    const list = document.getElementById("assetBreakdownList");
+    try {
+      list.innerHTML = '<p class="loading">Loading download counts...</p>';
+      modal.showModal();
+      const data = await getDownloadBreakdown();
+      const total = data.reduce((sum, item) => sum + item.downloads, 0);
+      const rows = data.sort((a, b) => b.downloads - a.downloads).map(item => {
+        const pct = total ? ((item.downloads / total) * 100).toFixed(1) : "0.0";
+        return `
+          <div class="opt" style="display:grid;gap:8px;align-items:flex-start;padding:12px 14px;cursor:default;box-shadow:inset -4px -4px 0 #4a4b4c,inset 4px 4px 0 #8e8f90;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;">
+              <span class="l" style="display:flex;align-items:center;gap:10px;overflow:hidden;">
+                <svg class="ic"><use href="#i-download"/></svg>
+                <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(item.name)}</span>
+              </span>
+              <span class="r" style="white-space:nowrap;">${Number(item.downloads).toLocaleString()} (${pct}%)</span>
+            </div>
+            <div style="width:100%;height:10px;border:2px solid var(--edge);background:#4d4d4d;overflow:hidden;box-shadow:inset -2px -2px 0 #232425,inset 2px 2px 0 #5a5b5c;">
+              <div style="height:100%;width:${Math.max(6, Number(pct))}%;background:linear-gradient(90deg,var(--green-hi),var(--gold));"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+      list.innerHTML = rows || '<p class="loading">No asset data found.</p>';
+    } catch (err) {
+      list.innerHTML = '<p class="loading">Failed to load download data. Try again later.</p>';
+      console.error(err);
+    }
+  }
+
+  async function getDownloadBreakdown() {
+    const res = await fetch('https://api.github.com/repos/snigglaberry/crit-launcher/releases?per_page=100');
+    if (!res.ok) throw new Error('GitHub releases request failed');
+    const releases = await res.json();
+    const totals = new Map();
+    for (const release of releases) {
+      for (const asset of release.assets || []) {
+        const name = asset.name || 'unknown';
+        const downloads = Number(asset.download_count || 0);
+        totals.set(name, (totals.get(name) || 0) + downloads);
+      }
+    }
+    return [...totals.entries()].map(([name, downloads]) => ({ name, downloads }));
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>\"']/g, ch => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[ch]));
+  }
 
   // Feedback: 1-5 star rating + message, POSTed as JSON
   let fbRating = 0;
@@ -628,53 +702,33 @@ code{padding:1px 6px;background:var(--bg);color:var(--green-hi);font:500 .9em ui
   async function loadDownloadCount() {
     const el = document.getElementById("downloadCount");
     const KEY = "crit-download-count";
-    const LINUX_KEY = "crit-linux-download-count";
-    let cached = null; let linuxCached = null;
-    try {
-      cached = JSON.parse(localStorage.getItem(KEY));
-      linuxCached = JSON.parse(localStorage.getItem(LINUX_KEY));
-    } catch (e) {}
+    let cached = null;
+    try { cached = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
 
-    if (cached && Date.now() - cached.t < 600000 && linuxCached && Date.now() - linuxCached.t < 600000) {
-      el.textContent = (cached.n + linuxCached.n).toLocaleString();
+    if (cached && Date.now() - cached.t < 600000) {
+      el.textContent = cached.n.toLocaleString();
       return;
     }
 
     try {
-      let page = 1;
       let total = 0;
-      let linuxTotal = 0;
+      let page = 1;
       while (true) {
         const res = await fetch(`https://api.github.com/repos/snigglaberry/crit-launcher/releases?per_page=100&page=${page}`);
         if (!res.ok) throw new Error("GitHub API request failed");
         const releases = await res.json();
-
-        for (const release of releases) {
-          for (const asset of release.assets || []) {
-            const count = asset.download_count || 0;
-            const isLinuxAsset = /crit-linux/i.test(asset.name) || /\.AppImage$/i.test(asset.name);
-            if (isLinuxAsset) {
-              linuxTotal += count;
-            } else {
-              total += count;
-            }
+        for (const rel of releases) {
+          for (const asset of rel.assets || []) {
+            total += asset.download_count || 0;
           }
         }
-
         if (releases.length < 100) break;
         page += 1;
       }
-
-      const finalTotal = total + linuxTotal;
-      el.textContent = finalTotal.toLocaleString();
-      try {
-        localStorage.setItem(KEY, JSON.stringify({ n: finalTotal, t: Date.now() }));
-        localStorage.setItem(LINUX_KEY, JSON.stringify({ n: linuxTotal, t: Date.now() }));
-      } catch (e) {}
+      el.textContent = total.toLocaleString();
+      localStorage.setItem(KEY, JSON.stringify({ n: total, t: Date.now() }));
     } catch (err) {
-      const fallbackTotal = cached ? cached.n : 0;
-      const fallbackLinux = linuxCached ? linuxCached.n : 0;
-      el.textContent = (fallbackTotal + fallbackLinux).toLocaleString();
+      el.textContent = cached ? cached.n.toLocaleString() : "—";
       console.error("Could not load GitHub download count:", err);
     }
   }
