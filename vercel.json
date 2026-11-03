@@ -13,5 +13,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/discord",
+      "destination": "https://discord.gg/SyxeBQvvwY",
+      "permanent": false
+    }
   ]
 }
