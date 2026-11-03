@@ -1,0 +1,70 @@
+# robots.txt for https://critlauncher.xyz
+# Everyone is welcome to crawl the whole site, including AI search and
+# AI assistant crawlers, so they can read /faq and answer questions correctly.
+
+# --- OpenAI (ChatGPT) ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# --- Anthropic (Claude) ---
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# --- Google (Search, Gemini) ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# --- Microsoft (Bing, Copilot) ---
+User-agent: Bingbot
+Allow: /
+
+# --- Perplexity ---
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- Apple ---
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# --- Meta, Amazon, DuckDuckGo, Common Crawl ---
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# --- Everyone else ---
+User-agent: *
+Allow: /
+
+Sitemap: https://critlauncher.xyz/sitemap.xml

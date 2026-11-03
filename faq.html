@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0c0e">
+<title>Crit Launcher FAQ: open source, no telemetry, features and security</title>
+<meta name="description" content="Answers about Crit Launcher: a free, open-source, ad-free Minecraft launcher with no telemetry. Platforms, features, privacy, architecture, and why antivirus tools may flag it.">
+<link rel="canonical" href="https://critlauncher.xyz/faq">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crit Launcher">
+<meta property="og:title" content="Crit Launcher FAQ">
+<meta property="og:description" content="Answers about Crit Launcher: a free, open-source, ad-free Minecraft launcher with no telemetry. Platforms, features, privacy, architecture, and why antivirus tools may flag it.">
+<meta property="og:url" content="https://critlauncher.xyz/faq">
+<meta name="robots" content="index, follow, max-snippet:-1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges' %3E%3Cpath fill='%235dbb3a' d='M4 0h1v9H4zM0 4h9v1H0zM3 3h3v3H3z'/%3E%3Cpath fill='%23e8f0dc' d='M3 3h1v1H3zM5 3h1v1H5zM3 5h1v1H3zM5 5h1v1H5zM4 4h1v1H4z'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Crit Launcher?", "acceptedAnswer": {"@type": "Answer", "text": "Crit Launcher is a free, open-source Minecraft launcher and client manager. It is built to be fast and simple: it manages your instances, mods and Java versions, and it contains no ads and no telemetry."}}, {"@type": "Question", "name": "Which platforms are supported?", "acceptedAnswer": {"@type": "Answer", "text": "Windows: supported. Linux: supported. Builds are published through the official repository. macOS: in development, including Apple Silicon. Android and iOS: in development. No mobile version has been released yet, so any mobile app that uses the Crit Launcher name is not ours. Avoid it. Only download Crit Launcher from the official GitHub repository or from critlauncher.xyz."}}, {"@type": "Question", "name": "Is Crit Launcher open source?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The whole application, including the build pipeline and the Crit Client integration, is public in our GitHub repository. You can read the code, audit it, and compile it yourself."}}, {"@type": "Question", "name": "Does Crit Launcher cost anything?", "acceptedAnswer": {"@type": "Answer", "text": "No. Crit Launcher is a non-profit community project. It is free, has no ads, and does not bundle any other software."}}, {"@type": "Question", "name": "What is Crit Client?", "acceptedAnswer": {"@type": "Answer", "text": "Crit Client is the optimization client built into the launcher. It is tuned for higher FPS, smoother frame times, lower input latency, and sensible use of your system resources while the game is rendering."}}, {"@type": "Question", "name": "How does Crit Launcher handle mods and shaders?", "acceptedAnswer": {"@type": "Answer", "text": "You can search for, download, update and manage mods, resource packs and shaders from inside the launcher, without opening a file browser. It connects to two sources: Modrinth: community optimization mods, Fabric projects and resource packs. CurseForge: a large catalog of modpacks, both older and current."}}, {"@type": "Question", "name": "Can I use custom Java arguments?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Each instance has its own settings where you can add custom Java arguments. That lets you tune garbage collection, set memory allocation with flags such as -Xmx and -Xms, and adjust threading."}}, {"@type": "Question", "name": "Can I host a local server from the launcher?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Crit Launcher has a built-in local server host. You can start a multiplayer server for your local network from the launcher interface, without setting one up by hand in a terminal."}}, {"@type": "Question", "name": "What is Crit Launcher built with?", "acceptedAnswer": {"@type": "Answer", "text": "Interface: Electron, so the launcher UI is built with web technologies. Native layer: Horizon. The Horizon Loader is written in Rust and handles file operations, integrity checks and game startup."}}, {"@type": "Question", "name": "Do I need to install Java?", "acceptedAnswer": {"@type": "Answer", "text": "No. Crit Launcher manages Java for you. It detects what the selected Minecraft version needs, for example Java 8 for older versions or Java 17 or 21 for newer ones, then downloads, verifies and uses the matching runtime on its own."}}, {"@type": "Question", "name": "Where are my game files stored?", "acceptedAnswer": {"@type": "Answer", "text": "Crit Launcher keeps everything in its own separate crit launcher folder: instance settings, downloaded mods, profiles and cache. This keeps it from clashing with other launchers or an existing .minecraft folder. Base game files such as assets, indexes and vanilla resources are downloaded from Mojang’s official servers and stored separately from other clients."}}, {"@type": "Question", "name": "How do skins and capes work offline?", "acceptedAnswer": {"@type": "Answer", "text": "In offline singleplayer worlds, Crit Launcher can show your custom skin and cape locally. On multiplayer servers, the server decides how players are verified and which skins are shown. For servers that don’t verify accounts, server-side mods such as SkinRestorer can be used to display skins."}}, {"@type": "Question", "name": "Does Crit Launcher collect telemetry or personal data?", "acceptedAnswer": {"@type": "Answer", "text": "No. Crit Launcher currently collects no telemetry and no analytics. There are no tracking scripts, no ads and no bundled software. If anonymous crash reports or version statistics are ever added in a future release, they will come with a clear opt-out toggle in the settings. Your files, account tokens and identity stay on your computer."}}, {"@type": "Question", "name": "What does Crit Launcher connect to?", "acceptedAnswer": {"@type": "Answer", "text": "Only the services its features need: Mojang and Microsoft: sign-in, game files and official vanilla assets. Modrinth and CurseForge: searching and downloading mods, modpacks, resource packs and shaders. Skin and avatar services (such as Minotar and mc-heads): showing player heads and skins in the interface. None of these connections send analytics to the Crit Launcher team."}}, {"@type": "Question", "name": "Why do some antivirus programs flag Crit Launcher?", "acceptedAnswer": {"@type": "Answer", "text": "Crit Launcher is a new project and is not yet signed with a code-signing certificate, which costs money. Security software tends to distrust unsigned programs from new publishers. The launcher also does things that heuristic scanners watch for, such as downloading Java runtimes and starting other programs. As a result, tools like Windows Defender or Malwarebytes may show warnings such as “PUP” (potentially unwanted program) or a generic trojan detection. These are false positives. We plan to buy a code-signing certificate, which should reduce them. You don’t have to take our word for it. The source code is public, and the next question explains how to check that your download is genuine."}}, {"@type": "Question", "name": "How can I verify my download is genuine?", "acceptedAnswer": {"@type": "Answer", "text": "Compute the SHA-256 hash of the file you downloaded and compare it to the checksum published with the release on GitHub. If they match, your file is identical to the official one. Windows (PowerShell): Get-FileHash .\\CritLauncher.exe -Algorithm SHA256 Linux (terminal): sha256sum crit-launcher-bin If you would rather not trust a prebuilt file at all, you can build Crit Launcher yourself from the public source code."}}, {"@type": "Question", "name": "How do I report a security problem?", "acceptedAnswer": {"@type": "Answer", "text": "Please report vulnerabilities privately instead of opening a public issue. The steps are in our security policy."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Crit Launcher", "applicationCategory": "GameApplication", "operatingSystem": "Windows, Linux", "url": "https://critlauncher.xyz/", "codeRepository": "https://github.com/snigglaberry/crit-launcher", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+<style>
+:root{--bg:#0b0c0e;--panel:#111318;--panel-2:#171a20;--panel-3:#1e222a;--border:#242831;--border-soft:#1b1e25;--text:#e8eaed;--body:#c5cad2;--dim:#8b929c;--accent:#4ade80;--accent-ink:#06180d;--accent-hover:#6ee7a0;--brand:#5dbb3a;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:24px;color-scheme:dark}
+body{background:var(--bg);color:var(--body);font-family:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(74,222,128,.35);text-underline-offset:3px}
+a:hover{color:var(--accent-hover);text-decoration-color:currentColor}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+::selection{background:rgba(74,222,128,.2)}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--accent);color:var(--accent-ink);padding:8px 14px;border-radius:8px;z-index:10;text-decoration:none;font-weight:600}
+.skip:focus{left:8px}
+.layout{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+aside{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;background:var(--panel);border-right:1px solid var(--border);padding:20px 14px}
+.brand{display:flex;align-items:center;gap:10px;padding:0 6px 22px;color:var(--text);text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.14em;white-space:nowrap}
+.brand svg{width:36px;height:36px;flex-shrink:0}
+.brand:hover{color:var(--text)}
+nav{display:flex;flex-direction:column;gap:4px}
+nav a{display:block;padding:9px 13px;border-radius:10px;color:var(--dim);text-decoration:none;font-size:14px;font-weight:500;transition:background .15s,color .15s}
+nav a:hover{background:var(--panel-2);color:var(--text)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.btn{display:block;text-align:center;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;transition:background .15s}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:var(--accent-hover);color:var(--accent-ink)}
+.btn-ghost{background:var(--panel-2);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--panel-3);color:var(--text)}
+main{padding:64px clamp(20px,5vw,72px) 96px;max-width:900px;width:100%}
+.hero{display:flex;gap:28px;align-items:center}
+.hero-mark{width:88px;height:88px;flex-shrink:0}
+h1{color:var(--text);font-size:clamp(2rem,4.2vw,2.75rem);line-height:1.1;letter-spacing:-.025em;font-weight:700}
+.lede{margin-top:12px;color:var(--dim);max-width:56ch;font-size:1.0625rem}
+.facts{margin-top:40px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.facts div{padding:18px 20px;border-bottom:1px solid var(--border)}
+.facts div:nth-child(odd){border-right:1px solid var(--border)}
+.facts div:nth-last-child(-n+2){border-bottom:0}
+.facts strong{display:block;color:var(--text);font-weight:600}
+.facts span{color:var(--dim);font-size:.9rem}
+section{margin-top:64px}
+h2{color:var(--text);font-size:1.5rem;letter-spacing:-.015em;font-weight:700;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.qa{margin-top:30px}
+h3{color:var(--text);font-size:1.0625rem;font-weight:600;line-height:1.4;margin-bottom:8px}
+.qa p,.qa ul{max-width:68ch}
+.qa p+p,.qa p+ul,.qa ul+p{margin-top:12px}
+.qa ul{padding-left:1.25rem}
+.qa li{margin-top:6px;padding-left:4px}
+.qa li::marker{color:var(--brand)}
+strong{color:var(--text);font-weight:600}
+code{font-family:var(--mono);font-size:.88em;background:var(--panel-3);border:1px solid var(--border-soft);border-radius:6px;padding:1px 6px;color:var(--text)}
+.cmd-label{margin-top:16px!important;color:var(--dim);font-size:.875rem}
+pre{margin-top:6px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;overflow-x:auto;max-width:68ch}
+pre code{background:none;border:0;padding:0;font-size:.9rem;color:var(--accent-light,#86efac)}
+footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--border);color:var(--dim);font-size:.9rem;display:flex;flex-wrap:wrap;gap:8px 24px}
+footer a{color:var(--dim)}
+footer a:hover{color:var(--text)}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border);padding:14px 16px 12px}
+  .brand{padding-bottom:12px}
+  nav{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px}
+  nav a{white-space:nowrap;padding:8px 12px}
+  .side-foot{display:none}
+  main{padding-top:40px}
+  .hero{flex-direction:column;align-items:flex-start;gap:20px}
+  .hero-mark{width:64px;height:64px}
+  .facts{grid-template-columns:1fr}
+  .facts div:nth-child(odd){border-right:0}
+  .facts div:nth-last-child(2){border-bottom:1px solid var(--border)}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to the FAQ</a>
+<div class="layout">
+<aside>
+<a class="brand" href="https://critlauncher.xyz/" aria-label="Crit Launcher home"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true"><path fill="#5dbb3a" d="M4 0h1v9H4zM0 4h9v1H0zM3 3h3v3H3z"/><path fill="#e8f0dc" d="M3 3h1v1H3zM5 3h1v1H5zM3 5h1v1H3zM5 5h1v1H5zM4 4h1v1H4z"/></svg><span>CRIT LAUNCHER</span></a>
+<nav aria-label="FAQ sections"><a href="#about">About Crit Launcher</a><a href="#features">Features</a><a href="#architecture">How it works</a><a href="#privacy">Accounts and privacy</a><a href="#security">Security</a></nav>
+<div class="side-foot">
+<a class="btn btn-primary" href="https://github.com/snigglaberry/crit-launcher">View on GitHub</a>
+<a class="btn btn-ghost" href="https://github.com/snigglaberry/crit-launcher/issues">Report a bug</a>
+</div>
+</aside>
+<main id="content">
+<header class="hero">
+<div class="hero-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true"><path fill="#5dbb3a" d="M4 0h1v9H4zM0 4h9v1H0zM3 3h3v3H3z"/><path fill="#e8f0dc" d="M3 3h1v1H3zM5 3h1v1H5zM3 5h1v1H3zM5 5h1v1H5zM4 4h1v1H4z"/></svg></div>
+<div>
+<h1>Crit Launcher FAQ</h1>
+<p class="lede">Crit Launcher is a free, open-source Minecraft launcher with no ads and no telemetry. This page is the official reference for what it does and how it works.</p>
+</div>
+</header>
+<div class="facts">
+<div><strong>Open source</strong><span>The full code is public on GitHub</span></div>
+<div><strong>No ads, no telemetry</strong><span>Nothing is tracked or sold</span></div>
+<div><strong>Windows and Linux</strong><span>macOS and mobile are in development</span></div>
+<div><strong>Mods and shaders built in</strong><span>Modrinth and CurseForge support</span></div>
+</div>
+<section id="about" aria-labelledby="about-h"><h2 id="about-h">About Crit Launcher</h2><article class="qa" id="what-is-crit-launcher"><h3>What is Crit Launcher?</h3><p>Crit Launcher is a free, open-source Minecraft launcher and client manager. It is built to be fast and simple: it manages your instances, mods and Java versions, and it contains no ads and no telemetry.</p></article><article class="qa" id="which-platforms-are-supported"><h3>Which platforms are supported?</h3><ul><li><strong>Windows:</strong> supported.</li><li><strong>Linux:</strong> supported. Builds are published through the official repository.</li><li><strong>macOS:</strong> in development, including Apple Silicon.</li><li><strong>Android and iOS:</strong> in development. No mobile version has been released yet, so any mobile app that uses the Crit Launcher name is not ours. Avoid it.</li></ul><p>Only download Crit Launcher from the <a href="https://github.com/snigglaberry/crit-launcher">official GitHub repository</a> or from <a href="https://critlauncher.xyz/">critlauncher.xyz</a>.</p></article><article class="qa" id="is-crit-launcher-open-source"><h3>Is Crit Launcher open source?</h3><p>Yes. The whole application, including the build pipeline and the Crit Client integration, is public in our <a href="https://github.com/snigglaberry/crit-launcher">GitHub repository</a>. You can read the code, audit it, and compile it yourself.</p></article><article class="qa" id="does-crit-launcher-cost-anything"><h3>Does Crit Launcher cost anything?</h3><p>No. Crit Launcher is a non-profit community project. It is free, has no ads, and does not bundle any other software.</p></article></section><section id="features" aria-labelledby="features-h"><h2 id="features-h">Features</h2><article class="qa" id="what-is-crit-client"><h3>What is Crit Client?</h3><p>Crit Client is the optimization client built into the launcher. It is tuned for higher FPS, smoother frame times, lower input latency, and sensible use of your system resources while the game is rendering.</p></article><article class="qa" id="how-does-crit-launcher-handle-mods-and-shaders"><h3>How does Crit Launcher handle mods and shaders?</h3><p>You can search for, download, update and manage mods, resource packs and shaders from inside the launcher, without opening a file browser. It connects to two sources:</p><ul><li><strong>Modrinth:</strong> community optimization mods, Fabric projects and resource packs.</li><li><strong>CurseForge:</strong> a large catalog of modpacks, both older and current.</li></ul></article><article class="qa" id="can-i-use-custom-java-arguments"><h3>Can I use custom Java arguments?</h3><p>Yes. Each instance has its own settings where you can add custom Java arguments. That lets you tune garbage collection, set memory allocation with flags such as <code>-Xmx</code> and <code>-Xms</code>, and adjust threading.</p></article><article class="qa" id="can-i-host-a-local-server-from-the-launcher"><h3>Can I host a local server from the launcher?</h3><p>Yes. Crit Launcher has a built-in local server host. You can start a multiplayer server for your local network from the launcher interface, without setting one up by hand in a terminal.</p></article></section><section id="architecture" aria-labelledby="architecture-h"><h2 id="architecture-h">How it works</h2><article class="qa" id="what-is-crit-launcher-built-with"><h3>What is Crit Launcher built with?</h3><ul><li><strong>Interface:</strong> <a href="https://www.electronjs.org/">Electron</a>, so the launcher UI is built with web technologies.</li><li><strong>Native layer:</strong> Horizon. The Horizon Loader is written in Rust and handles file operations, integrity checks and game startup.</li></ul></article><article class="qa" id="do-i-need-to-install-java"><h3>Do I need to install Java?</h3><p>No. Crit Launcher manages Java for you. It detects what the selected Minecraft version needs, for example Java 8 for older versions or Java 17 or 21 for newer ones, then downloads, verifies and uses the matching runtime on its own.</p></article><article class="qa" id="where-are-my-game-files-stored"><h3>Where are my game files stored?</h3><p>Crit Launcher keeps everything in its own separate <code>crit launcher</code> folder: instance settings, downloaded mods, profiles and cache. This keeps it from clashing with other launchers or an existing <code>.minecraft</code> folder.</p><p>Base game files such as assets, indexes and vanilla resources are downloaded from Mojang’s official servers and stored separately from other clients.</p></article></section><section id="privacy" aria-labelledby="privacy-h"><h2 id="privacy-h">Accounts and privacy</h2><article class="qa" id="how-do-skins-and-capes-work-offline"><h3>How do skins and capes work offline?</h3><p>In offline singleplayer worlds, Crit Launcher can show your custom skin and cape locally.</p><p>On multiplayer servers, the server decides how players are verified and which skins are shown. For servers that don’t verify accounts, server-side mods such as SkinRestorer can be used to display skins.</p></article><article class="qa" id="does-crit-launcher-collect-telemetry-or-personal-data"><h3>Does Crit Launcher collect telemetry or personal data?</h3><p>No. Crit Launcher currently collects no telemetry and no analytics. There are no tracking scripts, no ads and no bundled software.</p><p>If anonymous crash reports or version statistics are ever added in a future release, they will come with a clear opt-out toggle in the settings. Your files, account tokens and identity stay on your computer.</p></article><article class="qa" id="what-does-crit-launcher-connect-to"><h3>What does Crit Launcher connect to?</h3><p>Only the services its features need:</p><ul><li><strong>Mojang and Microsoft:</strong> sign-in, game files and official vanilla assets.</li><li><strong>Modrinth and CurseForge:</strong> searching and downloading mods, modpacks, resource packs and shaders.</li><li><strong>Skin and avatar services</strong> (such as Minotar and mc-heads): showing player heads and skins in the interface.</li></ul><p>None of these connections send analytics to the Crit Launcher team.</p></article></section><section id="security" aria-labelledby="security-h"><h2 id="security-h">Security</h2><article class="qa" id="why-do-some-antivirus-programs-flag-crit-launcher"><h3>Why do some antivirus programs flag Crit Launcher?</h3><p>Crit Launcher is a new project and is not yet signed with a code-signing certificate, which costs money. Security software tends to distrust unsigned programs from new publishers. The launcher also does things that heuristic scanners watch for, such as downloading Java runtimes and starting other programs.</p><p>As a result, tools like Windows Defender or Malwarebytes may show warnings such as “PUP” (potentially unwanted program) or a generic trojan detection. <strong>These are false positives.</strong> We plan to buy a code-signing certificate, which should reduce them.</p><p>You don’t have to take our word for it. The source code is public, and the next question explains how to check that your download is genuine.</p></article><article class="qa" id="how-can-i-verify-my-download-is-genuine"><h3>How can I verify my download is genuine?</h3><p>Compute the SHA-256 hash of the file you downloaded and compare it to the checksum published with the release on GitHub. If they match, your file is identical to the official one.</p><p class="cmd-label">Windows (PowerShell)</p><pre><code>Get-FileHash .\CritLauncher.exe -Algorithm SHA256</code></pre><p class="cmd-label">Linux (terminal)</p><pre><code>sha256sum crit-launcher-bin</code></pre><p>If you would rather not trust a prebuilt file at all, you can build Crit Launcher yourself from the <a href="https://github.com/snigglaberry/crit-launcher">public source code</a>.</p></article><article class="qa" id="how-do-i-report-a-security-problem"><h3>How do I report a security problem?</h3><p>Please report vulnerabilities privately instead of opening a public issue. The steps are in our <a href="https://github.com/snigglaberry/crit-launcher/security/policy">security policy</a>.</p></article></section>
+<footer>
+<span>Last updated <time datetime="2026-11-03">November 3, 2026</time></span>
+<a href="https://critlauncher.xyz/">critlauncher.xyz</a>
+<a href="https://github.com/snigglaberry/crit-launcher">GitHub</a>
+<a href="https://github.com/snigglaberry/crit-launcher/security/policy">Security policy</a>
+</footer>
+</main>
+</div>
+</body>
+</html>
