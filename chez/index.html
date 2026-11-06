@@ -14,126 +14,110 @@
 
 html, body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     margin: 0;
 }
 
 body {
-    min-height: 100vh;
-    overflow-x: hidden;
     background: #111;
     color: #f3f3f3;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
-#shader {
+.background {
     position: fixed;
     inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.background canvas {
     width: 100%;
     height: 100%;
-    z-index: 0;
-    opacity: 0.35;
-    pointer-events: none;
+    display: block;
+    opacity: .78;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: radial-gradient(
-        ellipse at center,
-        transparent 0%,
-        rgba(0,0,0,0.15) 55%,
-        rgba(0,0,0,0.65) 100%
-    );
-}
-
-.page {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 340px;
-}
+/* Profile */
 
 .profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
+    z-index: 2;
     text-align: center;
+    width: min(90vw, 360px);
 }
 
-.cube-container {
-    width: 116px;
-    height: 116px;
-    perspective: 700px;
-    margin-bottom: 30px;
+.cube-wrap {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 27px;
+    perspective: 650px;
 }
 
 .cube {
-    width: 100%;
-    height: 100%;
     position: relative;
+    width: 90px;
+    height: 90px;
+    margin: 5px;
     transform-style: preserve-3d;
     animation: spin 13s linear infinite;
 }
 
-.cube-face {
+.face {
     position: absolute;
-    width: 116px;
-    height: 116px;
-    overflow: hidden;
+    width: 91px;
+    height: 91px;
+    left: -.5px;
+    top: -.5px;
     background: #fee25d;
-    border: 1px solid rgba(0,0,0,0.12);
-    backface-visibility: visible;
+    border: 1px solid rgba(0,0,0,.09);
+    overflow: hidden;
 }
 
-.cube-face.front {
-    transform: translateZ(58px);
+.front {
+    transform: translateZ(45.5px);
+    background: #fee25d;
 }
 
-.cube-face.back {
-    transform: rotateY(180deg) translateZ(58px);
-}
-
-.cube-face.right {
-    transform: rotateY(90deg) translateZ(58px);
-    background: #d9b938;
-}
-
-.cube-face.left {
-    transform: rotateY(-90deg) translateZ(58px);
-    background: #c9a92e;
-}
-
-.cube-face.top {
-    transform: rotateX(90deg) translateZ(58px);
-    background: #fff08c;
-}
-
-.cube-face.bottom {
-    transform: rotateX(-90deg) translateZ(58px);
-    background: #b89a29;
-}
-
-.cube-face img {
+.front img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
+.back {
+    transform: rotateY(180deg) translateZ(45.5px);
+    background: #eacb4c;
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(45.5px);
+    background: #f6d650;
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(45.5px);
+    background: #dfbf42;
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(45.5px);
+    background: #fff078;
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(45.5px);
+    background: #c9a936;
+}
+
 @keyframes spin {
     from {
-        transform: rotateX(-18deg) rotateY(0deg);
+        transform: rotateX(-18deg) rotateY(0);
     }
     to {
         transform: rotateX(-18deg) rotateY(360deg);
@@ -141,66 +125,77 @@ body::after {
 }
 
 h1 {
-    margin: 0;
-    font-size: 42px;
-    font-weight: 700;
-    letter-spacing: -2px;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: -.7px;
+    margin: 0 0 12px;
 }
 
 .bio {
-    margin-top: 12px;
-    color: #999;
     font-size: 14px;
-    line-height: 1.9;
+    line-height: 1.85;
+    color: #aaa;
+    margin: 0;
 }
 
-.socials {
+/* Social links */
+
+.links {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+    margin-top: 22px;
+}
+
+.links a {
+    width: 25px;
+    height: 25px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 22px;
-    margin-top: 27px;
-}
-
-.socials a {
-    position: relative;
-    color: #888;
+    color: #eee;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition: color .18s, transform .18s;
 }
 
-.socials a:hover {
-    color: #fff;
+.links a:hover {
+    color: #fee25d;
     transform: translateY(-2px);
 }
 
-.socials svg {
-    width: 19px;
-    height: 19px;
+.links svg {
+    width: 23px;
+    height: 23px;
+    display: block;
     fill: currentColor;
 }
 
 .tooltip {
+    position: relative;
+}
+
+.tooltip::after {
+    content: attr(data-tip);
     position: absolute;
-    bottom: 32px;
     left: 50%;
-    transform: translateX(-50%) translateY(4px);
+    bottom: calc(100% + 11px);
+    transform: translate(-50%, 4px);
     padding: 6px 9px;
-    border-radius: 5px;
     background: #252525;
-    color: #eee;
+    color: #ddd;
+    border: 1px solid #383838;
+    border-radius: 5px;
     font-size: 11px;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: 0.2s ease;
+    transition: .18s;
 }
 
-.socials a:hover .tooltip {
+.tooltip:hover::after {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, 0);
 }
 
 /* Sidebars */
@@ -221,53 +216,15 @@ h1 {
     right: 55px;
 }
 
-.projects-title,
-.stats-title {
-    color: #777;
+/* Section titles */
+
+.stats-title,
+.projects-title {
     font-size: 11px;
+    color: #777;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin-bottom: 22px;
-}
-
-.projects {
-    display: flex;
-    flex-direction: column;
-    gap: 19px;
-}
-
-.project {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    text-decoration: none;
-    color: inherit;
-    transition: opacity 0.2s ease;
-}
-
-.project:hover {
-    opacity: 0.65;
-}
-
-.project-name {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    color: #eee;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.project-name svg {
-    width: 12px;
-    height: 12px;
-    color: #777;
-}
-
-.project-description {
-    color: #777;
-    font-size: 12px;
-    line-height: 1.5;
 }
 
 /* Statistics */
@@ -311,7 +268,63 @@ h1 {
     margin-bottom: 0;
 }
 
-@media (max-width: 1250px) {
+/* Projects */
+
+.project {
+    display: block;
+    padding: 13px 0;
+    border-bottom: 1px solid #292929;
+    text-decoration: none;
+    color: inherit;
+    transition: .2s;
+}
+
+.project:first-of-type {
+    border-top: 1px solid #292929;
+}
+
+.project:hover .project-name {
+    color: #fee25d;
+}
+
+.project-name {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    color: #eee;
+    margin-bottom: 5px;
+    transition: color .2s;
+}
+
+.external-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    opacity: .5;
+    transition: opacity .2s, transform .2s;
+}
+
+.project:hover .external-icon {
+    opacity: 1;
+    transform: translate(2px, -2px);
+}
+
+.project-description {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.6;
+}
+
+.project-status {
+    font-size: 10px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* Responsive */
+
+@media (min-width: 851px) and (max-width: 1250px) {
     .sidebar {
         width: 220px;
     }
@@ -324,54 +337,36 @@ h1 {
         right: 25px;
     }
 
-    .page {
-        padding-left: 260px;
-        padding-right: 260px;
+    .profile {
+        transform: scale(.9);
     }
 }
 
 @media (max-width: 850px) {
+    html, body {
+        height: auto;
+        min-height: 100%;
+    }
+
     body {
-        display: block;
-    }
-
-    .page {
-        min-height: 100vh;
-        padding: 85px 25px 60px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 65px 0;
         flex-direction: column;
-        justify-content: flex-start;
-        gap: 65px;
-    }
-
-    .sidebar {
-        position: static;
-        transform: none;
-        width: min(100%, 340px);
-    }
-
-    .sidebar-left {
-        order: 2;
-    }
-
-    .sidebar-right {
-        order: 3;
     }
 
     .profile {
-        order: 1;
+        flex-shrink: 0;
     }
 
-    .projects-title,
-    .stats-title {
-        margin-bottom: 20px;
-    }
-
-    .projects {
-        gap: 20px;
-    }
-
-    .stat-value {
-        font-size: 29px;
+    .sidebar {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        transform: none;
+        width: min(90vw, 360px);
+        margin: 55px auto 0;
     }
 }
 
@@ -379,162 +374,253 @@ h1 {
     .cube {
         animation: none;
     }
-
-    .socials a,
-    .project {
-        transition: none;
-    }
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="shader"></canvas>
-
-<div class="page">
-
-    <!-- Projects -->
-    <aside class="sidebar sidebar-left">
-        <div class="projects-title">Projects</div>
-
-        <section class="projects">
-
-            <a class="project" href="https://critlauncher.xyz" target="_blank" rel="noopener">
-                <span class="project-name">
-                    Crit Launcher
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M7 17 17 7M7 7h10v10"/>
-                    </svg>
-                </span>
-                <span class="project-description">
-                    The best Minecraft launcher ever made
-                </span>
-            </a>
-
-            <a class="project" href="https://github.com/snigglaberry/network-tracker" target="_blank" rel="noopener">
-                <span class="project-name">
-                    Network Tracker
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M7 17 17 7M7 7h10v10"/>
-                    </svg>
-                </span>
-                <span class="project-description">
-                    An app that lets you see what apps are sending requests
-                </span>
-            </a>
-
-            <a class="project" href="https://snigglaberry.github.io/convert" target="_blank" rel="noopener">
-                <span class="project-name">
-                    Convert
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M7 17 17 7M7 7h10v10"/>
-                    </svg>
-                </span>
-                <span class="project-description">
-                    Convert files without bs
-                </span>
-            </a>
-
-            <a class="project" href="https://github.com/snigglaberry" target="_blank" rel="noopener">
-                <span class="project-name">
-                    PyMC
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M7 17 17 7M7 7h10v10"/>
-                    </svg>
-                </span>
-                <span class="project-description">
-                    Python library to launch Minecraft. Work in progress
-                </span>
-            </a>
-
-        </section>
-    </aside>
-
-    <!-- Profile -->
-    <main class="profile">
-
-        <div class="cube-container">
-            <div class="cube">
-                <div class="cube-face front">
-                    <img
-                        src="https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true"
-                        alt="chez profile"
-                    >
-                </div>
-
-                <div class="cube-face back"></div>
-                <div class="cube-face right"></div>
-                <div class="cube-face left"></div>
-                <div class="cube-face top"></div>
-                <div class="cube-face bottom"></div>
-            </div>
-        </div>
-
-        <h1>chez</h1>
-
-        <div class="bio">
-            hi im chez i make stuff<br>
-            ex roblox developer<br>
-            owner of crit
-        </div>
-
-        <div class="socials">
-
-            <a href="https://discord.com/invite/SyxeBQvvwY" target="_blank" rel="noopener" aria-label="Discord">
-                <span class="tooltip">im.chez</span>
-                <svg viewBox="0 0 24 24">
-                    <path d="M19.7 5.3a18.5 18.5 0 0 0-4.6-1.4l-.6 1.2a17 17 0 0 0-5 0l-.6-1.2a18.5 18.5 0 0 0-4.6 1.4C1.4 9.5.6 13.6 1 17.7a18.6 18.6 0 0 0 5.7 2.9l1.2-1.9-1.9-.9.5-.4a13.2 13.2 0 0 0 11 0l.5.4-1.9.9 1.2 1.9a18.6 18.6 0 0 0 5.7-2.9c.5-4.7-.8-8.8-3.3-12.4ZM8.7 14.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/>
-                </svg>
-            </a>
-
-            <a href="https://github.com/snigglaberry" target="_blank" rel="noopener" aria-label="GitHub">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 .9a11.1 11.1 0 0 0-3.5 21.6c.6.1.8-.3.8-.6v-2.1c-3.1.7-3.8-1.3-3.8-1.3-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8 2.1 3.2 1.6.1-.7.4-1.2.7-1.5-2.5-.3-5.1-1.2-5.1-5.5 0-1.2.4-2.2 1.1-3-.1-.3-.5-1.4.1-3 0 0 .9-.3 3.1 1.1a10.7 10.7 0 0 1 5.6 0c2.1-1.4 3.1-1.1 3.1-1.1.6 1.6.2 2.7.1 3 .7.8 1.1 1.8 1.1 3 0 4.3-2.6 5.2-5.1 5.5.4.3.8 1 .8 2v3c0 .3.2.7.8.6A11.1 11.1 0 0 0 12 .9Z"/>
-                </svg>
-            </a>
-
-            <a href="https://namemc.com/profile/chezd" target="_blank" rel="noopener" aria-label="Minecraft profile">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 3h8v8H3V3Zm10 0h8v8h-8V3ZM3 13h8v8H3v-8Zm10 0h8v8h-8v-8Z"/>
-                </svg>
-            </a>
-
-        </div>
-    </main>
-
-    <!-- GitHub statistics -->
-    <aside class="sidebar sidebar-right">
-        <div class="stats-title">GitHub statistics</div>
-
-        <section class="stats">
-
-            <div class="stat">
-                <span class="stat-label">Followers</span>
-                <span class="stat-value loading" id="followers">Loading</span>
-            </div>
-
-            <div class="stat">
-                <span class="stat-label">Repository views</span>
-                <span class="stat-value loading" id="views">Loading</span>
-            </div>
-
-            <div class="stat">
-                <span class="stat-label">Total downloads</span>
-                <span class="stat-value loading" id="downloads">Loading</span>
-            </div>
-
-            <div class="stat">
-                <span class="stat-label">Repositories</span>
-                <span class="stat-value loading" id="repositories">Loading</span>
-            </div>
-
-        </section>
-    </aside>
-
+<div class="background" aria-hidden="true">
+    <canvas id="shader"></canvas>
 </div>
 
+<!-- PROFILE -->
+
+<main class="profile">
+
+    <div class="cube-wrap">
+        <div class="cube" aria-label="Spinning profile cube">
+
+            <div class="face front">
+                <img
+                    src="https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true"
+                    alt="Profile picture"
+                >
+            </div>
+
+            <div class="face back"></div>
+            <div class="face right"></div>
+            <div class="face left"></div>
+            <div class="face top"></div>
+            <div class="face bottom"></div>
+
+        </div>
+    </div>
+
+    <h1>chez</h1>
+
+    <p class="bio">
+        hi im chez i make stuff<br>
+        ex roblox developer<br>
+        owner of crit
+    </p>
+
+    <nav class="links" aria-label="Social links">
+
+        <a
+            class="tooltip"
+            href="https://discord.com/invite/SyxeBQvvwY"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-tip="Discord · im.chez"
+            aria-label="Discord"
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19.7 5.3A18.3 18.3 0 0 0 15.2 4l-.6 1.2a16.8 16.8 0 0 0-5.2 0L8.8 4a18.3 18.3 0 0 0-4.5 1.3C1.5 9.5.7 13.6 1.1 17.7a18.4 18.4 0 0 0 5.5 2.8l1.2-2a11.8 11.8 0 0 1-1.9-.9l.5-.4a13.1 13.1 0 0 0 11.2 0l.5.4a11.8 11.8 0 0 1-1.9.9l1.2 2a18.4 18.4 0 0 0 5.5-2.8c.5-4.8-.8-8.9-3.2-12.4ZM8.8 14.9c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Zm6.4 0c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Z"/>
+            </svg>
+        </a>
+
+        <a
+            class="tooltip"
+            href="https://github.com/snigglaberry"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-tip="GitHub"
+            aria-label="GitHub"
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 .9a11.1 11.1 0 0 0-3.5 21.6c.6.1.8-.3.8-.6v-2.1c-3.1.7-3.8-1.3-3.8-1.3-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8 2.4 3.7 1.7.1-.8.5-1.4.9-1.7-2.5-.3-5.1-1.3-5.1-5.5 0-1.2.4-2.2 1.1-3-.1-.3-.5-1.5.1-3.1 0 0 .9-.3 3.1 1.1a10.7 10.7 0 0 1 5.6 0c2.1-1.4 3.1-1.1 3.1-1.1.6 1.6.2 2.8.1 3.1.7.8 1.1 1.8 1.1 3 0 4.2-2.6 5.2-5.1 5.5.4.4.8 1 .8 2.1v3.1c0 .3.2.7.8.6A11.1 11.1 0 0 0 12 .9Z"/>
+            </svg>
+        </a>
+
+        <a
+            class="tooltip"
+            href="mc got hacked pls buy me it🥹"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-tip="Minecraft · chezd"
+            aria-label="Minecraft"
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 1 22 6.5v11L12 23 2 17.5v-11L12 1Zm0 2.3L5.1 7.1 12 10.9l6.9-3.8L12 3.3ZM4 8.8v7.5l7 3.9v-7.5L4 8.8Zm9 11.4 7-3.9V8.8l-7 3.9v7.5Z"/>
+                <path d="M8.1 5.4 15 9.2l-2-1.1-6.9-3.8-2 1.1Z" opacity=".45"/>
+            </svg>
+        </a>
+
+    </nav>
+
+</main>
+
+<!-- LEFT SIDEBAR: PROJECTS -->
+
+<aside class="sidebar sidebar-left">
+
+    <section>
+
+        <div class="projects-title">Projects</div>
+
+        <a
+            class="project"
+            href="https://critlauncher.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div class="project-name">
+                Crit Launcher
+
+                <svg class="external-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+
+            <div class="project-description">
+                The best Minecraft launcher ever made
+            </div>
+
+            <div class="project-status">critlauncher.xyz</div>
+        </a>
+
+        <a
+            class="project"
+            href="https://github.com/snigglaberry/network-tracker"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div class="project-name">
+                Network Tracker
+
+                <svg class="external-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+
+            <div class="project-description">
+                An app that lets you see what apps are sending requests
+            </div>
+
+            <div class="project-status">GitHub</div>
+        </a>
+
+        <a
+            class="project"
+            href="https://snigglaberry.github.io/convert"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div class="project-name">
+                Convert
+
+                <svg class="external-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+
+            <div class="project-description">
+                Convert files without bs
+            </div>
+
+            <div class="project-status">
+                snigglaberry.github.io/convert
+            </div>
+        </a>
+
+        <a
+            class="project"
+            href="https://github.com/snigglaberry/pymc"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div class="project-name">
+                PyMC
+
+                <svg class="external-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+
+            <div class="project-description">
+                Python library to launch Minecraft Vanilla, Fabric and Forge
+            </div>
+
+            <div class="project-status">Work in progress</div>
+        </a>
+
+    </section>
+
+</aside>
+
+<!-- RIGHT SIDEBAR: STATISTICS -->
+
+<aside class="sidebar sidebar-right">
+
+    <div class="stats-title">GitHub statistics</div>
+
+    <section class="stats">
+
+        <div class="stat">
+            <span class="stat-label">Followers</span>
+            <span class="stat-value loading" id="followers">Loading</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-label">Repository views</span>
+            <span class="stat-value loading" id="views">Loading</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-label">Total downloads</span>
+            <span class="stat-value loading" id="downloads">Loading</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-label">Repositories</span>
+            <span class="stat-value loading" id="repositories">Loading</span>
+        </div>
+
+    </section>
+
+</aside>
+
 <script>
+
 /* GitHub statistics */
 
 const STATS_ENDPOINT =
@@ -545,7 +631,7 @@ function setStat(id, value, partial = false) {
 
     if (!element) return;
 
-    if (value === null || value === undefined || !Number.isFinite(Number(value))) {
+    if (value === null || value === undefined) {
         element.textContent = "—";
         element.title = "Statistics unavailable";
         element.classList.remove("loading");
@@ -597,76 +683,127 @@ loadStats();
 setInterval(loadStats, 10 * 60 * 1000);
 
 
-/* Animated monochrome shader background */
+/* Background shader */
 
-const canvas = document.getElementById("shader");
-const ctx = canvas.getContext("2d");
+(() => {
+    const canvas = document.getElementById('shader');
+    const ctx = canvas.getContext('2d', { alpha: false });
 
-let width = 0;
-let height = 0;
-let animationFrame = null;
-let time = 0;
+    let w = 0;
+    let h = 0;
+    let frame;
+    let pixels;
 
-function resizeCanvas() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const scale = 4;
 
-    width = window.innerWidth;
-    height = window.innerHeight;
+    const hash = (x, y) => {
+        const v = Math.sin(
+            x * 127.1 + y * 311.7 + 41.73
+        ) * 43758.5453;
 
-    canvas.width = Math.floor(width * dpr);
-    canvas.height = Math.floor(height * dpr);
+        return v - Math.floor(v);
+    };
 
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
+    const smooth = v => v * v * (3 - 2 * v);
 
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
+    function noise(x, y) {
+        const ix = Math.floor(x);
+        const iy = Math.floor(y);
 
-function noise(x, y, t) {
-    return (
-        Math.sin(x * 0.006 + t * 0.35) *
-        Math.cos(y * 0.007 - t * 0.25) +
-        Math.sin((x + y) * 0.003 + t * 0.2) *
-        Math.cos(x * 0.002 - y * 0.004 + t * 0.15)
-    );
-}
+        const fx = smooth(x - ix);
+        const fy = smooth(y - iy);
 
-function drawShader() {
-    time += 0.006;
+        const a = hash(ix, iy);
+        const b = hash(ix + 1, iy);
+        const c = hash(ix, iy + 1);
+        const d = hash(ix + 1, iy + 1);
 
-    const spacing = 9;
+        return (
+            (a + (b - a) * fx) * (1 - fy) +
+            (c + (d - c) * fx) * fy
+        );
+    }
 
-    ctx.clearRect(0, 0, width, height);
+    function resize() {
+        w = Math.max(1, Math.ceil(innerWidth / scale));
+        h = Math.max(1, Math.ceil(innerHeight / scale));
 
-    for (let y = 0; y < height; y += spacing) {
-        for (let x = 0; x < width; x += spacing) {
-            const value = noise(x, y, time);
+        canvas.width = w;
+        canvas.height = h;
 
-            const brightness = Math.max(
-                0,
-                Math.min(255, 16 + (value + 1) * 15)
-            );
+        frame = ctx.createImageData(w, h);
+        pixels = frame.data;
+    }
 
-            ctx.fillStyle = `rgb(${brightness},${brightness},${brightness})`;
-            ctx.fillRect(x, y, spacing - 1, spacing - 1);
+    function draw(ms) {
+        const t = ms * 0.00022;
+
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+
+                const u = x / w;
+                const v = y / h;
+
+                const warp1 = noise(
+                    u * 3.2 + t * 0.8,
+                    v * 3.2 - t * 0.55
+                );
+
+                const warp2 = noise(
+                    u * 3.2 - t * 0.6 + 8,
+                    v * 3.2 + t * 0.75
+                );
+
+                const px = u * 4.1 + (warp1 - .5) * 2.4;
+                const py = v * 4.1 + (warp2 - .5) * 2.4;
+
+                const clouds = noise(
+                    px + t * 0.65,
+                    py - t * 0.45
+                );
+
+                const detail = noise(
+                    px * 2.1 - t * 0.35,
+                    py * 2.1 + t * 0.4
+                );
+
+                const flow = Math.sin(
+                    (
+                        px * 1.25 +
+                        py * .9 +
+                        clouds * 2.2
+                    ) * Math.PI + t * 1.8
+                );
+
+                const field =
+                    clouds * .58 +
+                    detail * .2 +
+                    (flow * .5 + .5) * .22;
+
+                const shade =
+                    12 + Math.pow(Math.max(0, field), 1.8) * 31;
+
+                const i = (y * w + x) * 4;
+
+                pixels[i] = shade;
+                pixels[i + 1] = shade;
+                pixels[i + 2] = shade;
+                pixels[i + 3] = 255;
+            }
         }
+
+        ctx.putImageData(frame, 0, 0);
+        requestAnimationFrame(draw);
     }
 
-    animationFrame = requestAnimationFrame(drawShader);
-}
+    addEventListener('resize', resize, {
+        passive: true
+    });
 
-resizeCanvas();
-drawShader();
+    resize();
+    requestAnimationFrame(draw);
+})();
 
-window.addEventListener("resize", resizeCanvas);
-
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-        cancelAnimationFrame(animationFrame);
-    } else {
-        drawShader();
-    }
-});
 </script>
 
 </body>
