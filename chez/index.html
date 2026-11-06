@@ -8,9 +8,7 @@
 <title>chez</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html, body {
     width: 100%;
@@ -116,12 +114,8 @@ body {
 }
 
 @keyframes spin {
-    from {
-        transform: rotateX(-18deg) rotateY(0);
-    }
-    to {
-        transform: rotateX(-18deg) rotateY(360deg);
-    }
+    from { transform: rotateX(-18deg) rotateY(0); }
+    to { transform: rotateX(-18deg) rotateY(360deg); }
 }
 
 h1 {
@@ -154,22 +148,16 @@ h1 {
     transition: color .18s;
 }
 
-.links a:hover {
-    color: #fee25d;
-}
+.links a:hover { color: #fee25d; }
 
 .links a span {
     border-bottom: 1px solid #555;
     padding-bottom: 3px;
 }
 
-.links a:hover span {
-    border-color: #fee25d;
-}
+.links a:hover span { border-color: #fee25d; }
 
-.tooltip {
-    position: relative;
-}
+.tooltip { position: relative; }
 
 .tooltip::after {
     content: attr(data-tip);
@@ -194,18 +182,18 @@ h1 {
     transform: translate(-50%, 0);
 }
 
-/* Sidebar */
+/* Sidebars */
 
 .sidebar {
     position: fixed;
-    left: 55px;
     top: 50%;
     transform: translateY(-50%);
     width: 260px;
     z-index: 3;
 }
 
-/* Statistics */
+.sidebar-left { left: 55px; }
+.sidebar-right { right: 55px; }
 
 .stats-title,
 .projects-title {
@@ -215,6 +203,8 @@ h1 {
     letter-spacing: 1.5px;
     margin-bottom: 15px;
 }
+
+/* Statistics */
 
 .stats {
     display: flex;
@@ -226,6 +216,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
 }
 
 .stat-label {
@@ -254,10 +245,6 @@ h1 {
 
 /* Projects */
 
-.projects-title {
-    margin-bottom: 15px;
-}
-
 .project {
     display: block;
     padding: 13px 0;
@@ -267,13 +254,9 @@ h1 {
     transition: .2s;
 }
 
-.project:first-of-type {
-    border-top: 1px solid #292929;
-}
+.project:first-of-type { border-top: 1px solid #292929; }
 
-.project:hover .project-name {
-    color: #fee25d;
-}
+.project:hover .project-name { color: #fee25d; }
 
 .project-name {
     display: flex;
@@ -312,14 +295,16 @@ h1 {
 
 /* Responsive */
 
-@media (min-width: 851px) and (max-width: 1100px) {
+@media (min-width: 851px) and (max-width: 1250px) {
     .sidebar {
-        left: 30px;
-        width: 240px;
+        width: 220px;
     }
 
+    .sidebar-left { left: 25px; }
+    .sidebar-right { right: 25px; }
+
     .profile {
-        transform: translateX(110px);
+        transform: scale(.9);
     }
 }
 
@@ -344,16 +329,15 @@ h1 {
         position: relative;
         top: auto;
         left: auto;
+        right: auto;
         transform: none;
         width: min(90vw, 360px);
-        margin: 65px auto 0;
+        margin: 55px auto 0;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .cube {
-        animation: none;
-    }
+    .cube { animation: none; }
 }
 </style>
 </head>
@@ -367,23 +351,19 @@ h1 {
 <!-- PROFILE -->
 
 <main class="profile">
-
     <div class="cube-wrap">
         <div class="cube" aria-label="Spinning profile cube">
-
             <div class="face front">
                 <img
                     src="https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true"
                     alt="Profile picture"
                 >
             </div>
-
             <div class="face back"></div>
             <div class="face right"></div>
             <div class="face left"></div>
             <div class="face top"></div>
             <div class="face bottom"></div>
-
         </div>
     </div>
 
@@ -396,64 +376,116 @@ h1 {
     </p>
 
     <nav class="links" aria-label="Social links">
-
         <a
             class="tooltip"
             href="https://discord.com/invite/SyxeBQvvwY"
             target="_blank"
             rel="noopener noreferrer"
             data-tip="im.chez"
-        >
-            <span>discord</span>
-        </a>
+        ><span>discord</span></a>
 
         <a
             href="https://github.com/snigglaberry"
             target="_blank"
             rel="noopener noreferrer"
-        >
-            <span>github</span>
-        </a>
+        ><span>github</span></a>
 
         <a
             href="mc got hacked pls buy me it🥹"
             target="_blank"
             rel="noopener noreferrer"
-        >
-            <span>minecraft</span>
-        </a>
-
+        ><span>minecraft</span></a>
     </nav>
-
 </main>
 
-<!-- LEFT SIDEBAR -->
+<!-- LEFT SIDEBAR: PROJECTS -->
 
-<aside class="sidebar">
-
-    <!-- GITHUB FOLLOWERS -->
-
+<aside class="sidebar sidebar-left">
     <section>
+        <div class="projects-title">Projects</div>
 
+        <a class="project" href="https://critlauncher.xyz"
+           target="_blank" rel="noopener noreferrer">
+            <div class="project-name">
+                Crit Launcher
+                <svg class="external-icon" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+            <div class="project-description">
+                The best Minecraft launcher ever made
+            </div>
+            <div class="project-status">critlauncher.xyz</div>
+        </a>
+
+        <a class="project"
+           href="https://github.com/snigglaberry/network-tracker"
+           target="_blank" rel="noopener noreferrer">
+            <div class="project-name">
+                Network Tracker
+                <svg class="external-icon" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+            <div class="project-description">
+                An app that lets you see what apps are sending requests
+            </div>
+            <div class="project-status">GitHub</div>
+        </a>
+
+        <a class="project"
+           href="https://snigglaberry.github.io/convert"
+           target="_blank" rel="noopener noreferrer">
+            <div class="project-name">
+                Convert
+                <svg class="external-icon" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+            <div class="project-description">
+                Convert files without bs
+            </div>
+            <div class="project-status">
+                snigglaberry.github.io/convert
+            </div>
+        </a>
+
+        <div class="project">
+            <div class="project-name">PyMC</div>
+            <div class="project-description">
+                Python library to launch Minecraft Vanilla, Fabric and Forge
+            </div>
+            <div class="project-status">Work in progress</div>
+        </div>
+    </section>
+</aside>
+
+<!-- RIGHT SIDEBAR: STATISTICS -->
+
+<aside class="sidebar sidebar-right">
+    <section>
         <div class="stats-title">GitHub statistics</div>
 
         <div class="stats">
-
             <div class="stat">
                 <span class="stat-label">Followers</span>
                 <span class="stat-value loading" id="followers">Loading</span>
             </div>
-
         </div>
-
     </section>
 
     <div class="separator"></div>
 
-    <!-- REPOSITORY STATISTICS -->
-
     <section class="stats">
-
         <div class="stat">
             <span class="stat-label">Repository views</span>
             <span class="stat-value loading" id="views">Loading</span>
@@ -463,122 +495,11 @@ h1 {
             <span class="stat-label">Total downloads</span>
             <span class="stat-value loading" id="downloads">Loading</span>
         </div>
-
     </section>
-
-    <div class="separator"></div>
-
-    <!-- PROJECTS -->
-
-    <section>
-
-        <div class="projects-title">Projects</div>
-
-        <a
-            class="project"
-            href="https://critlauncher.xyz"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <div class="project-name">
-                Crit Launcher
-
-                <svg class="external-icon"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                    <path d="M7 17L17 7"/>
-                    <path d="M8 7h9v9"/>
-                </svg>
-            </div>
-
-            <div class="project-description">
-                The best Minecraft launcher ever made
-            </div>
-
-            <div class="project-status">critlauncher.xyz</div>
-        </a>
-
-        <a
-            class="project"
-            href="https://github.com/snigglaberry/network-tracker"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <div class="project-name">
-                Network Tracker
-
-                <svg class="external-icon"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                    <path d="M7 17L17 7"/>
-                    <path d="M8 7h9v9"/>
-                </svg>
-            </div>
-
-            <div class="project-description">
-                An app that lets you see what apps are sending requests
-            </div>
-
-            <div class="project-status">GitHub</div>
-        </a>
-
-        <a
-            class="project"
-            href="https://snigglaberry.github.io/convert"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <div class="project-name">
-                Convert
-
-                <svg class="external-icon"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                    <path d="M7 17L17 7"/>
-                    <path d="M8 7h9v9"/>
-                </svg>
-            </div>
-
-            <div class="project-description">
-                Convert files without bs
-            </div>
-
-            <div class="project-status">
-                snigglaberry.github.io/convert
-            </div>
-        </a>
-
-        <div class="project">
-
-            <div class="project-name">PyMC</div>
-
-            <div class="project-description">
-                Python library to launch Minecraft Vanilla, Fabric and Forge
-            </div>
-
-            <div class="project-status">Work in progress</div>
-
-        </div>
-
-    </section>
-
 </aside>
 
 <script>
-
-/* githuv stactistc */
+/* GitHub statistics */
 
 const STATS_ENDPOINT =
     "https://chez-github-stats.skibidiscripts.workers.dev/stats";
@@ -619,18 +540,8 @@ async function loadStats() {
         const data = await response.json();
 
         setStat("followers", data.followers);
-
-        setStat(
-            "views",
-            data.views,
-            data.viewsPartial
-        );
-
-        setStat(
-            "downloads",
-            data.downloads,
-            data.downloadsPartial
-        );
+        setStat("views", data.views, data.viewsPartial);
+        setStat("downloads", data.downloads, data.downloadsPartial);
 
         console.log("GitHub statistics updated:", data);
 
@@ -643,14 +554,11 @@ async function loadStats() {
     }
 }
 
-// Initial fetch
 loadStats();
-
-// Refresh every 10 minutes
 setInterval(loadStats, 10 * 60 * 1000);
 
 
-/* bg shader */
+/* Background shader */
 
 (() => {
     const canvas = document.getElementById('shader');
@@ -707,7 +615,6 @@ setInterval(loadStats, 10 * 60 * 1000);
 
         for (let y = 0; y < h; y++) {
             for (let x = 0; x < w; x++) {
-
                 const u = x / w;
                 const v = y / h;
 
@@ -760,18 +667,14 @@ setInterval(loadStats, 10 * 60 * 1000);
         }
 
         ctx.putImageData(frame, 0, 0);
-
         requestAnimationFrame(draw);
     }
 
-    addEventListener('resize', resize, {
-        passive: true
-    });
+    addEventListener('resize', resize, { passive: true });
 
     resize();
     requestAnimationFrame(draw);
 })();
-
 </script>
 
 </body>
