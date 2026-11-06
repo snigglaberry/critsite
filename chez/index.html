@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +41,8 @@ body {
     display: block;
     opacity: .78;
 }
+
+/* Profile */
 
 .profile {
     position: relative;
@@ -135,6 +138,8 @@ h1 {
     margin: 0;
 }
 
+/* Social links */
+
 .links {
     display: flex;
     justify-content: center;
@@ -189,23 +194,68 @@ h1 {
     transform: translate(-50%, 0);
 }
 
-/* Projects */
+/* Sidebar */
 
-.projects {
+.sidebar {
     position: fixed;
-    right: 55px;
+    left: 55px;
     top: 50%;
     transform: translateY(-50%);
     width: 260px;
     z-index: 3;
 }
 
+/* Statistics */
+
+.stats-title,
 .projects-title {
     font-size: 11px;
     color: #777;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    margin-bottom: 17px;
+    margin-bottom: 15px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #999;
+}
+
+.stat-value {
+    font-size: 14px;
+    color: #eee;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-value.loading {
+    color: #777;
+    font-weight: 400;
+}
+
+.separator {
+    width: 100%;
+    height: 1px;
+    background: #303030;
+    margin: 23px 0;
+}
+
+/* Projects */
+
+.projects-title {
+    margin-bottom: 15px;
 }
 
 .project {
@@ -226,10 +276,26 @@ h1 {
 }
 
 .project-name {
+    display: flex;
+    align-items: center;
+    gap: 7px;
     font-size: 14px;
     color: #eee;
     margin-bottom: 5px;
     transition: color .2s;
+}
+
+.external-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    opacity: .5;
+    transition: opacity .2s, transform .2s;
+}
+
+.project:hover .external-icon {
+    opacity: 1;
+    transform: translate(2px, -2px);
 }
 
 .project-description {
@@ -244,19 +310,18 @@ h1 {
     margin-top: 5px;
 }
 
-/* Keep the profile and right-side projects from overlapping on smaller desktops. */
-@media (min-width: 851px) and (max-width: 1100px) {
-    .profile {
-        transform: translateX(-115px);
-    }
+/* Responsive */
 
-    .projects {
-        right: 30px;
+@media (min-width: 851px) and (max-width: 1100px) {
+    .sidebar {
+        left: 30px;
         width: 240px;
     }
-}
 
-/* Responsive */
+    .profile {
+        transform: translateX(110px);
+    }
+}
 
 @media (max-width: 850px) {
     html, body {
@@ -267,7 +332,7 @@ h1 {
     body {
         overflow-x: hidden;
         overflow-y: auto;
-        padding: 70px 0;
+        padding: 65px 0;
         flex-direction: column;
     }
 
@@ -275,10 +340,10 @@ h1 {
         flex-shrink: 0;
     }
 
-    .projects {
+    .sidebar {
         position: relative;
         top: auto;
-        right: auto;
+        left: auto;
         transform: none;
         width: min(90vw, 360px);
         margin: 65px auto 0;
@@ -299,12 +364,18 @@ h1 {
     <canvas id="shader"></canvas>
 </div>
 
+<!-- PROFILE -->
+
 <main class="profile">
 
     <div class="cube-wrap">
         <div class="cube" aria-label="Spinning profile cube">
+
             <div class="face front">
-                <img src="https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true" alt="Profile picture">
+                <img
+                    src="https://github.com/snigglaberry/critsite/blob/main/chez/chezface.png?raw=true"
+                    alt="Profile picture"
+                >
             </div>
 
             <div class="face back"></div>
@@ -312,6 +383,7 @@ h1 {
             <div class="face left"></div>
             <div class="face top"></div>
             <div class="face bottom"></div>
+
         </div>
     </div>
 
@@ -324,6 +396,7 @@ h1 {
     </p>
 
     <nav class="links" aria-label="Social links">
+
         <a
             class="tooltip"
             href="https://discord.com/invite/SyxeBQvvwY"
@@ -349,62 +422,236 @@ h1 {
         >
             <span>minecraft</span>
         </a>
+
     </nav>
 
 </main>
 
-<aside class="projects">
+<!-- LEFT SIDEBAR -->
 
-    <div class="projects-title">Projects</div>
+<aside class="sidebar">
 
-    <a
-        class="project"
-        href="https://critlauncher.xyz"
-        target="_blank"
-        rel="noopener noreferrer"
-    >
-        <div class="project-name">Crit Launcher ↗</div>
-        <div class="project-description">
-            The best Minecraft launcher ever made
+    <!-- GITHUB FOLLOWERS -->
+
+    <section>
+
+        <div class="stats-title">GitHub statistics</div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <span class="stat-label">Followers</span>
+                <span class="stat-value loading" id="followers">Loading</span>
+            </div>
+
         </div>
-        <div class="project-status">critlauncher.xyz</div>
-    </a>
 
-    <a
-        class="project"
-        href="https://github.com/snigglaberry/network-tracker"
-        target="_blank"
-        rel="noopener noreferrer"
-    >
-        <div class="project-name">Network Tracker ↗</div>
-        <div class="project-description">
-            An app that lets you see what apps are sending requests
+    </section>
+
+    <div class="separator"></div>
+
+    <!-- REPOSITORY STATISTICS -->
+
+    <section class="stats">
+
+        <div class="stat">
+            <span class="stat-label">Repository views</span>
+            <span class="stat-value loading" id="views">Loading</span>
         </div>
-        <div class="project-status">GitHub</div>
-    </a>
 
-    <a
-        class="project"
-        href="https://snigglaberry.github.io/convert"
-        target="_blank"
-        rel="noopener noreferrer"
-    >
-        <div class="project-name">Convert ↗</div>
-        <div class="project-description">Convert files without bs</div>
-        <div class="project-status">snigglaberry.github.io/convert</div>
-    </a>
-
-    <div class="project">
-        <div class="project-name">PyMC</div>
-        <div class="project-description">
-            Python library to launch Minecraft Vanilla, Fabric and Forge
+        <div class="stat">
+            <span class="stat-label">Total downloads</span>
+            <span class="stat-value loading" id="downloads">Loading</span>
         </div>
-        <div class="project-status">Work in progress</div>
-    </div>
+
+    </section>
+
+    <div class="separator"></div>
+
+    <!-- PROJECTS -->
+
+    <section>
+
+        <div class="projects-title">Projects</div>
+
+        <a
+            class="project"
+            href="https://critlauncher.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div class="project-name">
+                Crit Launcher
+
+                <svg class="external-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+
+            <div class="project-description">
+                The best Minecraft launcher ever made
+            </div>
+
+            <div class="project-status">critlauncher.xyz</div>
+        </a>
+
+        <a
+            class="project"
+            href="https://github.com/snigglaberry/network-tracker"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div class="project-name">
+                Network Tracker
+
+                <svg class="external-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+
+            <div class="project-description">
+                An app that lets you see what apps are sending requests
+            </div>
+
+            <div class="project-status">GitHub</div>
+        </a>
+
+        <a
+            class="project"
+            href="https://snigglaberry.github.io/convert"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div class="project-name">
+                Convert
+
+                <svg class="external-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                </svg>
+            </div>
+
+            <div class="project-description">
+                Convert files without bs
+            </div>
+
+            <div class="project-status">
+                snigglaberry.github.io/convert
+            </div>
+        </a>
+
+        <div class="project">
+
+            <div class="project-name">PyMC</div>
+
+            <div class="project-description">
+                Python library to launch Minecraft Vanilla, Fabric and Forge
+            </div>
+
+            <div class="project-status">Work in progress</div>
+
+        </div>
+
+    </section>
 
 </aside>
 
 <script>
+
+/* githuv stactistc */
+
+const STATS_ENDPOINT =
+    "https://chez-github-stats.skibidiscripts.workers.dev/stats";
+
+function setStat(id, value, partial = false) {
+    const element = document.getElementById(id);
+
+    if (value === null || value === undefined) {
+        element.textContent = "—";
+        element.title = "Statistics unavailable";
+        element.classList.remove("loading");
+        return;
+    }
+
+    const formatted = Number(value).toLocaleString("en-US");
+
+    element.textContent = partial
+        ? "~" + formatted
+        : formatted;
+
+    element.title = partial
+        ? "Some repositories could not be included"
+        : "Updated GitHub statistics";
+
+    element.classList.remove("loading");
+}
+
+async function loadStats() {
+    try {
+        const response = await fetch(STATS_ENDPOINT, {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error("Worker returned " + response.status);
+        }
+
+        const data = await response.json();
+
+        setStat("followers", data.followers);
+
+        setStat(
+            "views",
+            data.views,
+            data.viewsPartial
+        );
+
+        setStat(
+            "downloads",
+            data.downloads,
+            data.downloadsPartial
+        );
+
+        console.log("GitHub statistics updated:", data);
+
+    } catch (error) {
+        console.error("Statistics error:", error);
+
+        setStat("followers", null);
+        setStat("views", null);
+        setStat("downloads", null);
+    }
+}
+
+// Initial fetch
+loadStats();
+
+// Refresh every 10 minutes
+setInterval(loadStats, 10 * 60 * 1000);
+
+
+/* bg shader */
+
 (() => {
     const canvas = document.getElementById('shader');
     const ctx = canvas.getContext('2d', { alpha: false });
@@ -517,11 +764,14 @@ h1 {
         requestAnimationFrame(draw);
     }
 
-    addEventListener('resize', resize, { passive: true });
+    addEventListener('resize', resize, {
+        passive: true
+    });
 
     resize();
     requestAnimationFrame(draw);
 })();
+
 </script>
 
 </body>
