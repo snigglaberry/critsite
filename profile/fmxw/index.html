@@ -4,21 +4,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#08090c">
+<meta name="theme-color" content="#050d12">
 <title>fmxw</title>
 
 <style>
 @font-face {
     font-family: Minecraft;
-    src: url("minecraft.ttf") format("truetype");
+    src: url("assets/minecraft.ttf") format("truetype");
     font-display: swap;
 }
 
 :root {
-    --bg: #08090c;
-    --accent: #a78bfa;
-    --text: #f3f1fa;
-    --muted: #85818f;
+    --bg: #050d12;
+    --accent: #22d3ee;
+    --light: #a5f3fc;
+    --text: #e6fbff;
+    --muted: #82b9c8;
 }
 
 * {
@@ -37,13 +38,13 @@ body {
     overflow: hidden;
     background: var(--bg);
     color: var(--text);
-    font-family: Inter, "Segoe UI", sans-serif;
+    font-family: "Segoe UI", sans-serif;
     display: grid;
     place-items: center;
     isolation: isolate;
 }
 
-/* Background */
+/* BACKGROUND */
 
 .background {
     position: fixed;
@@ -51,37 +52,38 @@ body {
     z-index: -3;
     overflow: hidden;
     background:
-        radial-gradient(ellipse at 50% 45%,
-            #171225 0%,
-            #0c0b12 38%,
-            #08090c 75%);
+        radial-gradient(
+            ellipse at 50% 45%,
+            #123e50 0%,
+            #0a202d 40%,
+            #050d12 80%
+        );
 }
 
 .background::before {
     content: "";
     position: absolute;
     inset: -50%;
-    background:
-        conic-gradient(
-            from 0deg at 50% 50%,
-            transparent,
-            rgba(135, 91, 255, .12),
-            transparent,
-            rgba(57, 120, 255, .09),
-            transparent
-        );
-    filter: blur(85px);
-    animation: atmosphere 24s linear infinite;
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        transparent,
+        rgba(45,212,230,.22),
+        transparent,
+        rgba(56,189,248,.2),
+        transparent
+    );
+    filter: blur(90px);
+    animation: atmosphere 25s linear infinite;
 }
 
 .background::after {
     content: "";
     position: absolute;
     inset: 0;
-    opacity: .22;
+    opacity: .18;
     background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+        linear-gradient(rgba(103,232,249,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(103,232,249,.08) 1px, transparent 1px);
     background-size: 65px 65px;
     mask-image: radial-gradient(ellipse at center, black, transparent 85%);
 }
@@ -89,6 +91,8 @@ body {
 @keyframes atmosphere {
     to { transform: rotate(360deg); }
 }
+
+/* PARTICLES */
 
 #particles {
     position: fixed;
@@ -99,22 +103,24 @@ body {
     pointer-events: none;
 }
 
+/* MOUSE LIGHT */
+
 .ambient {
     position: fixed;
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     border-radius: 50%;
-    background: rgba(126, 83, 255, .09);
-    filter: blur(110px);
+    background: rgba(34,211,238,.13);
+    filter: blur(120px);
     pointer-events: none;
     z-index: -1;
     transform: translate(-50%, -50%);
-    transition: left .3s ease, top .3s ease;
     left: 50%;
     top: 45%;
+    transition: left .3s ease, top .3s ease;
 }
 
-/* Main profile */
+/* MAIN PROFILE */
 
 main {
     width: 100%;
@@ -136,7 +142,7 @@ main {
 @keyframes appear {
     from {
         opacity: 0;
-        transform: translateY(22px);
+        transform: translateY(25px);
         filter: blur(8px);
     }
     to {
@@ -146,158 +152,112 @@ main {
     }
 }
 
-/* Profile picture */
-
-.avatar-container {
-    position: relative;
-    width: 156px;
-    height: 156px;
-    margin-bottom: 30px;
-}
-
-.avatar-container::before {
-    content: "";
-    position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    background: conic-gradient(
-        from 0deg,
-        transparent 0%,
-        #a78bfa 20%,
-        #6e65f5 40%,
-        transparent 65%,
-        #a78bfa 85%,
-        transparent 100%
-    );
-    animation: rotate 7s linear infinite;
-    opacity: .8;
-    filter: blur(2px);
-}
-
-.avatar-container::after {
-    content: "";
-    position: absolute;
-    inset: -3px;
-    border-radius: 50%;
-    background: var(--bg);
-}
-
-@keyframes rotate {
-    to { transform: rotate(360deg); }
-}
+/* PROFILE IMAGE */
 
 .avatar {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    z-index: 2;
-    border: 3px solid #111019;
-    background: #171421;
-    box-shadow:
-        0 0 30px rgba(167,139,250,.2),
-        0 0 85px rgba(117,83,255,.12);
-    transition: transform .4s ease, box-shadow .4s ease;
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 30px;
+    filter:
+        drop-shadow(0 0 15px rgba(34,211,238,.3))
+        drop-shadow(0 0 40px rgba(8,145,178,.2));
+    transition: transform .4s ease, filter .4s ease;
 }
 
-.avatar-container:hover .avatar {
-    transform: scale(1.045);
-    box-shadow:
-        0 0 35px rgba(167,139,250,.4),
-        0 0 100px rgba(117,83,255,.2);
+.avatar:hover {
+    transform: scale(1.06);
+    filter:
+        drop-shadow(0 0 20px rgba(103,232,249,.6))
+        drop-shadow(0 0 55px rgba(8,145,178,.4));
 }
 
-/* Name */
+/* NAME */
 
 .name {
     font-family: Minecraft, monospace;
     font-size: clamp(42px, 8vw, 68px);
     font-weight: normal;
     letter-spacing: 2px;
-    color: #f6f0ff;
+    color: #e6fbff;
     line-height: 1.4;
     text-shadow:
-        0 0 7px rgba(196,168,255,.9),
-        0 0 20px rgba(167,139,250,.65),
-        0 0 45px rgba(135,91,255,.45),
-        0 0 85px rgba(117,83,255,.25);
+        0 0 8px #67e8f9,
+        0 0 22px rgba(34,211,238,.8),
+        0 0 50px rgba(8,145,178,.65),
+        0 0 90px rgba(8,145,178,.4);
     animation: nameGlow 4s ease-in-out infinite alternate;
 }
 
 @keyframes nameGlow {
     from {
         text-shadow:
-            0 0 7px rgba(196,168,255,.65),
-            0 0 20px rgba(167,139,250,.4),
-            0 0 45px rgba(135,91,255,.3);
+            0 0 8px rgba(103,232,249,.6),
+            0 0 20px rgba(34,211,238,.4),
+            0 0 45px rgba(8,145,178,.3);
     }
     to {
         text-shadow:
-            0 0 10px #e4d5ff,
-            0 0 28px rgba(167,139,250,.9),
-            0 0 65px rgba(135,91,255,.65);
+            0 0 12px #cffafe,
+            0 0 30px #67e8f9,
+            0 0 65px rgba(8,145,178,.8);
     }
 }
 
-/* Bio */
+/* BIO */
 
 .bio {
     margin-top: 15px;
-    color: #a8a2b5;
+    color: #9eeaf5;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 2.5px;
     text-transform: uppercase;
 }
 
-/* Social links */
+/* SOCIAL LINKS */
 
 .socials {
     display: flex;
     align-items: center;
-    gap: 13px;
+    gap: 14px;
     margin-top: 32px;
 }
 
 .social-link {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     display: grid;
     place-items: center;
-    color: #a8a2b5;
+    color: #9eeaf5;
     text-decoration: none;
-    border: 1px solid rgba(255,255,255,.09);
-    background: rgba(255,255,255,.025);
+    border: 1px solid rgba(103,232,249,.16);
+    background: rgba(34,211,238,.07);
     border-radius: 14px;
-    transition:
-        color .25s ease,
-        background .25s ease,
-        border-color .25s ease,
-        transform .25s ease,
-        box-shadow .25s ease;
+    transition: all .25s ease;
 }
 
 .social-link svg {
-    width: 21px;
-    height: 21px;
+    width: 22px;
+    height: 22px;
     fill: currentColor;
 }
 
 .social-link:hover {
-    color: #e4d5ff;
-    background: rgba(167,139,250,.12);
-    border-color: rgba(167,139,250,.55);
+    color: white;
+    background: rgba(34,211,238,.2);
+    border-color: rgba(103,232,249,.7);
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(135,91,255,.15);
+    box-shadow: 0 8px 35px rgba(8,145,178,.25);
 }
 
 .social-link:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--light);
     outline-offset: 4px;
 }
 
-/* Bottom decoration */
+/* FOOTER */
 
 .bottom {
     position: fixed;
@@ -307,17 +267,17 @@ main {
     text-align: center;
     font-size: 10px;
     letter-spacing: 3px;
-    color: #55515f;
+    color: #397f91;
     text-transform: uppercase;
     pointer-events: none;
 }
 
-/* Mobile */
+/* MOBILE */
 
 @media (max-width: 600px) {
-    .avatar-container {
-        width: 130px;
-        height: 130px;
+    .avatar {
+        width: 200px;
+        height: 200px;
     }
 
     .name {
@@ -334,7 +294,6 @@ main {
     *, *::before, *::after {
         animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
     }
 }
 </style>
@@ -349,13 +308,11 @@ main {
 <main>
     <section class="profile">
 
-        <div class="avatar-container">
-            <img
-                class="avatar"
-                src="/profile/fmxw/fmxwprofile.png"
-                alt="fmxw profile picture"
-            >
-        </div>
+        <img
+            class="avatar"
+            src="profile/fmxw/fmxwprofile.png"
+            alt="fmxw profile picture"
+        >
 
         <h1 class="name">fmxw</h1>
 
@@ -363,7 +320,7 @@ main {
 
         <nav class="socials" aria-label="Social links">
 
-            <!-- TikTok -->
+            <!-- TIKTOK -->
             <a
                 class="social-link"
                 href="https://www.tiktok.com/@crit.launcher"
@@ -377,7 +334,7 @@ main {
                 </svg>
             </a>
 
-            <!-- GitHub -->
+            <!-- GITHUB -->
             <a
                 class="social-link"
                 href="https://github.com/fmxw"
@@ -399,22 +356,21 @@ main {
 <div class="bottom">FMXW · CRIT</div>
 
 <script>
-/* Ambient mouse glow */
+/* MOUSE FOLLOWING LIGHT */
 
 const ambient = document.getElementById("ambient");
 
-window.addEventListener("mousemove", (e) => {
+window.addEventListener("mousemove", e => {
     ambient.style.left = e.clientX + "px";
     ambient.style.top = e.clientY + "px";
 });
 
-/* Animated particles */
+/* PARTICLE BACKGROUND */
 
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 
 let width, height, particles = [];
-let animationFrame;
 
 function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -436,7 +392,7 @@ function createParticles() {
         110
     );
 
-    particles = Array.from({ length: count }, () => ({
+    particles = Array.from({length: count}, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         size: Math.random() * 1.6 + .3,
@@ -469,12 +425,12 @@ function draw() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(190, 164, 255, ${opacity})`;
+        ctx.fillStyle = `rgba(103,232,249,${opacity})`;
         ctx.fill();
     });
 
     if (!reduced) {
-        animationFrame = requestAnimationFrame(draw);
+        requestAnimationFrame(draw);
     }
 }
 
