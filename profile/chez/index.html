@@ -4,375 +4,296 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#151515">
-<title>chez</title>
+<meta name="theme-color" content="#050d12">
+<title>fmxw</title>
 
 <style>
+@font-face {
+    font-family: Minecraft;
+    src: url("minecraft.ttf") format("truetype");
+    font-display: swap;
+}
+
+:root {
+    --bg: #050d12;
+    --accent: #22d3ee;
+    --light: #a5f3fc;
+    --text: #e6fbff;
+    --muted: #82b9c8;
+}
+
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 html, body {
     width: 100%;
-    height: 100%;
-    margin: 0;
+    min-height: 100%;
 }
 
 body {
-    background: #111;
-    color: #f3f3f3;
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 100vh;
     overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", sans-serif;
+    display: grid;
+    place-items: center;
+    isolation: isolate;
 }
+
+/* BACKGROUND */
 
 .background {
     position: fixed;
     inset: 0;
-    pointer-events: none;
+    z-index: -3;
     overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 50% 45%,
+            #123e50 0%,
+            #0a202d 40%,
+            #050d12 80%
+        );
 }
 
-.background canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    opacity: .78;
-}
-
-/* Profile */
-
-.profile {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    width: min(90vw, 360px);
-}
-
-.cube-wrap {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 27px;
-    perspective: 650px;
-}
-
-.cube {
-    position: relative;
-    width: 90px;
-    height: 90px;
-    margin: 5px;
-    transform-style: preserve-3d;
-    animation: spin 13s linear infinite;
-}
-
-.face {
+.background::before {
+    content: "";
     position: absolute;
-    width: 91px;
-    height: 91px;
-    left: -.5px;
-    top: -.5px;
-    background: #fee25d;
-    border: 1px solid rgba(0,0,0,.09);
-    overflow: hidden;
+    inset: -50%;
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        transparent,
+        rgba(45,212,230,.22),
+        transparent,
+        rgba(56,189,248,.2),
+        transparent
+    );
+    filter: blur(90px);
+    animation: atmosphere 25s linear infinite;
 }
 
-.front {
-    transform: translateZ(45.5px);
-    background: #fee25d;
+.background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .18;
+    background-image:
+        linear-gradient(rgba(103,232,249,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(103,232,249,.08) 1px, transparent 1px);
+    background-size: 65px 65px;
+    mask-image: radial-gradient(ellipse at center, black, transparent 85%);
 }
 
-.front img {
+@keyframes atmosphere {
+    to { transform: rotate(360deg); }
+}
+
+/* PARTICLES */
+
+#particles {
+    position: fixed;
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
+    z-index: -2;
+    pointer-events: none;
 }
 
-.back {
-    transform: rotateY(180deg) translateZ(45.5px);
-    background: #eacb4c;
+/* MOUSE LIGHT */
+
+.ambient {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgba(34,211,238,.13);
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 45%;
+    transition: left .3s ease, top .3s ease;
 }
 
-.right {
-    transform: rotateY(90deg) translateZ(45.5px);
-    background: #f6d650;
-}
+/* MAIN PROFILE */
 
-.left {
-    transform: rotateY(-90deg) translateZ(45.5px);
-    background: #dfbf42;
-}
-
-.top {
-    transform: rotateX(90deg) translateZ(45.5px);
-    background: #fff078;
-}
-
-.bottom {
-    transform: rotateX(-90deg) translateZ(45.5px);
-    background: #c9a936;
-}
-
-@keyframes spin {
-    from {
-        transform: rotateX(-18deg) rotateY(0);
-    }
-    to {
-        transform: rotateX(-18deg) rotateY(360deg);
-    }
-}
-
-h1 {
-    font-size: 25px;
-    font-weight: 600;
-    letter-spacing: -.7px;
-    margin: 0 0 12px;
-}
-
-.bio {
-    font-size: 14px;
-    line-height: 1.85;
-    color: #aaa;
-    margin: 0;
-}
-
-/* Social links */
-
-.links {
+main {
+    width: 100%;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 22px;
-    margin-top: 22px;
+    padding: 30px;
 }
 
-.links a {
-    width: 25px;
-    height: 25px;
-    display: inline-flex;
+.profile {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    color: #eee;
-    text-decoration: none;
-    transition: color .18s, transform .18s;
+    text-align: center;
+    animation: appear 1.2s cubic-bezier(.2,.8,.2,1) both;
 }
 
-.links a:hover {
-    color: #fee25d;
-    transform: translateY(-2px);
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
 }
 
-.links svg {
-    width: 23px;
-    height: 23px;
+/* PROFILE IMAGE */
+
+.avatar {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
     display: block;
+    margin-bottom: 30px;
+    filter:
+        drop-shadow(0 0 15px rgba(34,211,238,.3))
+        drop-shadow(0 0 40px rgba(8,145,178,.2));
+    transition: transform .4s ease, filter .4s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.06);
+    filter:
+        drop-shadow(0 0 20px rgba(103,232,249,.6))
+        drop-shadow(0 0 55px rgba(8,145,178,.4));
+}
+
+/* NAME */
+
+.name {
+    font-family: Minecraft, monospace;
+    font-size: clamp(42px, 8vw, 68px);
+    font-weight: normal;
+    letter-spacing: 2px;
+    color: #e6fbff;
+    line-height: 1.4;
+    text-shadow:
+        0 0 8px #67e8f9,
+        0 0 22px rgba(34,211,238,.8),
+        0 0 50px rgba(8,145,178,.65),
+        0 0 90px rgba(8,145,178,.4);
+    animation: nameGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes nameGlow {
+    from {
+        text-shadow:
+            0 0 8px rgba(103,232,249,.6),
+            0 0 20px rgba(34,211,238,.4),
+            0 0 45px rgba(8,145,178,.3);
+    }
+    to {
+        text-shadow:
+            0 0 12px #cffafe,
+            0 0 30px #67e8f9,
+            0 0 65px rgba(8,145,178,.8);
+    }
+}
+
+/* BIO */
+
+.bio {
+    margin-top: 15px;
+    color: #9eeaf5;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+/* SOCIAL LINKS */
+
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 32px;
+}
+
+.social-link {
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    color: #9eeaf5;
+    text-decoration: none;
+    border: 1px solid rgba(103,232,249,.16);
+    background: rgba(34,211,238,.07);
+    border-radius: 14px;
+    transition: all .25s ease;
+}
+
+.social-link svg {
+    width: 22px;
+    height: 22px;
     fill: currentColor;
 }
 
-.tooltip {
-    position: relative;
+.social-link:hover {
+    color: white;
+    background: rgba(34,211,238,.2);
+    border-color: rgba(103,232,249,.7);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 35px rgba(8,145,178,.25);
 }
 
-.tooltip::after {
-    content: attr(data-tip);
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 11px);
-    transform: translate(-50%, 4px);
-    padding: 6px 9px;
-    background: #252525;
-    color: #ddd;
-    border: 1px solid #383838;
-    border-radius: 5px;
-    font-size: 11px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: .18s;
+.social-link:focus-visible {
+    outline: 2px solid var(--light);
+    outline-offset: 4px;
 }
 
-.tooltip:hover::after {
-    opacity: 1;
-    transform: translate(-50%, 0);
-}
+/* FOOTER */
 
-/* Sidebars */
-
-.sidebar {
+.bottom {
     position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 260px;
-    z-index: 3;
-}
-
-.sidebar-left {
-    left: 55px;
-}
-
-.sidebar-right {
-    right: 55px;
-}
-
-/* Section titles */
-
-.stats-title,
-.projects-title {
-    font-size: 11px;
-    color: #777;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 22px;
-}
-
-/* Statistics */
-
-.stats {
-    display: flex;
-    flex-direction: column;
-}
-
-.stat {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 7px;
-    padding: 0 0 20px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #303030;
-}
-
-.stat-label {
-    font-size: 12px;
-    color: #888;
-}
-
-.stat-value {
-    font-size: 32px;
-    line-height: 1.2;
-    color: #f3f3f3;
-    font-weight: 600;
-    letter-spacing: -1.2px;
-    font-variant-numeric: tabular-nums;
-}
-
-.stat-value.loading {
-    color: #666;
-    font-weight: 400;
-}
-
-.stat:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-/* Projects */
-
-.project {
-    display: block;
-    padding: 13px 0;
-    border-bottom: 1px solid #292929;
-    text-decoration: none;
-    color: inherit;
-    transition: .2s;
-}
-
-.project:first-of-type {
-    border-top: 1px solid #292929;
-}
-
-.project:hover .project-name {
-    color: #fee25d;
-}
-
-.project-name {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 14px;
-    color: #eee;
-    margin-bottom: 5px;
-    transition: color .2s;
-}
-
-.external-icon {
-    width: 13px;
-    height: 13px;
-    flex-shrink: 0;
-    opacity: .5;
-    transition: opacity .2s, transform .2s;
-}
-
-.project:hover .external-icon {
-    opacity: 1;
-    transform: translate(2px, -2px);
-}
-
-.project-description {
-    font-size: 12px;
-    color: #888;
-    line-height: 1.6;
-}
-
-.project-status {
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    text-align: center;
     font-size: 10px;
-    color: #777;
-    margin-top: 5px;
+    letter-spacing: 3px;
+    color: #397f91;
+    text-transform: uppercase;
+    pointer-events: none;
 }
 
-/* Responsive */
+/* MOBILE */
 
-@media (min-width: 851px) and (max-width: 1250px) {
-    .sidebar {
-        width: 220px;
+@media (max-width: 600px) {
+    .avatar {
+        width: 200px;
+        height: 200px;
     }
 
-    .sidebar-left {
-        left: 25px;
+    .name {
+        font-size: clamp(34px, 11vw, 52px);
     }
 
-    .sidebar-right {
-        right: 25px;
-    }
-
-    .profile {
-        transform: scale(.9);
-    }
-}
-
-@media (max-width: 850px) {
-    html, body {
-        height: auto;
-        min-height: 100%;
-    }
-
-    body {
-        overflow-x: hidden;
-        overflow-y: auto;
-        padding: 65px 0;
-        flex-direction: column;
-    }
-
-    .profile {
-        flex-shrink: 0;
-    }
-
-    .sidebar {
-        position: relative;
-        top: auto;
-        left: auto;
-        right: auto;
-        transform: none;
-        width: min(90vw, 360px);
-        margin: 55px auto 0;
+    .bio {
+        font-size: 11px;
+        letter-spacing: 2px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .cube {
-        animation: none;
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }
 </style>
@@ -380,430 +301,143 @@ h1 {
 
 <body>
 
-<div class="background" aria-hidden="true">
-    <canvas id="shader"></canvas>
-</div>
+<div class="background"></div>
+<canvas id="particles"></canvas>
+<div class="ambient" id="ambient"></div>
 
-<!-- PROFILE -->
+<main>
+    <section class="profile">
 
-<main class="profile">
-
-    <div class="cube-wrap">
-        <div class="cube" aria-label="Spinning profile cube">
-
-            <div class="face front">
-                <img
-                    src="/profile/chez/chezface.png"
-                    alt="Profile picture"
-                >
-            </div>
-
-            <div class="face back"></div>
-            <div class="face right"></div>
-            <div class="face left"></div>
-            <div class="face top"></div>
-            <div class="face bottom"></div>
-
-        </div>
-    </div>
-
-    <h1>chez</h1>
-
-    <p class="bio">
-        hi im chez i make stuff<br>
-        ex roblox developer<br>
-        owner of crit
-    </p>
-
-    <nav class="links" aria-label="Social links">
-
-        <a
-            class="tooltip"
-            href="https://discord.com/invite/SyxeBQvvwY"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-tip="Discord · im.chez"
-            aria-label="Discord"
+        <img
+            class="avatar"
+            src="profile/fmxw/fmxwprofile.png"
+            alt="fmxw profile picture"
         >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M19.7 5.3A18.3 18.3 0 0 0 15.2 4l-.6 1.2a16.8 16.8 0 0 0-5.2 0L8.8 4a18.3 18.3 0 0 0-4.5 1.3C1.5 9.5.7 13.6 1.1 17.7a18.4 18.4 0 0 0 5.5 2.8l1.2-2a11.8 11.8 0 0 1-1.9-.9l.5-.4a13.1 13.1 0 0 0 11.2 0l.5.4a11.8 11.8 0 0 1-1.9.9l1.2 2a18.4 18.4 0 0 0 5.5-2.8c.5-4.8-.8-8.9-3.2-12.4ZM8.8 14.9c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Zm6.4 0c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Z"/>
-            </svg>
-        </a>
 
-        <a
-            class="tooltip"
-            href="https://github.com/snigglaberry"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-tip="GitHub"
-            aria-label="GitHub"
-        >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 .9a11.1 11.1 0 0 0-3.5 21.6c.6.1.8-.3.8-.6v-2.1c-3.1.7-3.8-1.3-3.8-1.3-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8 2.4 3.7 1.7.1-.8.5-1.4.9-1.7-2.5-.3-5.1-1.3-5.1-5.5 0-1.2.4-2.2 1.1-3-.1-.3-.5-1.5.1-3.1 0 0 .9-.3 3.1 1.1a10.7 10.7 0 0 1 5.6 0c2.1-1.4 3.1-1.1 3.1-1.1.6 1.6.2 2.8.1 3.1.7.8 1.1 1.8 1.1 3 0 4.2-2.6 5.2-5.1 5.5.4.4.8 1 .8 2.1v3.1c0 .3.2.7.8.6A11.1 11.1 0 0 0 12 .9Z"/>
-            </svg>
-        </a>
+        <h1 class="name">fmxw</h1>
 
-        <a
-            class="tooltip"
-            href="mc got hacked pls buy me it🥹"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-tip="Minecraft · chezd"
-            aria-label="Minecraft"
-        >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 1 22 6.5v11L12 23 2 17.5v-11L12 1Zm0 2.3L5.1 7.1 12 10.9l6.9-3.8L12 3.3ZM4 8.8v7.5l7 3.9v-7.5L4 8.8Zm9 11.4 7-3.9V8.8l-7 3.9v7.5Z"/>
-                <path d="M8.1 5.4 15 9.2l-2-1.1-6.9-3.8-2 1.1Z" opacity=".45"/>
-            </svg>
-        </a>
+        <p class="bio">Social manager of Crit</p>
 
-    </nav>
+        <nav class="socials" aria-label="Social links">
 
+            <!-- TIKTOK -->
+            <a
+                class="social-link"
+                href="https://www.tiktok.com/@crit.launcher"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                title="TikTok"
+            >
+                <svg viewBox="0 0 24 24">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.58v13.67a2.9 2.9 0 0 1-2.9 2.9 2.9 2.9 0 0 1-2.9-2.9 2.9 2.9 0 0 1 2.9-2.9c.3 0 .6.05.88.14V9.27a6.5 6.5 0 0 0-.88-.06 6.48 6.48 0 1 0 6.48 6.48V8.7a8.3 8.3 0 0 0 4.86 1.56V6.69h-1.09Z"/>
+                </svg>
+            </a>
+
+            <!-- GITHUB -->
+            <a
+                class="social-link"
+                href="https://github.com/fmxw"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                title="GitHub"
+            >
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.76-.24.76-.54v-2.1c-3.1.68-3.76-1.32-3.76-1.32-.5-1.29-1.24-1.63-1.24-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.7 1.15 1.7 1.15.99 1.7 2.6 1.21 3.23.92.1-.72.39-1.21.7-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.21 1.15-2.99-.12-.28-.5-1.42.11-2.95 0 0 .94-.3 3.08 1.14a10.7 10.7 0 0 1 5.61 0c2.14-1.44 3.08-1.14 3.08-1.14.61 1.53.23 2.67.11 2.95.72.78 1.15 1.77 1.15 2.99 0 4.29-2.62 5.24-5.11 5.51.4.35.75 1.03.75 2.08v3.08c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z"/>
+                </svg>
+            </a>
+
+        </nav>
+
+    </section>
 </main>
 
-<!-- LEFT SIDEBAR: PROJECTS -->
-
-<aside class="sidebar sidebar-left">
-
-    <section>
-
-        <div class="projects-title">Projects</div>
-
-        <a
-            class="project"
-            href="https://critlauncher.xyz"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <div class="project-name">
-                Crit Launcher
-
-                <svg class="external-icon"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                    <path d="M7 17L17 7"/>
-                    <path d="M8 7h9v9"/>
-                </svg>
-            </div>
-
-            <div class="project-description">
-                The best Minecraft launcher ever made
-            </div>
-
-            <div class="project-status">critlauncher.xyz</div>
-        </a>
-
-        <a
-            class="project"
-            href="https://github.com/snigglaberry/network-tracker"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <div class="project-name">
-                Network Tracker
-
-                <svg class="external-icon"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                    <path d="M7 17L17 7"/>
-                    <path d="M8 7h9v9"/>
-                </svg>
-            </div>
-
-            <div class="project-description">
-                An app that lets you see what apps are sending requests
-            </div>
-
-            <div class="project-status">snigglaberry/network-tracker</div>
-        </a>
-
-        <a
-            class="project"
-            href="https://snigglaberry.github.io/convert"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <div class="project-name">
-                Convert
-
-                <svg class="external-icon"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                    <path d="M7 17L17 7"/>
-                    <path d="M8 7h9v9"/>
-                </svg>
-            </div>
-
-            <div class="project-description">
-                Convert files without bs
-            </div>
-
-            <div class="project-status">
-                snigglaberry.github.io/convert
-            </div>
-        </a>
-
-        <a
-            class="project"
-            href="https://github.com/snigglaberry/pymc"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <div class="project-name">
-                PyMC
-
-                <svg class="external-icon"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                    <path d="M7 17L17 7"/>
-                    <path d="M8 7h9v9"/>
-                </svg>
-            </div>
-
-            <div class="project-description">
-                Python library to launch Minecraft Vanilla, Fabric and Forge
-            </div>
-
-            <div class="project-status">Work in progress</div>
-        </a>
-
-    </section>
-
-</aside>
-
-<!-- RIGHT SIDEBAR: STATISTICS -->
-
-<aside class="sidebar sidebar-right">
-
-    <div class="stats-title">GitHub statistics</div>
-
-    <section class="stats">
-
-        <div class="stat">
-            <span class="stat-label">Followers</span>
-            <span class="stat-value loading" id="followers">Loading</span>
-        </div>
-
-        <div class="stat">
-            <span class="stat-label">Repository views</span>
-            <span class="stat-value loading" id="views">Loading</span>
-        </div>
-
-        <div class="stat">
-            <span class="stat-label">Total downloads</span>
-            <span class="stat-value loading" id="downloads">Loading</span>
-        </div>
-
-        <div class="stat">
-            <span class="stat-label">Repositories</span>
-            <span class="stat-value loading" id="repositories">Loading</span>
-        </div>
-
-    </section>
-
-</aside>
+<div class="bottom">FMXW · CRIT</div>
 
 <script>
+/* MOUSE FOLLOWING LIGHT */
 
-/* GitHub statistics */
+const ambient = document.getElementById("ambient");
 
-const STATS_ENDPOINT =
-    "https://chez-github-stats.skibidiscripts.workers.dev/stats";
+window.addEventListener("mousemove", e => {
+    ambient.style.left = e.clientX + "px";
+    ambient.style.top = e.clientY + "px";
+});
 
-function setStat(id, value, partial = false) {
-    const element = document.getElementById(id);
+/* PARTICLE BACKGROUND */
 
-    if (!element) return;
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
 
-    if (value === null || value === undefined) {
-        element.textContent = "—";
-        element.title = "Statistics unavailable";
-        element.classList.remove("loading");
-        return;
-    }
+let width, height, particles = [];
 
-    element.textContent = Number(value).toLocaleString("en-US");
+function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    if (partial) {
-        element.textContent = "~" + element.textContent;
-        element.title = "Some repositories could not be included";
-    } else {
-        element.title = "GitHub statistics";
-    }
+    width = window.innerWidth;
+    height = window.innerHeight;
 
-    element.classList.remove("loading");
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    createParticles();
 }
 
-async function loadStats() {
-    try {
-        const response = await fetch(STATS_ENDPOINT, {
-            cache: "no-store"
-        });
+function createParticles() {
+    const count = Math.min(
+        Math.floor(width * height / 11000),
+        110
+    );
 
-        if (!response.ok) {
-            throw new Error("Worker returned HTTP " + response.status);
-        }
-
-        const data = await response.json();
-
-        console.log("GitHub statistics:", data);
-
-        setStat("followers", data.followers);
-        setStat("views", data.views, data.viewsPartial);
-        setStat("downloads", data.downloads, data.downloadsPartial);
-        setStat("repositories", data.repositories);
-
-    } catch (error) {
-        console.error("Failed to load GitHub statistics:", error);
-
-        setStat("followers", null);
-        setStat("views", null);
-        setStat("downloads", null);
-        setStat("repositories", null);
-    }
+    particles = Array.from({length: count}, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 1.6 + .3,
+        speed: Math.random() * .35 + .08,
+        opacity: Math.random() * .5 + .12,
+        phase: Math.random() * Math.PI * 2
+    }));
 }
 
-loadStats();
-setInterval(loadStats, 10 * 60 * 1000);
+function draw() {
+    ctx.clearRect(0, 0, width, height);
 
+    const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
 
-/* Background shader */
-
-(() => {
-    const canvas = document.getElementById('shader');
-    const ctx = canvas.getContext('2d', { alpha: false });
-
-    let w = 0;
-    let h = 0;
-    let frame;
-    let pixels;
-
-    const scale = 4;
-
-    const hash = (x, y) => {
-        const v = Math.sin(
-            x * 127.1 + y * 311.7 + 41.73
-        ) * 43758.5453;
-
-        return v - Math.floor(v);
-    };
-
-    const smooth = v => v * v * (3 - 2 * v);
-
-    function noise(x, y) {
-        const ix = Math.floor(x);
-        const iy = Math.floor(y);
-
-        const fx = smooth(x - ix);
-        const fy = smooth(y - iy);
-
-        const a = hash(ix, iy);
-        const b = hash(ix + 1, iy);
-        const c = hash(ix, iy + 1);
-        const d = hash(ix + 1, iy + 1);
-
-        return (
-            (a + (b - a) * fx) * (1 - fy) +
-            (c + (d - c) * fx) * fy
-        );
-    }
-
-    function resize() {
-        w = Math.max(1, Math.ceil(innerWidth / scale));
-        h = Math.max(1, Math.ceil(innerHeight / scale));
-
-        canvas.width = w;
-        canvas.height = h;
-
-        frame = ctx.createImageData(w, h);
-        pixels = frame.data;
-    }
-
-    function draw(ms) {
-        const t = ms * 0.00022;
-
-        for (let y = 0; y < h; y++) {
-            for (let x = 0; x < w; x++) {
-
-                const u = x / w;
-                const v = y / h;
-
-                const warp1 = noise(
-                    u * 3.2 + t * 0.8,
-                    v * 3.2 - t * 0.55
-                );
-
-                const warp2 = noise(
-                    u * 3.2 - t * 0.6 + 8,
-                    v * 3.2 + t * 0.75
-                );
-
-                const px = u * 4.1 + (warp1 - .5) * 2.4;
-                const py = v * 4.1 + (warp2 - .5) * 2.4;
-
-                const clouds = noise(
-                    px + t * 0.65,
-                    py - t * 0.45
-                );
-
-                const detail = noise(
-                    px * 2.1 - t * 0.35,
-                    py * 2.1 + t * 0.4
-                );
-
-                const flow = Math.sin(
-                    (
-                        px * 1.25 +
-                        py * .9 +
-                        clouds * 2.2
-                    ) * Math.PI + t * 1.8
-                );
-
-                const field =
-                    clouds * .58 +
-                    detail * .2 +
-                    (flow * .5 + .5) * .22;
-
-                const shade =
-                    12 + Math.pow(Math.max(0, field), 1.8) * 31;
-
-                const i = (y * w + x) * 4;
-
-                pixels[i] = shade;
-                pixels[i + 1] = shade;
-                pixels[i + 2] = shade;
-                pixels[i + 3] = 255;
-            }
+    particles.forEach(p => {
+        if (!reduced) {
+            p.y -= p.speed;
+            p.phase += .012;
         }
 
-        ctx.putImageData(frame, 0, 0);
-        requestAnimationFrame(draw);
-    }
+        if (p.y < -5) {
+            p.y = height + 5;
+            p.x = Math.random() * width;
+        }
 
-    addEventListener('resize', resize, {
-        passive: true
+        const opacity = p.opacity *
+            (.65 + Math.sin(p.phase) * .35);
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(103,232,249,${opacity})`;
+        ctx.fill();
     });
 
-    resize();
-    requestAnimationFrame(draw);
-})();
+    if (!reduced) {
+        requestAnimationFrame(draw);
+    }
+}
 
+window.addEventListener("resize", resize);
+
+resize();
+draw();
 </script>
 
 </body>
