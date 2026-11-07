@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090c">
+<title>fmxw</title>
+
+<style>
+@font-face {
+    font-family: Minecraft;
+    src: url("minecraft.ttf") format("truetype");
+    font-display: swap;
+}
+
+:root {
+    --bg: #08090c;
+    --accent: #a78bfa;
+    --text: #f3f1fa;
+    --muted: #85818f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, "Segoe UI", sans-serif;
+    display: grid;
+    place-items: center;
+    isolation: isolate;
+}
+
+/* Background */
+
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 45%,
+            #171225 0%,
+            #0c0b12 38%,
+            #08090c 75%);
+}
+
+.background::before {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background:
+        conic-gradient(
+            from 0deg at 50% 50%,
+            transparent,
+            rgba(135, 91, 255, .12),
+            transparent,
+            rgba(57, 120, 255, .09),
+            transparent
+        );
+    filter: blur(85px);
+    animation: atmosphere 24s linear infinite;
+}
+
+.background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .22;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 65px 65px;
+    mask-image: radial-gradient(ellipse at center, black, transparent 85%);
+}
+
+@keyframes atmosphere {
+    to { transform: rotate(360deg); }
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.ambient {
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    background: rgba(126, 83, 255, .09);
+    filter: blur(110px);
+    pointer-events: none;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    transition: left .3s ease, top .3s ease;
+    left: 50%;
+    top: 45%;
+}
+
+/* Main profile */
+
+main {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: appear 1.2s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* Profile picture */
+
+.avatar-container {
+    position: relative;
+    width: 156px;
+    height: 156px;
+    margin-bottom: 30px;
+}
+
+.avatar-container::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        #a78bfa 20%,
+        #6e65f5 40%,
+        transparent 65%,
+        #a78bfa 85%,
+        transparent 100%
+    );
+    animation: rotate 7s linear infinite;
+    opacity: .8;
+    filter: blur(2px);
+}
+
+.avatar-container::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: var(--bg);
+}
+
+@keyframes rotate {
+    to { transform: rotate(360deg); }
+}
+
+.avatar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+    border: 3px solid #111019;
+    background: #171421;
+    box-shadow:
+        0 0 30px rgba(167,139,250,.2),
+        0 0 85px rgba(117,83,255,.12);
+    transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.avatar-container:hover .avatar {
+    transform: scale(1.045);
+    box-shadow:
+        0 0 35px rgba(167,139,250,.4),
+        0 0 100px rgba(117,83,255,.2);
+}
+
+/* Name */
+
+.name {
+    font-family: Minecraft, monospace;
+    font-size: clamp(42px, 8vw, 68px);
+    font-weight: normal;
+    letter-spacing: 2px;
+    color: #f6f0ff;
+    line-height: 1.4;
+    text-shadow:
+        0 0 7px rgba(196,168,255,.9),
+        0 0 20px rgba(167,139,250,.65),
+        0 0 45px rgba(135,91,255,.45),
+        0 0 85px rgba(117,83,255,.25);
+    animation: nameGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes nameGlow {
+    from {
+        text-shadow:
+            0 0 7px rgba(196,168,255,.65),
+            0 0 20px rgba(167,139,250,.4),
+            0 0 45px rgba(135,91,255,.3);
+    }
+    to {
+        text-shadow:
+            0 0 10px #e4d5ff,
+            0 0 28px rgba(167,139,250,.9),
+            0 0 65px rgba(135,91,255,.65);
+    }
+}
+
+/* Bio */
+
+.bio {
+    margin-top: 15px;
+    color: #a8a2b5;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+/* Social links */
+
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 32px;
+}
+
+.social-link {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    color: #a8a2b5;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,.09);
+    background: rgba(255,255,255,.025);
+    border-radius: 14px;
+    transition:
+        color .25s ease,
+        background .25s ease,
+        border-color .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.social-link svg {
+    width: 21px;
+    height: 21px;
+    fill: currentColor;
+}
+
+.social-link:hover {
+    color: #e4d5ff;
+    background: rgba(167,139,250,.12);
+    border-color: rgba(167,139,250,.55);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(135,91,255,.15);
+}
+
+.social-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+
+/* Bottom decoration */
+
+.bottom {
+    position: fixed;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #55515f;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .avatar-container {
+        width: 130px;
+        height: 130px;
+    }
+
+    .name {
+        font-size: clamp(34px, 11vw, 52px);
+    }
+
+    .bio {
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+<canvas id="particles"></canvas>
+<div class="ambient" id="ambient"></div>
+
+<main>
+    <section class="profile">
+
+        <div class="avatar-container">
+            <img
+                class="avatar"
+                src="fmxwprofile.png"
+                alt="fmxw profile picture"
+            >
+        </div>
+
+        <h1 class="name">fmxw</h1>
+
+        <p class="bio">Social manager of Crit</p>
+
+        <nav class="socials" aria-label="Social links">
+
+            <!-- TikTok -->
+            <a
+                class="social-link"
+                href="https://www.tiktok.com/@crit.launcher"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                title="TikTok"
+            >
+                <svg viewBox="0 0 24 24">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.58v13.67a2.9 2.9 0 0 1-2.9 2.9 2.9 2.9 0 0 1-2.9-2.9 2.9 2.9 0 0 1 2.9-2.9c.3 0 .6.05.88.14V9.27a6.5 6.5 0 0 0-.88-.06 6.48 6.48 0 1 0 6.48 6.48V8.7a8.3 8.3 0 0 0 4.86 1.56V6.69h-1.09Z"/>
+                </svg>
+            </a>
+
+            <!-- GitHub -->
+            <a
+                class="social-link"
+                href="https://github.com/fmxw"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                title="GitHub"
+            >
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.76-.24.76-.54v-2.1c-3.1.68-3.76-1.32-3.76-1.32-.5-1.29-1.24-1.63-1.24-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.7 1.15 1.7 1.15.99 1.7 2.6 1.21 3.23.92.1-.72.39-1.21.7-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.21 1.15-2.99-.12-.28-.5-1.42.11-2.95 0 0 .94-.3 3.08 1.14a10.7 10.7 0 0 1 5.61 0c2.14-1.44 3.08-1.14 3.08-1.14.61 1.53.23 2.67.11 2.95.72.78 1.15 1.77 1.15 2.99 0 4.29-2.62 5.24-5.11 5.51.4.35.75 1.03.75 2.08v3.08c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z"/>
+                </svg>
+            </a>
+
+        </nav>
+
+    </section>
+</main>
+
+<div class="bottom">FMXW · CRIT</div>
+
+<script>
+/* Ambient mouse glow */
+
+const ambient = document.getElementById("ambient");
+
+window.addEventListener("mousemove", (e) => {
+    ambient.style.left = e.clientX + "px";
+    ambient.style.top = e.clientY + "px";
+});
+
+/* Animated particles */
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let width, height, particles = [];
+let animationFrame;
+
+function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    createParticles();
+}
+
+function createParticles() {
+    const count = Math.min(
+        Math.floor(width * height / 11000),
+        110
+    );
+
+    particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 1.6 + .3,
+        speed: Math.random() * .35 + .08,
+        opacity: Math.random() * .5 + .12,
+        phase: Math.random() * Math.PI * 2
+    }));
+}
+
+function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    particles.forEach(p => {
+        if (!reduced) {
+            p.y -= p.speed;
+            p.phase += .012;
+        }
+
+        if (p.y < -5) {
+            p.y = height + 5;
+            p.x = Math.random() * width;
+        }
+
+        const opacity = p.opacity *
+            (.65 + Math.sin(p.phase) * .35);
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(190, 164, 255, ${opacity})`;
+        ctx.fill();
+    });
+
+    if (!reduced) {
+        animationFrame = requestAnimationFrame(draw);
+    }
+}
+
+window.addEventListener("resize", resize);
+
+resize();
+draw();
+</script>
+
+</body>
+</html>
