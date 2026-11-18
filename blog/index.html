@@ -73,10 +73,12 @@
     .footer{border-top:1px solid #ffffff0d;padding:25px 0;color:#777;font-size:11px}
     .footer .shell{display:flex;justify-content:space-between;gap:20px}
     .hidden{display:none!important}
+
     @media(max-width:850px){
       .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .hero{padding-top:60px}
     }
+
     @media(max-width:560px){
       .shell{width:min(100% - 28px,1120px)}
       .topbar{height:65px}
@@ -99,7 +101,7 @@
   <header class="topbar">
     <div class="shell nav">
       <a class="brand" href="/">
-        <img src="/blog/crit-icon.svg" alt="Crit Launcher">
+        <img src="/blob/crit-icon.svg" alt="Crit Launcher">
         <div>Crit Launcher <span>/ Posts</span></div>
       </a>
       <a class="navlink" href="https://critlauncher.xyz">critlauncher.xyz ↗</a>
@@ -152,72 +154,67 @@
   }[c]));
 
   function metadata(raw) {
-  const match = raw.match(/^\s*<!--[\s\S]*?-->/);
-  const block = match ? match[0] : '';
+    const match = raw.match(/^\s*<!--[\s\S]*?-->/);
+    const block = match ? match[0] : '';
 
-  const get = key => {
-    const pattern = new RegExp(key + "\\s*[\"']([^\"']*)[\"']", "i");
-    const found = block.match(pattern);
-    return found ? found[1].trim() : '';
-  };
+    const get = key => {
+      const pattern = new RegExp(
+        key + "\\s*[\"']([^\"']*)[\"']",
+        "i"
+      );
 
-  return {
-    title: get('title'),
-    author: get('author'),
-    thumbnail: get('thumbnail'),
-    body: raw.replace(/^\s*<!--[\s\S]*?-->\s*/, '').trim()
-  };
-}
+      const found = block.match(pattern);
+      return found ? found[1].trim() : '';
+    };
+
     return {
-      title:get('title'),
-      author:get('author'),
-      thumbnail:get('thumbnail'),
-      body:raw.replace(/^\s*<!--[\s\S]*?-->\s*/,'').trim()
+      title: get('title'),
+      author: get('author'),
+      thumbnail: get('thumbnail'),
+      body: raw.replace(/^\s*<!--[\s\S]*?-->\s*/, '').trim()
     };
   }
 
-  function excerpt(md){
+  function excerpt(md) {
     return md
-      .replace(/```[\s\S]*?```/g,'')
-      .replace(/!?\[[^\]]*\]\([^)]*\)/g,'')
-      .replace(/[#>*_`~-]/g,'')
-      .replace(/\s+/g,' ')
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/!?\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/[#>*_`~-]/g, '')
+      .replace(/\s+/g, ' ')
       .trim()
-      .slice(0,145);
+      .slice(0, 145);
   }
 
-  // GitHub repository configuration
   const GITHUB_API =
     'https://api.github.com/repos/snigglaberry/critsite/contents/blog/posts?ref=main';
 
-  async function loadPosts(){
-    try{
-      const response = await fetch(GITHUB_API,{
-        headers:{
-          Accept:'application/vnd.github+json'
+  async function loadPosts() {
+    try {
+      const response = await fetch(GITHUB_API, {
+        headers: {
+          Accept: 'application/vnd.github+json'
         },
-        cache:'no-store'
+        cache: 'no-store'
       });
 
-      if(!response.ok){
-        if(response.status === 403 || response.status === 429){
-          throw new Error('GitHub API rate limit reached. Try again later.');
+      if (!response.ok) {
+        if (response.status === 403 || response.status === 429) {
+          throw new Error('GitHub API rate limit reached. Try again in a little while');
         }
 
-        if(response.status === 404){
-          throw new Error('GitHub could not find blog/posts on the main branch.');
+        if (response.status === 404) {
+          throw new Error('GitHub could not find blog/posts on the main branch');
         }
 
-        throw new Error('GitHub returned HTTP '+response.status);
+        throw new Error('GitHub returned HTTP ' + response.status);
       }
 
       const files = await response.json();
 
-      if(!Array.isArray(files)){
-        throw new Error('GitHub returned an unexpected folder listing.');
+      if (!Array.isArray(files)) {
+        throw new Error('GitHub returned an unexpected folder listing');
       }
 
-      // Automatically discover all Markdown files
       const markdownFiles = files.filter(file =>
         file.type === 'file' &&
         typeof file.name === 'string' &&
@@ -225,48 +222,46 @@
         typeof file.download_url === 'string'
       );
 
-      // Fetch every Markdown file
-      posts = (await Promise.all(
-        markdownFiles.map(async file => {
-          const r = await fetch(file.download_url,{
-            cache:'no-store'
-          });
+      posts = (await Promise.all(markdownFiles.map(async file => {
+        const r = await fetch(file.download_url, {
+          cache: 'no-store'
+        });
 
-          if(!r.ok) return null;
+        if (!r.ok) return null;
 
-          const raw = await r.text();
-          const m = metadata(raw);
-          const slug = file.name.replace(/\.md$/i,'');
+        const raw = await r.text();
+        const m = metadata(raw);
+        const slug = file.name.replace(/\.md$/i, '');
 
-          return {
-            ...m,
-            slug,
-            url:'/posts/'+slug
-          };
-        })
-      ))
+        return {
+          ...m,
+          slug,
+          url: '/posts/' + slug
+        };
+      })))
       .filter(p => p && p.title)
-      .sort((a,b) => a.title.localeCompare(b.title));
+      .sort((a, b) => a.title.localeCompare(b.title));
 
       $('#count').textContent =
-        posts.length+' '+(posts.length === 1 ? 'post' : 'posts');
+        posts.length + ' ' + (posts.length === 1 ? 'post' : 'posts');
 
       renderGrid();
       route();
 
-    }catch(e){
-      console.error('Crit Launcher posts:',e);
+    } catch (e) {
+      console.error('Crit Launcher posts:', e);
 
       $('#count').textContent = '';
 
       grid.innerHTML =
-        '<div class="error">'+esc(e.message)+
+        '<div class="error">' +
+        esc(e.message) +
         '. Check that the repository is public and that Markdown files are directly inside blog/posts.</div>';
     }
   }
 
-  function renderGrid(){
-    if(!posts.length){
+  function renderGrid() {
+    if (!posts.length) {
       grid.innerHTML =
         '<div class="empty-state">No posts yet.</div>';
       return;
@@ -276,8 +271,8 @@
       <a class="post" href="${p.url}" data-slug="${esc(p.slug)}">
         ${
           p.thumbnail
-          ? `<img class="thumb" src="${esc(p.thumbnail)}" alt="" loading="lazy" onerror="this.style.display='none'">`
-          : `<div class="thumb empty">CRIT LAUNCHER</div>`
+            ? `<img class="thumb" src="${esc(p.thumbnail)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+            : `<div class="thumb empty">CRIT LAUNCHER</div>`
         }
 
         <div class="postbody">
@@ -299,21 +294,21 @@
     `).join('');
   }
 
-  function renderArticle(p){
+  function renderArticle(p) {
     listing.classList.add('hidden');
     article.classList.remove('hidden');
 
-    const canonical = location.origin+p.url;
+    const canonical = location.origin + p.url;
 
-    document.title = p.title+' — Crit Launcher';
+    document.title = p.title + ' — Crit Launcher';
 
-    setMeta('description',excerpt(p.body)||p.title);
-    setMeta('og:title',p.title,'property');
-    setMeta('og:description',excerpt(p.body),'property');
-    setMeta('og:url',canonical,'property');
+    setMeta('description', excerpt(p.body) || p.title);
+    setMeta('og:title', p.title, 'property');
+    setMeta('og:description', excerpt(p.body), 'property');
+    setMeta('og:url', canonical, 'property');
 
-    if(p.thumbnail){
-      setMeta('og:image',p.thumbnail,'property');
+    if (p.thumbnail) {
+      setMeta('og:image', p.thumbnail, 'property');
     }
 
     article.innerHTML = `
@@ -331,45 +326,45 @@
 
       ${
         p.thumbnail
-        ? `<img class="cover" src="${esc(p.thumbnail)}" alt="${esc(p.title)}">`
-        : ''
+          ? `<img class="cover" src="${esc(p.thumbnail)}" alt="${esc(p.title)}">`
+          : ''
       }
 
       <div class="content">
         ${
           window.marked
-          ? marked.parse(p.body)
-          : '<pre>'+esc(p.body)+'</pre>'
+            ? marked.parse(p.body)
+            : '<pre>' + esc(p.body) + '</pre>'
         }
       </div>
     `;
   }
 
-  function setMeta(name,content,attr='name'){
+  function setMeta(name, content, attr = 'name') {
     let el = document.querySelector(`meta[${attr}="${name}"]`);
 
-    if(!el){
+    if (!el) {
       el = document.createElement('meta');
-      el.setAttribute(attr,name);
+      el.setAttribute(attr, name);
       document.head.appendChild(el);
     }
 
     el.content = content;
   }
 
-  function route(){
+  function route() {
     const slug = decodeURIComponent(
       location.pathname
-        .replace(/^\/posts\//,'')
-        .replace(/\/$/,'')
+        .replace(/^\/posts\//, '')
+        .replace(/\/$/, '')
     );
 
-    if(location.pathname.startsWith('/posts/') && slug){
+    if (location.pathname.startsWith('/posts/') && slug) {
       const p = posts.find(x => x.slug === slug);
 
-      if(p){
+      if (p) {
         renderArticle(p);
-      }else{
+      } else {
         listing.classList.remove('hidden');
         article.classList.add('hidden');
         document.title = 'Post not found — Crit Launcher';
@@ -377,7 +372,7 @@
         grid.innerHTML =
           '<div class="empty-state">This post does not exist.</div>';
       }
-    }else{
+    } else {
       article.classList.add('hidden');
       listing.classList.remove('hidden');
 
@@ -390,39 +385,36 @@
     }
   }
 
-  // Gallery navigation
-  document.addEventListener('click',e => {
+  document.addEventListener('click', e => {
     const link = e.target.closest('a[data-slug]');
 
-    if(
+    if (
       link &&
       !e.metaKey &&
       !e.ctrlKey &&
       !e.shiftKey &&
       e.button === 0
-    ){
+    ) {
       e.preventDefault();
 
-      history.pushState({},'',link.href);
+      history.pushState({}, '', link.href);
       route();
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     }
   });
 
-  // Back to gallery
-  document.addEventListener('click',e => {
-    if(e.target.closest('.back')){
+  document.addEventListener('click', e => {
+    if (e.target.closest('.back')) {
       e.preventDefault();
 
-      history.pushState({},'','/');
+      history.pushState({}, '', '/');
       route();
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     }
   });
 
-  window.addEventListener('popstate',route);
+  window.addEventListener('popstate', route);
 
-  // Start
   loadPosts();
 })();
 </script>
