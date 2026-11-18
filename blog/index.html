@@ -151,17 +151,23 @@
     "'":'&#39;'
   }[c]));
 
-  function metadata(raw){
-    const match = raw.match(/^\s*<!--[\s\S]*?-->/);
-    const block = match ? match[0] : '';
+  function metadata(raw) {
+  const match = raw.match(/^\s*<!--[\s\S]*?-->/);
+  const block = match ? match[0] : '';
 
-    const get = key => {
-      const m = block.match(
-        new RegExp(key+'\\s*["\\']([^"\\']*)["\\']','i')
-      );
-      return m ? m[1].trim() : '';
-    };
+  const get = key => {
+    const pattern = new RegExp(key + "\\s*[\"']([^\"']*)[\"']", "i");
+    const found = block.match(pattern);
+    return found ? found[1].trim() : '';
+  };
 
+  return {
+    title: get('title'),
+    author: get('author'),
+    thumbnail: get('thumbnail'),
+    body: raw.replace(/^\s*<!--[\s\S]*?-->\s*/, '').trim()
+  };
+}
     return {
       title:get('title'),
       author:get('author'),
