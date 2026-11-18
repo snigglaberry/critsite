@@ -5,94 +5,379 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#101010">
-  <meta name="description" content="News, updates and announcements from Crit Launcher.">
+  <meta name="description" content="Posts from Crit Launcher.">
   <title>Posts — Crit Launcher</title>
   <link rel="icon" href="/blog/crit-icon.svg" type="image/svg+xml">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
-    :root{color-scheme:dark;--bg:#0b0b0c;--panel:#121214;--panel2:#18181b;--line:#262629;--text:#f4f4f5;--muted:#929297;--accent:#fff}
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}
-    a{color:inherit;text-decoration:none}
-    button{font:inherit}
-    .shell{width:min(1120px,calc(100% - 40px));margin:auto}
-    .topbar{height:76px;border-bottom:1px solid #ffffff0d;display:flex;align-items:center}
-    .nav{display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:-.5px}
-    .brand img{width:31px;height:31px;object-fit:contain}
-    .brand span{color:#8e8e94;font-weight:500}
-    .navlink{font-size:13px;color:#aaa;transition:color .18s}
-    .navlink:hover{color:#fff}
-    .hero{padding:76px 0 42px}
-    .eyebrow{font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:#8b8b91;font-weight:700}
-    .hero h1{font-size:clamp(38px,7vw,64px);letter-spacing:-3.8px;line-height:1.02;margin:16px 0 13px;font-weight:800}
-    .hero p{margin:0;color:var(--muted);font-size:15px;line-height:1.7;max-width:510px}
-    .bar{display:flex;align-items:center;justify-content:space-between;margin:25px 0 17px}
-    .bar h2{font-size:14px;font-weight:650;margin:0}
-    .count{color:#85858b;font-size:12px}
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;padding-bottom:80px}
-    .post{background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:transform .2s,border-color .2s;display:flex;flex-direction:column;min-width:0}
-    .post:hover{transform:translateY(-3px);border-color:#555}
-    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;background:#1a1a1d;display:block}
-    .thumb.empty{display:grid;place-items:center;color:#5f5f66;font-size:12px;letter-spacing:2px}
-    .postbody{padding:19px 19px 20px;display:flex;flex-direction:column;flex:1}
-    .meta{display:flex;gap:8px;align-items:center;color:#888890;font-size:11px}
-    .dot{width:3px;height:3px;background:#666;border-radius:50%}
-    .post h3{font-size:18px;line-height:1.35;letter-spacing:-.55px;margin:13px 0 10px;font-weight:700}
-    .excerpt{font-size:12px;line-height:1.7;color:#929298;margin:0 0 18px}
-    .read{font-size:12px;font-weight:650;color:#eee;margin-top:auto;display:flex;align-items:center;gap:7px}
-    .read span{transition:transform .2s}
-    .post:hover .read span{transform:translateX(4px)}
-    .article{max-width:760px;margin:0 auto;padding:54px 0 100px}
-    .back{font-size:12px;color:#a0a0a6;display:inline-flex;gap:8px;margin-bottom:38px}
-    .back:hover{color:white}
-    .article .cover{width:100%;max-height:390px;object-fit:cover;margin:27px 0 35px;background:#171719}
-    .article h1{font-size:clamp(34px,6vw,54px);line-height:1.1;letter-spacing:-2.5px;margin:15px 0 18px}
-    .article .meta{font-size:12px}
-    .content{font-size:15px;line-height:1.85;color:#d0d0d3}
-    .content h1,.content h2,.content h3{color:#fff;letter-spacing:-.8px;line-height:1.25;margin:34px 0 13px}
-    .content h1{font-size:32px}
-    .content h2{font-size:25px}
-    .content h3{font-size:19px}
-    .content p{margin:0 0 19px}
-    .content a{color:#fff;text-decoration:underline;text-underline-offset:3px}
-    .content img{max-width:100%;height:auto}
-    .content blockquote{border-left:2px solid #777;padding:2px 0 2px 18px;margin:22px 0;color:#aaa}
-    .content pre{overflow:auto;padding:17px;background:#151518;border:1px solid var(--line);font-size:13px}
-    .content code{font-family:ui-monospace,monospace;background:#1b1b1f;padding:2px 5px}
-    .content pre code{background:none;padding:0}
-    .content ul,.content ol{padding-left:23px}
-    .content li{margin:7px 0}
-    .content hr{border:0;border-top:1px solid var(--line);margin:30px 0}
-    .empty-state,.error{padding:45px 20px;border:1px dashed #333;text-align:center;color:#888;font-size:13px;grid-column:1/-1}
-    .footer{border-top:1px solid #ffffff0d;padding:25px 0;color:#777;font-size:11px}
-    .footer .shell{display:flex;justify-content:space-between;gap:20px}
-    .hidden{display:none!important}
-
-    @media(max-width:850px){
-      .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .hero{padding-top:60px}
+    :root {
+      color-scheme: dark;
+      --bg: #0b0b0c;
+      --panel: #121214;
+      --panel2: #18181b;
+      --line: #262629;
+      --text: #f4f4f5;
+      --muted: #929297;
+      --accent: #fff;
     }
 
-    @media(max-width:560px){
-      .shell{width:min(100% - 28px,1120px)}
-      .topbar{height:65px}
-      .hero{padding:52px 0 30px}
-      .hero h1{letter-spacing:-2.5px}
-      .grid{grid-template-columns:1fr;gap:13px}
-      .post{display:grid;grid-template-columns:39% 1fr}
-      .thumb{height:100%;min-height:155px;aspect-ratio:auto}
-      .postbody{padding:14px}
-      .post h3{font-size:15px;margin:10px 0 7px}
-      .excerpt{font-size:11px;margin-bottom:12px}
-      .article{padding-top:35px}
-      .article h1{letter-spacing:-1.6px}
-      .footer .shell{flex-direction:column;gap:8px}
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button { font: inherit; }
+
+    .shell {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    .topbar {
+      height: 76px;
+      border-bottom: 1px solid #ffffff0d;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 750;
+      letter-spacing: -.5px;
+    }
+
+    .brand img {
+      width: 31px;
+      height: 31px;
+      object-fit: contain;
+    }
+
+    .brand span {
+      color: #8e8e94;
+      font-weight: 500;
+    }
+
+    .navlink {
+      font-size: 13px;
+      color: #aaa;
+      transition: color .18s;
+    }
+
+    .navlink:hover { color: #fff; }
+
+    .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 25px 0 17px;
+    }
+
+    .bar h2 {
+      font-size: 14px;
+      font-weight: 650;
+      margin: 0;
+    }
+
+    .count {
+      color: #85858b;
+      font-size: 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 17px;
+      padding-bottom: 80px;
+    }
+
+    .post {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      transition: transform .2s, border-color .2s;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .post:hover {
+      transform: translateY(-3px);
+      border-color: #555;
+    }
+
+    .thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #1a1a1d;
+      display: block;
+    }
+
+    .thumb.empty {
+      display: grid;
+      place-items: center;
+      color: #5f5f66;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    .postbody {
+      padding: 19px 19px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: #888890;
+      font-size: 11px;
+    }
+
+    .dot {
+      width: 3px;
+      height: 3px;
+      background: #666;
+      border-radius: 50%;
+    }
+
+    .post h3 {
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: -.55px;
+      margin: 13px 0 10px;
+      font-weight: 700;
+    }
+
+    .excerpt {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #929298;
+      margin: 0 0 18px;
+    }
+
+    .read {
+      font-size: 12px;
+      font-weight: 650;
+      color: #eee;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .read span { transition: transform .2s; }
+
+    .post:hover .read span {
+      transform: translateX(4px);
+    }
+
+    .article {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 54px 0 100px;
+    }
+
+    .back {
+      font-size: 12px;
+      color: #a0a0a6;
+      display: inline-flex;
+      gap: 8px;
+      margin-bottom: 38px;
+    }
+
+    .back:hover { color: white; }
+
+    .article .cover {
+      width: 100%;
+      max-height: 390px;
+      object-fit: cover;
+      margin: 27px 0 35px;
+      background: #171719;
+    }
+
+    .article h1 {
+      font-size: clamp(34px, 6vw, 54px);
+      line-height: 1.1;
+      letter-spacing: -2.5px;
+      margin: 15px 0 18px;
+    }
+
+    .article .meta { font-size: 12px; }
+
+    .content {
+      font-size: 15px;
+      line-height: 1.85;
+      color: #d0d0d3;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3 {
+      color: #fff;
+      letter-spacing: -.8px;
+      line-height: 1.25;
+      margin: 34px 0 13px;
+    }
+
+    .content h1 { font-size: 32px; }
+    .content h2 { font-size: 25px; }
+    .content h3 { font-size: 19px; }
+
+    .content p { margin: 0 0 19px; }
+
+    .content a {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .content img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .content blockquote {
+      border-left: 2px solid #777;
+      padding: 2px 0 2px 18px;
+      margin: 22px 0;
+      color: #aaa;
+    }
+
+    .content pre {
+      overflow: auto;
+      padding: 17px;
+      background: #151518;
+      border: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    .content code {
+      font-family: ui-monospace, monospace;
+      background: #1b1b1f;
+      padding: 2px 5px;
+    }
+
+    .content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .content ul,
+    .content ol {
+      padding-left: 23px;
+    }
+
+    .content li { margin: 7px 0; }
+
+    .content hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 30px 0;
+    }
+
+    .empty-state,
+    .error {
+      padding: 45px 20px;
+      border: 1px dashed #333;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      grid-column: 1 / -1;
+    }
+
+    .footer {
+      border-top: 1px solid #ffffff0d;
+      padding: 25px 0;
+      color: #777;
+      font-size: 11px;
+    }
+
+    .footer .shell {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 850px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .shell {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .topbar { height: 65px; }
+
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+      }
+
+      .post {
+        display: grid;
+        grid-template-columns: 39% 1fr;
+      }
+
+      .thumb {
+        height: 100%;
+        min-height: 155px;
+        aspect-ratio: auto;
+      }
+
+      .postbody { padding: 14px; }
+
+      .post h3 {
+        font-size: 15px;
+        margin: 10px 0 7px;
+      }
+
+      .excerpt {
+        font-size: 11px;
+        margin-bottom: 12px;
+      }
+
+      .article { padding-top: 35px; }
+
+      .article h1 { letter-spacing: -1.6px; }
+
+      .footer .shell {
+        flex-direction: column;
+        gap: 8px;
+      }
     }
   </style>
 </head>
@@ -100,17 +385,19 @@
 <body>
   <header class="topbar">
     <div class="shell nav">
-      <a class="brand" href="/">
+      <a class="brand" href="/blog/">
         <img src="/blog/crit-icon.svg" alt="Crit Launcher">
         <div>Crit Launcher <span>/ Posts</span></div>
       </a>
-      <a class="navlink" href="https://critlauncher.xyz">critlauncher.xyz ↗</a>
+
+      <a class="navlink" href="https://critlauncher.xyz">
+        critlauncher.xyz ↗
+      </a>
     </div>
   </header>
 
   <main class="shell">
     <section id="listing">
-
       <div class="bar">
         <h2>All posts</h2>
         <span class="count" id="count">Loading posts…</span>
@@ -129,289 +416,307 @@
     </div>
   </footer>
 
-<script>
-(() => {
-  const $ = s => document.querySelector(s);
-  const grid = $('#grid');
-  const listing = $('#listing');
-  const article = $('#article');
+  <script>
+    (() => {
+      const $ = s => document.querySelector(s);
 
-  $('#year').textContent = new Date().getFullYear();
+      const grid = $('#grid');
+      const listing = $('#listing');
+      const article = $('#article');
 
-  let posts = [];
+      const POST_PREFIX = '/blog/posts/';
 
-  const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#39;'
-  }[c]));
+      const GITHUB_API =
+        'https://api.github.com/repos/snigglaberry/critsite/contents/blog/posts?ref=main';
 
-  function metadata(raw) {
-    const match = raw.match(/^\s*<!--[\s\S]*?-->/);
-    const block = match ? match[0] : '';
+      $('#year').textContent = new Date().getFullYear();
 
-    const get = key => {
-      const pattern = new RegExp(
-        key + "\\s*[\"']([^\"']*)[\"']",
-        "i"
-      );
+      let posts = [];
 
-      const found = block.match(pattern);
-      return found ? found[1].trim() : '';
-    };
+      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[c]));
 
-    return {
-      title: get('title'),
-      author: get('author'),
-      thumbnail: get('thumbnail'),
-      body: raw.replace(/^\s*<!--[\s\S]*?-->\s*/, '').trim()
-    };
-  }
+      function metadata(raw) {
+        const match = raw.match(/^\s*<!--[\s\S]*?-->/);
+        const block = match ? match[0] : '';
 
-  function excerpt(md) {
-    return md
-      .replace(/```[\s\S]*?```/g, '')
-      .replace(/!?\[[^\]]*\]\([^)]*\)/g, '')
-      .replace(/[#>*_`~-]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 145);
-  }
+        const get = key => {
+          const pattern = new RegExp(
+            key + "\\s*[\"']([^\"']*)[\"']",
+            "i"
+          );
 
-  const GITHUB_API =
-    'https://api.github.com/repos/snigglaberry/critsite/contents/blog/posts?ref=main';
-
-  async function loadPosts() {
-    try {
-      const response = await fetch(GITHUB_API, {
-        headers: {
-          Accept: 'application/vnd.github+json'
-        },
-        cache: 'no-store'
-      });
-
-      if (!response.ok) {
-        if (response.status === 403 || response.status === 429) {
-          throw new Error('GitHub API rate limit reached. Try again in a little while');
-        }
-
-        if (response.status === 404) {
-          throw new Error('GitHub could not find blog/posts on the main branch');
-        }
-
-        throw new Error('GitHub returned HTTP ' + response.status);
-      }
-
-      const files = await response.json();
-
-      if (!Array.isArray(files)) {
-        throw new Error('GitHub returned an unexpected folder listing');
-      }
-
-      const markdownFiles = files.filter(file =>
-        file.type === 'file' &&
-        typeof file.name === 'string' &&
-        file.name.toLowerCase().endsWith('.md') &&
-        typeof file.download_url === 'string'
-      );
-
-      posts = (await Promise.all(markdownFiles.map(async file => {
-        const r = await fetch(file.download_url, {
-          cache: 'no-store'
-        });
-
-        if (!r.ok) return null;
-
-        const raw = await r.text();
-        const m = metadata(raw);
-        const slug = file.name.replace(/\.md$/i, '');
+          const found = block.match(pattern);
+          return found ? found[1].trim() : '';
+        };
 
         return {
-          ...m,
-          slug,
-          url: '/posts/' + slug
+          title: get('title'),
+          author: get('author'),
+          thumbnail: get('thumbnail'),
+          body: raw.replace(/^\s*<!--[\s\S]*?-->\s*/, '').trim()
         };
-      })))
-      .filter(p => p && p.title)
-      .sort((a, b) => a.title.localeCompare(b.title));
+      }
 
-      $('#count').textContent =
-        posts.length + ' ' + (posts.length === 1 ? 'post' : 'posts');
+      function excerpt(md) {
+        return md
+          .replace(/```[\s\S]*?```/g, '')
+          .replace(/!?\[[^\]]*\]\([^)]*\)/g, '')
+          .replace(/[#>*_`~-]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 145);
+      }
 
-      renderGrid();
-      route();
+      async function loadPosts() {
+        try {
+          const response = await fetch(GITHUB_API, {
+            headers: {
+              Accept: 'application/vnd.github+json'
+            },
+            cache: 'no-store'
+          });
 
-    } catch (e) {
-      console.error('Crit Launcher posts:', e);
+          if (!response.ok) {
+            if (response.status === 403 || response.status === 429) {
+              throw new Error(
+                'GitHub API rate limit reached. Try again in a little while'
+              );
+            }
 
-      $('#count').textContent = '';
+            if (response.status === 404) {
+              throw new Error(
+                'GitHub could not find blog/posts on the main branch'
+              );
+            }
 
-      grid.innerHTML =
-        '<div class="error">' +
-        esc(e.message) +
-        '. Check that the repository is public and that Markdown files are directly inside blog/posts.</div>';
-    }
-  }
+            throw new Error('GitHub returned HTTP ' + response.status);
+          }
 
-  function renderGrid() {
-    if (!posts.length) {
-      grid.innerHTML =
-        '<div class="empty-state">No posts yet.</div>';
-      return;
-    }
+          const files = await response.json();
 
-    grid.innerHTML = posts.map(p => `
-      <a class="post" href="${p.url}" data-slug="${esc(p.slug)}">
-        ${
-          p.thumbnail
-            ? `<img class="thumb" src="${esc(p.thumbnail)}" alt="" loading="lazy" onerror="this.style.display='none'">`
-            : `<div class="thumb empty">CRIT LAUNCHER</div>`
+          if (!Array.isArray(files)) {
+            throw new Error('GitHub returned an unexpected folder listing');
+          }
+
+          const markdownFiles = files.filter(file =>
+            file.type === 'file' &&
+            typeof file.name === 'string' &&
+            file.name.toLowerCase().endsWith('.md') &&
+            typeof file.download_url === 'string'
+          );
+
+          posts = (await Promise.all(markdownFiles.map(async file => {
+            const r = await fetch(file.download_url, {
+              cache: 'no-store'
+            });
+
+            if (!r.ok) return null;
+
+            const raw = await r.text();
+            const m = metadata(raw);
+            const slug = file.name.replace(/\.md$/i, '');
+
+            return {
+              ...m,
+              slug,
+              url: POST_PREFIX + encodeURIComponent(slug)
+            };
+          })))
+          .filter(p => p && p.title)
+          .sort((a, b) => a.title.localeCompare(b.title));
+
+          $('#count').textContent =
+            posts.length + ' ' + (posts.length === 1 ? 'post' : 'posts');
+
+          renderGrid();
+          route();
+
+        } catch (e) {
+          console.error('Crit Launcher posts:', e);
+
+          $('#count').textContent = '';
+
+          grid.innerHTML =
+            '<div class="error">' +
+            esc(e.message) +
+            '. Check that the repository is public and that Markdown files are directly inside blog/posts.</div>';
+        }
+      }
+
+      function renderGrid() {
+        if (!posts.length) {
+          grid.innerHTML =
+            '<div class="empty-state">No posts yet.</div>';
+          return;
         }
 
-        <div class="postbody">
+        grid.innerHTML = posts.map(p => `
+          <a class="post" href="${esc(p.url)}" data-slug="${esc(p.slug)}">
+            ${
+              p.thumbnail
+                ? `<img class="thumb" src="${esc(p.thumbnail)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+                : `<div class="thumb empty">CRIT LAUNCHER</div>`
+            }
+
+            <div class="postbody">
+              <div class="meta">
+                <span>${esc(p.author || 'Crit Launcher')}</span>
+                <i class="dot"></i>
+                <span>Article</span>
+              </div>
+
+              <h3>${esc(p.title)}</h3>
+
+              <p class="excerpt">${esc(excerpt(p.body))}</p>
+
+              <span class="read">
+                Read post <span>→</span>
+              </span>
+            </div>
+          </a>
+        `).join('');
+      }
+
+      function renderArticle(p) {
+        listing.classList.add('hidden');
+        article.classList.remove('hidden');
+
+        const canonical = location.origin + p.url;
+
+        document.title = p.title + ' — Crit Launcher';
+
+        setMeta('description', excerpt(p.body) || p.title);
+        setMeta('og:title', p.title, 'property');
+        setMeta('og:description', excerpt(p.body), 'property');
+        setMeta('og:url', canonical, 'property');
+
+        if (p.thumbnail) {
+          setMeta('og:image', p.thumbnail, 'property');
+        }
+
+        article.innerHTML = `
+          <a class="back" href="/blog/">← All posts</a>
+
+          <div class="eyebrow">Crit Launcher · Article</div>
+
+          <h1>${esc(p.title)}</h1>
+
           <div class="meta">
             <span>${esc(p.author || 'Crit Launcher')}</span>
             <i class="dot"></i>
-            <span>Article</span>
+            <span>Crit Launcher</span>
           </div>
 
-          <h3>${esc(p.title)}</h3>
+          ${
+            p.thumbnail
+              ? `<img class="cover" src="${esc(p.thumbnail)}" alt="${esc(p.title)}">`
+              : ''
+          }
 
-          <p class="excerpt">${esc(excerpt(p.body))}</p>
-
-          <span class="read">
-            Read post <span>→</span>
-          </span>
-        </div>
-      </a>
-    `).join('');
-  }
-
-  function renderArticle(p) {
-    listing.classList.add('hidden');
-    article.classList.remove('hidden');
-
-    const canonical = location.origin + p.url;
-
-    document.title = p.title + ' — Crit Launcher';
-
-    setMeta('description', excerpt(p.body) || p.title);
-    setMeta('og:title', p.title, 'property');
-    setMeta('og:description', excerpt(p.body), 'property');
-    setMeta('og:url', canonical, 'property');
-
-    if (p.thumbnail) {
-      setMeta('og:image', p.thumbnail, 'property');
-    }
-
-    article.innerHTML = `
-      <a class="back" href="/">← All posts</a>
-
-      <div class="eyebrow">Crit Launcher · Article</div>
-
-      <h1>${esc(p.title)}</h1>
-
-      <div class="meta">
-        <span>${esc(p.author || 'Crit Launcher')}</span>
-        <i class="dot"></i>
-        <span>Crit Launcher</span>
-      </div>
-
-      ${
-        p.thumbnail
-          ? `<img class="cover" src="${esc(p.thumbnail)}" alt="${esc(p.title)}">`
-          : ''
+          <div class="content">
+            ${
+              window.marked
+                ? marked.parse(p.body)
+                : '<pre>' + esc(p.body) + '</pre>'
+            }
+          </div>
+        `;
       }
 
-      <div class="content">
-        ${
-          window.marked
-            ? marked.parse(p.body)
-            : '<pre>' + esc(p.body) + '</pre>'
+      function setMeta(name, content, attr = 'name') {
+        let el = document.querySelector(
+          `meta[${attr}="${name}"]`
+        );
+
+        if (!el) {
+          el = document.createElement('meta');
+          el.setAttribute(attr, name);
+          document.head.appendChild(el);
         }
-      </div>
-    `;
-  }
 
-  function setMeta(name, content, attr = 'name') {
-    let el = document.querySelector(`meta[${attr}="${name}"]`);
-
-    if (!el) {
-      el = document.createElement('meta');
-      el.setAttribute(attr, name);
-      document.head.appendChild(el);
-    }
-
-    el.content = content;
-  }
-
-  function route() {
-    const slug = decodeURIComponent(
-      location.pathname
-        .replace(/^\/posts\//, '')
-        .replace(/\/$/, '')
-    );
-
-    if (location.pathname.startsWith('/posts/') && slug) {
-      const p = posts.find(x => x.slug === slug);
-
-      if (p) {
-        renderArticle(p);
-      } else {
-        listing.classList.remove('hidden');
-        article.classList.add('hidden');
-        document.title = 'Post not found — Crit Launcher';
-
-        grid.innerHTML =
-          '<div class="empty-state">This post does not exist.</div>';
+        el.content = content;
       }
-    } else {
-      article.classList.add('hidden');
-      listing.classList.remove('hidden');
 
-      document.title = 'Posts — Crit Launcher';
+      function route() {
+        const path = location.pathname;
 
-      setMeta(
-        'description',
-        'News, updates and announcements from Crit Launcher.'
-      );
-    }
-  }
+        if (path.startsWith(POST_PREFIX)) {
+          const encodedSlug = path.slice(POST_PREFIX.length).replace(/\/$/, '');
 
-  document.addEventListener('click', e => {
-    const link = e.target.closest('a[data-slug]');
+          let slug;
 
-    if (
-      link &&
-      !e.metaKey &&
-      !e.ctrlKey &&
-      !e.shiftKey &&
-      e.button === 0
-    ) {
-      e.preventDefault();
+          try {
+            slug = decodeURIComponent(encodedSlug);
+          } catch {
+            slug = '';
+          }
 
-      history.pushState({}, '', link.href);
-      route();
-      window.scrollTo(0, 0);
-    }
-  });
+          const p = posts.find(x => x.slug === slug);
 
-  document.addEventListener('click', e => {
-    if (e.target.closest('.back')) {
-      e.preventDefault();
+          if (p) {
+            renderArticle(p);
+          } else {
+            listing.classList.add('hidden');
+            article.classList.remove('hidden');
 
-      history.pushState({}, '', '/');
-      route();
-      window.scrollTo(0, 0);
-    }
-  });
+            document.title = 'Post not found — Crit Launcher';
 
-  window.addEventListener('popstate', route);
+            article.innerHTML = `
+              <a class="back" href="/blog/">← All posts</a>
+              <h1>Post not found</h1>
+              <p class="content">This post does not exist.</p>
+            `;
+          }
+        } else {
+          article.classList.add('hidden');
+          listing.classList.remove('hidden');
 
-  loadPosts();
-})();
-</script>
+          document.title = 'Posts — Crit Launcher';
+
+          setMeta('description', 'Posts from Crit Launcher.');
+        }
+      }
+
+      document.addEventListener('click', e => {
+        const link = e.target.closest('a[data-slug]');
+
+        if (
+          link &&
+          !e.metaKey &&
+          !e.ctrlKey &&
+          !e.shiftKey &&
+          e.button === 0
+        ) {
+          e.preventDefault();
+
+          history.pushState({}, '', link.href);
+          route();
+
+          window.scrollTo(0, 0);
+        }
+      });
+
+      document.addEventListener('click', e => {
+        if (e.target.closest('.back')) {
+          e.preventDefault();
+
+          history.pushState({}, '', '/blog/');
+          route();
+
+          window.scrollTo(0, 0);
+        }
+      });
+
+      window.addEventListener('popstate', route);
+
+      loadPosts();
+    })();
+  </script>
 </body>
 </html>
