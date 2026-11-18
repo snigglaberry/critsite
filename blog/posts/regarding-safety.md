@@ -1,7 +1,7 @@
 <!-- 
 title"safety and protection"
 author"chez"
-thumbnail"safty.png"
+thumbnail"blog/posts/assets/minecraft-dark.png"
 -->
 
 # regarding safety
